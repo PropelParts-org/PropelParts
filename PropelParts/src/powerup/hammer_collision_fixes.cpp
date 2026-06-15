@@ -3,6 +3,8 @@
 #include <game/bases/d_a_hammer.hpp>
 #include <game/bases/d_a_player_manager.hpp>
 #include <game/bases/d_actor_manager.hpp>
+#include <game/bases/d_enemy_boss.hpp>
+#include <game/bases/d_a_player_demo_manager.hpp>
 
 // EN_BUBBLE
 bool daEnBubble_c__hitCallback_YoshiBullet(dEn_c *podoboo, dCc_c *self, dCc_c *other) {
@@ -276,66 +278,107 @@ bool daEnChorobon_c__hitCallback_YoshiBullet(dEn_c *fuzzy, dCc_c *self, dCc_c *o
 
 kmWritePointer(0x80ae0770, &daEnChorobon_c__hitCallback_YoshiBullet);
 
-bool Boss_hitCallback_YoshiBullet(dEn_c *boss, dCc_c *self, dCc_c *other) {
-    return boss->hitCallback_Shell(self, other);
-}
-
-bool Boss_Kokoopa_hitCallback_YoshiBullet(dEn_c *boss, dCc_c *self, dCc_c *other) {
-	// Stupid hack
-	if (*(u32 *)(((u32)boss) + 0x794) & 2) {
+bool Boss_Bowser_hitCallback_YoshiBullet(dEnBoss_c *boss, dCc_c *self, dCc_c *other) {
+	if (boss->isFireInvalid()) {
 		return false;
 	} else {
-		return boss->hitCallback_Shell(self, other);
+		daHammer_c *hammer = (daHammer_c*)other->mpOwner;
+		int playerNo = hammer->mParam & 0xF;
+        dAcPy_c *player = daPyMng_c::getPlayer(playerNo);
+
+		boss->mpBossLife->mLife -= 10;
+
+		if (boss->isDead()) {
+			boss->mpBossLife->mLife = 0;
+            boss->mTenmetsuTime = boss->getTenmetsuTime_Fire();
+            boss->tenmetsuReady();
+            boss->hitShellEffect();
+            boss->firedeadSE();
+            boss->deadAllKill();
+            daPyDemoMng_c::mspInstance->setBossDown((daPlBase_c *) player);
+            boss->setFireDead(player);
+            boss->deadProc();
+        } else {
+            boss->mTenmetsuTime = boss->getTenmetsuTime_Fire();
+            boss->tenmetsuReady();
+            boss->hitShellEffect();
+            boss->firedmgSE();
+            boss->damageProc();
+        }
+
+		return true;
+	}
+}
+
+bool Boss_hitCallback_YoshiBullet(dEnBoss_c *boss, dCc_c *self, dCc_c *other) {
+	if (boss->isShellInvalid()) {
+		return false;
+	} else {
+		daHammer_c *hammer = (daHammer_c*)other->mpOwner;
+		int playerNo = hammer->mParam & 0xF;
+        dAcPy_c *player = daPyMng_c::getPlayer(playerNo);
+
+		boss->mpBossLife->mLife = 0;
+		boss->mTenmetsuTime = boss->getTenmetsuTime_Shell();
+		boss->tenmetsuReady();
+		boss->hitShellEffect();
+		boss->shelldeadSE();
+		boss->deadAllKill();
+		daPyDemoMng_c::mspInstance->setBossDown((daPlBase_c *) player);
+		boss->setShellDead(player);
+		boss->deadProc();
+
+		return true;
 	}
 }
 
 // EN_BOSS_CASTLE_LARRY
-kmWritePointer(0x80B76CD8, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B76CD8, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_LARRY
-kmWritePointer(0x80B81F8C, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B81F8C, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_LEMMY
-kmWritePointer(0x80B777F0, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B777F0, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_LEMMY
-kmWritePointer(0x80B82E38, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B82E38, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_WENDY
-kmWritePointer(0x80B7ADB8, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B7ADB8, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_WENDY
-kmWritePointer(0x80B8768C, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B8768C, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_LUDWIG
-kmWritePointer(0x80B783C8, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B783C8, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_LUDWIG
-kmWritePointer(0x80B84120, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B84120, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_IGGY
-kmWritePointer(0x80B75FC8, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B75FC8, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_IGGY
-kmWritePointer(0x80B7BC70, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B7BC70, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_MORTON
-kmWritePointer(0x80B790A8, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B790A8, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_MORTON
-kmWritePointer(0x80B853F0, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B853F0, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_ROY
-kmWritePointer(0x80B79E10, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B79E10, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_ROY
-kmWritePointer(0x80B86458, &Boss_Kokoopa_hitCallback_YoshiBullet);
+kmWritePointer(0x80B86458, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_KAMECK
 kmWritePointer(0x80B7CC24, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_KOOPA
-kmWritePointer(0x80B7E848, &Boss_hitCallback_YoshiBullet);
+kmWritePointer(0x80B7E848, &Boss_Bowser_hitCallback_YoshiBullet);
 
 // EN_BOSS_JR_A
 kmWritePointer(0x80B804FC, &Boss_hitCallback_YoshiBullet);

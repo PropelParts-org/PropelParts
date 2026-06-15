@@ -21,6 +21,11 @@ public:
     int getControlDemoPlayerNum() const;
     int getNextDemoNo();
 
+    void setBossDownPlayerNo(int plNo);
+    void setBossDown(daPlBase_c *player) {
+        setBossDownPlayerNo(player->getPlrNo());
+    }
+
     char mPad1[0x10];
     u32 mFlags;
     u32 mGoalType;
