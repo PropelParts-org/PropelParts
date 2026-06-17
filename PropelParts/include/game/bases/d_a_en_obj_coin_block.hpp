@@ -6,7 +6,7 @@ class daEnObjCoinBlock_c : public daEnBlockMain_c {
 public:
     /// @unofficial
     enum MovementType_e {
-        TYPE_NONE = 0,
+        TYPE_RAIL = 0, ///< Only if mMovementID is not 0
         TYPE_TWO_WAY_LINE,
         TYPE_UNK_FLOAT_UP,
         TYPE_WATER_MOVE,
