@@ -61,6 +61,10 @@ public:
     int mItemType;
     int mIsDanceType;
     float mDancePosX; ///< Added to mPos.x if mIsDanceType != 0
+
+    static sCcDatNewF sc_CcDat;
+    static float sc_moveSpeeds[8];
+    static short sc_tileIDs[4];
 };
 
 extern const sBgSetInfo l_coin_bgc_info;
