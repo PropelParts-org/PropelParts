@@ -1,3 +1,29 @@
+__dt__14daEnObjBlock_cFv = 0x80A775F0
+create__14daEnObjBlock_cFv = 0x80A75EA0
+doDelete__14daEnObjBlock_cFv = 0x80A76850
+execute__14daEnObjBlock_cFv = 0x80A76630
+isQuakeDamage__14daEnObjBlock_cFv = 0x80A775E0
+block_upmove_diff__14daEnObjBlock_cFv = 0x80A77440
+block_downmove_diff__14daEnObjBlock_cFv = 0x80A77450
+block_downmove_diffend__14daEnObjBlock_cFv = 0x80A77260
+initLineMng__14daEnObjBlock_cFv = 0x80A768B0
+calcLineMng__14daEnObjBlock_cFv = 0x80A76980
+procObjBlock__14daEnObjBlock_cFv = 0x80A769F0
+procClearBlock__14daEnObjBlock_cFv = 0x80A76CA0
+tencoin_check__14daEnObjBlock_cFv = 0x80A76EC0
+continue_star_check__14daEnObjBlock_cFv = 0x80A76F50
+itemCreate__14daEnObjBlock_cFv = 0x80A76F80
+blockWasHit__14daEnObjBlock_cFv = 0x80A770C0
+searchRail__14daEnObjBlock_cFv = 0x80A77280
+searchObjPol__14daEnObjBlock_cFv = 0x80A77360
+StateID_SerchRailID__14daEnObjBlock_c = 0x80B194D0
+StateID_SerchObjPolID__14daEnObjBlock_c = 0x80B19510
+StateID_Wait__14daEnObjBlock_c = 0x80B19550
+StateID_HitWait__14daEnObjBlock_c = 0x80B19590
+sc_CcDat__14daEnObjBlock_c = 0x80AD3570
+sc_tileIDs__14daEnObjBlock_c = 0x80AD3598
+sc_moveSpeeds__14daEnObjBlock_c = 0x80AD35A0
+
 item_set__15daEnBlockMain_cFPQ215daEnBlockMain_c16BlockSpawnInfo_si=0x80022810
 
 __ct__12dStockItem_cFv = 0x807AF3A0

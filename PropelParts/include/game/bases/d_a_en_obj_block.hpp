@@ -66,6 +66,3 @@ public:
     static float sc_moveSpeeds[8];
     static short sc_tileIDs[4];
 };
-
-extern const sBgSetInfo l_coin_bgc_info;
-extern const sBgSetInfo l_block_bgc_info;
