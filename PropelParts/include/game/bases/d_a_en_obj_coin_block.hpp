@@ -44,13 +44,13 @@ public:
     bool spinlift_serchID();
     bool spinlift_child_serchID();
 
-    STATE_FUNC_DECLARE(daEnBlockMain_c, SerchRailID);
-    STATE_FUNC_DECLARE(daEnBlockMain_c, SerchObjPolID);
-    STATE_FUNC_DECLARE(daEnBlockMain_c, SerchWaterMoveID);
-    STATE_FUNC_DECLARE(daEnBlockMain_c, SerchSpinLiftID);
-    STATE_FUNC_DECLARE(daEnBlockMain_c, SerchSpinLiftChildID);
-    STATE_FUNC_DECLARE(daEnBlockMain_c, CoinWait);
-    STATE_FUNC_DECLARE(daEnBlockMain_c, BlockWait);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, SerchRailID);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, SerchObjPolID);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, SerchWaterMoveID);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, SerchSpinLiftID);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, SerchSpinLiftChildID);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, CoinWait);
+    STATE_FUNC_DECLARE(daEnObjCoinBlock_c, BlockWait);
 
     dPanelObjList_c mPanelObjList;
     int mControllerID; ///< UniqueID of the paired controller actor
