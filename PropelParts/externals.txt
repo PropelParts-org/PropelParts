@@ -1,3 +1,23 @@
+__dt__23daEnBlockHatenaPlayer_cFv = 0x809C3b90
+create__23daEnBlockHatenaPlayer_cFv = 0x809C2ED0
+doDelete__23daEnBlockHatenaPlayer_cFv = 0x809C33B0
+execute__23daEnBlockHatenaPlayer_cFv = 0x809C32F0
+draw__23daEnBlockHatenaPlayer_cFv = 0x809C33A0
+block_upmove_diff__23daEnBlockHatenaPlayer_cFv = 0x809C3AD0
+block_downmove_diff__23daEnBlockHatenaPlayer_cFv = 0x809C3AE0
+isItemKinopioExist__23daEnBlockHatenaPlayer_cFv = 0x809C3410
+getAtanDeltaPos__23daEnBlockHatenaPlayer_cFP7mVec2_c = 0x809C3480
+checkPlyInDistance__23daEnBlockHatenaPlayer_cFfP7mVec2_cs = 0x809C34B0
+playKinopioCry__23daEnBlockHatenaPlayer_cFv = 0x809C35A0
+brickBreak__23daEnBlockHatenaPlayer_cFv = 0x809C37B0
+procBlockHit__23daEnBlockHatenaPlayer_cFv = 0x809C3870
+block_move_diff__23daEnBlockHatenaPlayer_cFv = 0x809C3A00
+StateID_Wait__23daEnBlockHatenaPlayer_c = 0x80B12788
+StateID_HitWait__23daEnBlockHatenaPlayer_c = 0x80B127C8
+sc_forceKinopio__23daEnBlockHatenaPlayer_c = 0x80ACE3C4
+sc_kinopioTypes__23daEnBlockHatenaPlayer_c = 0x80ACE3D8
+sc_tileIDs__23daEnBlockHatenaPlayer_c = 0x80ACE3E0
+
 __dt__14daEnObjBlock_cFv = 0x80A775F0
 create__14daEnObjBlock_cFv = 0x80A75EA0
 doDelete__14daEnObjBlock_cFv = 0x80A76850
