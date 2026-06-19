@@ -332,6 +332,29 @@ bool Boss_hitCallback_YoshiBullet(dEnBoss_c *boss, dCc_c *self, dCc_c *other) {
 	}
 }
 
+// Stupid hack to get around Lemmy's balls not despawning when killed via hammer
+bool Boss_Lemmy_hitCallback_YoshiBullet(dEnBoss_c *boss, dCc_c *self, dCc_c *other) {
+	if (boss->isShellInvalid()) {
+		return false;
+	} else {
+		daHammer_c *hammer = (daHammer_c*)other->mpOwner;
+		int playerNo = hammer->mParam & 0xF;
+        dAcPy_c *player = daPyMng_c::getPlayer(playerNo);
+
+		boss->mpBossLife->mLife = 0;
+		boss->mTenmetsuTime = boss->getTenmetsuTime_Shell();
+		boss->tenmetsuReady();
+		boss->hitShellEffect();
+		boss->shelldeadSE();
+		boss->deadAllKill();
+		daPyDemoMng_c::mspInstance->setBossDown((daPlBase_c *) player);
+		boss->setFireDead(player);
+		boss->deadProc();
+
+		return true;
+	}
+}
+
 // EN_BOSS_CASTLE_LARRY
 kmWritePointer(0x80B76CD8, &Boss_hitCallback_YoshiBullet);
 
@@ -339,10 +362,10 @@ kmWritePointer(0x80B76CD8, &Boss_hitCallback_YoshiBullet);
 kmWritePointer(0x80B81F8C, &Boss_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_LEMMY
-kmWritePointer(0x80B777F0, &Boss_hitCallback_YoshiBullet);
+kmWritePointer(0x80B777F0, &Boss_Lemmy_hitCallback_YoshiBullet);
 
 // EN_BOSS_LEMMY
-kmWritePointer(0x80B82E38, &Boss_hitCallback_YoshiBullet);
+kmWritePointer(0x80B82E38, &Boss_Lemmy_hitCallback_YoshiBullet);
 
 // EN_BOSS_CASTLE_WENDY
 kmWritePointer(0x80B7ADB8, &Boss_hitCallback_YoshiBullet);
