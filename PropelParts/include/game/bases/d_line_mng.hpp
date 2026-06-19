@@ -48,8 +48,7 @@ public:
     STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4LeftUp__10dLineMng_c);
     STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4LeftDown__10dLineMng_c);
     STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4RightDown__10dLineMng_c);
-
-    static void is_unit_circle2x2(ulong);
+    
     static void is_unit_circle2x2(ulong);
     static void GetLineUnitNo(float x, float y);
 
