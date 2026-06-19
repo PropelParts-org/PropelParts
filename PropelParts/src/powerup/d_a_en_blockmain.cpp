@@ -8,6 +8,9 @@ kmWriteNop(0x8002288c);
 kmWriteNop(0x80022b8c);
 kmWriteNop(0x80022b90);
 
+// Fix "Mushroom if small" behavior
+kmWrite32(0x800221ac, 0x28000003);
+
 // Allow use of alternative item table
 
 /*
@@ -16,25 +19,25 @@ kmWriteNop(0x80022b90);
     0x1 = Star
     0x2 = Coin
     0x4 = Coin (used for 10-coin)
-    0x5 = Mushroom (used by 10-coin to spawn the reward coins)
+    0x5 = 10-coin reward coins
     0x6 = Mushroom (unused?)
     0x7 = 1-UP Mushroom
-    0x8 = Mushroom (used by mushroom-if-small)
+    0x8 = Mushroom-if-small
     0x9 = Fire Flower (unused)
-    0xA = Mushroom (used by vine)
-    0xC = Mushroom (used by yoshi egg)
-    0xD = Mushroom (used by spring)
+    0xA = Vine
+    0xC = Yoshi Egg
+    0xD = Spring
     0xE = Ice Flower
     0xF = Empty
     0x11 = Penguin
     0x15 = Propeller
     0x19 = Mini Mushroom
-    0x1B = Mushroom (used by continuous star)
+    0x1B = Continuous Star
 
     NEW ITEMS
     0x6 = Hammer Suit
 
-    All other values will call the "leaping item in multiplayer" code
+    All other values will create a mushroom
 */
 const u32 l_new_item_values[] = {
     0xF,    // Empty
