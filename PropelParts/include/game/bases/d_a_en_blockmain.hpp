@@ -1,6 +1,7 @@
 #pragma once
 #include <game/bases/d_enemy.hpp>
 #include <game/bases/d_bg_ctr.hpp>
+#include <game/bases/d_bc.hpp>
 
 class daEnBlockMain_c : public dEn_c {
 public:
@@ -85,23 +86,28 @@ public:
 
     static void clear_block_collcallback(dCc_c*, dCc_c*);
 
-    u8 mPad[0x10];
+    sBcSensorLine mSensorHead;
     dBg_ctr_c mBg;
-    u8 mPad2[0x18];
+    mVec3_c mPosModifier; ///< TODO: Investigate where this is used
+    mVec3_c mBrickShardOffs;
     float mInitialY;
     float mMoveAccel;
-    float m_114, m_118, m_11c;
+    float mDownSizeMax, mSizeInc, mUpSizeMax;
     u32 mDownMoveCounter;
     int mHasBeenHit, m_128;
-    u32 mAmountOfItems;
-    u8 mPad3[0xC];
+    u32 mItems[4]; ///< Which item to create for each player
     short mTimer;
-    u8 mPad4[0x27];
+    short mIsClearBlockHit;
+    u8 mPad4[0x11];
+    bool mDoBlockBreakJump[4]; ///< Is a player automatically "jumping" off a broken block?
+    u8 mPad5[0x10];
     u8 mIsGroundPound, mAnotherFlag;
-    u8 m_167, m_168, m_169;
-    u8 mPad5[0x6];
+    u8 m_167, m_168;
+    u8 mHitType; ///< 2 is hit from below, 3 from above. TODO: Are there other types?
+    u8 mPad6[0x2];
+    u32 mChainlinkMode;
     u8 mPlayerID;
-    u8 mPad6[0x3];
+    u8 mPad7[0x3];
 };
 
 extern const u32 l_item_values[18]; /// @unofficial
