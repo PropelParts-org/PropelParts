@@ -68,5 +68,5 @@ public:
     u8 mDirection;
     bool mDoNotReverse;
     bool mIsTerm;
-    sFStateMgr_c<dLineMng_c, sStateMethodUsr_FI_c> mState;
+    sFStateStateMgr_c<dLineMng_c,sStateMethodUsr_FI_c,sStateMethodUsr_FI_c> mState;
 };
