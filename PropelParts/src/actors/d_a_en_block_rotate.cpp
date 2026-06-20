@@ -151,7 +151,7 @@ int daEnBlockRotate_c::preDraw() {
 
 void daEnBlockRotate_c::initialize_upmove() {
     // continue_star_check sets the contents to either 7 (star) or 1 (coin)
-    continue_star_check(&mContents, mPlayerID);
+    continue_star_check();
     // Handle mushroom-if-small
     if (mContents == 14) {
         int isBig = player_bigmario_check(mPlayerID);
@@ -167,7 +167,7 @@ void daEnBlockRotate_c::initialize_upmove() {
 
 void daEnBlockRotate_c::initialize_downmove() {
     // Same as upmove
-    continue_star_check(&mContents, mPlayerID);
+    continue_star_check();
     if (mContents == 14) {
         int isBig = player_bigmario_check(mPlayerID);
         if (isBig) {

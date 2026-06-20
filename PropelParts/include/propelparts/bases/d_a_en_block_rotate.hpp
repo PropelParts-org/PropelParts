@@ -1,12 +1,12 @@
 #pragma once
-#include <game/bases/d_a_en_blockmain.hpp>
+#include <game/bases/d_a_en_obj_block.hpp>
 #include <game/bases/d_heap_allocator.hpp>
 #include <game/bases/d_res_mng.hpp>
 #include <game/bases/d_bg.hpp>
 
 // SMW-style flip blocks
 
-class daEnBlockRotate_c : public daEnBlockMain_c {
+class daEnBlockRotate_c : public daEnObjBlock_c {
 public:
     virtual int create();
     virtual int doDelete();
