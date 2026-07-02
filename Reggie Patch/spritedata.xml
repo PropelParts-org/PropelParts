@@ -688,53 +688,53 @@
     </list>
   </sprite> <!-- #511: Model Loader -->
 
-  <sprite id="512" name="Model Loader Resource Bank 1" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #512: Model Loader Resource Bank 1 -->
+  <sprite id="512" name="Model Loader Resource Bank 0" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #512: Model Loader Resource Bank 0 -->
 
-  <sprite id="513" name="Model Loader Resource Bank 2" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #513: Model Loader Resource Bank 2 -->
+  <sprite id="513" name="Model Loader Resource Bank 1" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #513: Model Loader Resource Bank 1 -->
   
-  <sprite id="514" name="Model Loader Resource Bank 3" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #514: Model Loader Resource Bank 3 -->
+  <sprite id="514" name="Model Loader Resource Bank 2" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #514: Model Loader Resource Bank 2 -->
   
-  <sprite id="515" name="Model Loader Resource Bank 4" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #515: Model Loader Resource Bank 4 -->
+  <sprite id="515" name="Model Loader Resource Bank 3" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #515: Model Loader Resource Bank 3 -->
   
-  <sprite id="516" name="Model Loader Resource Bank 5" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #516: Model Loader Resource Bank 5 -->
+  <sprite id="516" name="Model Loader Resource Bank 4" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #516: Model Loader Resource Bank 4 -->
   
-  <sprite id="517" name="Model Loader Resource Bank 6" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #517: Model Loader Resource Bank 6 -->
+  <sprite id="517" name="Model Loader Resource Bank 5" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #517: Model Loader Resource Bank 5 -->
   
-  <sprite id="518" name="Model Loader Resource Bank 7" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #518: Model Loader Resource Bank 7 -->
+  <sprite id="518" name="Model Loader Resource Bank 6" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #518: Model Loader Resource Bank 6 -->
   
-  <sprite id="519" name="Model Loader Resource Bank 8" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #519: Model Loader Resource Bank 8 -->
+  <sprite id="519" name="Model Loader Resource Bank 7" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #519: Model Loader Resource Bank 7 -->
   
-  <sprite id="520" name="Model Loader Resource Bank 9" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #520: Model Loader Resource Bank 9 -->
+  <sprite id="520" name="Model Loader Resource Bank 8" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #520: Model Loader Resource Bank 8 -->
   
-  <sprite id="521" name="Model Loader Resource Bank 10" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #521: Model Loader Resource Bank 10 -->
+  <sprite id="521" name="Model Loader Resource Bank 9" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #521: Model Loader Resource Bank 9 -->
   
-  <sprite id="522" name="Model Loader Resource Bank 11" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #522: Model Loader Resource Bank 11 -->
+  <sprite id="522" name="Model Loader Resource Bank 10" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #522: Model Loader Resource Bank 10 -->
   
-  <sprite id="523" name="Model Loader Resource Bank 12" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #523: Model Loader Resource Bank 12 -->
+  <sprite id="523" name="Model Loader Resource Bank 11" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #523: Model Loader Resource Bank 11 -->
   
-  <sprite id="524" name="Model Loader Resource Bank 13" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #524: Model Loader Resource Bank 13 -->
+  <sprite id="524" name="Model Loader Resource Bank 12" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #524: Model Loader Resource Bank 12 -->
   
-  <sprite id="525" name="Model Loader Resource Bank 14" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #525: Model Loader Resource Bank 14 -->
+  <sprite id="525" name="Model Loader Resource Bank 13" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #525: Model Loader Resource Bank 13 -->
   
-  <sprite id="526" name="Model Loader Resource Bank 15" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #526: Model Loader Resource Bank 15 -->
+  <sprite id="526" name="Model Loader Resource Bank 14" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #526: Model Loader Resource Bank 14 -->
   
-  <sprite id="527" name="Model Loader Resource Bank 16" notes="Place this in the level to load resources necessary for the Model Loader.">
-  </sprite> <!-- #527: Model Loader Resource Bank 16 -->
+  <sprite id="527" name="Model Loader Resource Bank 15" notes="Place this in the level to load resources necessary for the Model Loader.">
+  </sprite> <!-- #527: Model Loader Resource Bank 15 -->
   
   <sprite id="528" name="Switch ! Block" notes="A colored !-block that will turn solid upon the activation of the associated Switch Palace and will dispense an item when hit." advancednotes="Yellow Blocks give Mushrooms, Red Blocks give Fire Flowers, Green Blocks give Propellers, and Blue Blocks give Ice Flowers.">
     <list nybble="12" title="Block Color">
