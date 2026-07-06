@@ -35,7 +35,7 @@ public:
     void continue_star_check();
 
     void itemCreate();
-    void blockWasHit();
+    void blockWasHit(bool isDown);
 
     void searchRail();
     void searchObjPol();
