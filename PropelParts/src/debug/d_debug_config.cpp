@@ -3,7 +3,7 @@
 #include <propelparts/bases/d_debug_config.hpp>
 #include <constants/game_constants.h>
 #include <egg/core/eggHeap.h>
-#include <nw4r/db/mapfile.h>
+#include <nw4r/db.h>
 #include <game/mLib/m_heap.hpp>
 #include <game/bases/d_s_restart_crsin.hpp>
 #include <game/bases/d_game_com.hpp>
@@ -42,7 +42,8 @@ const DebugKey keys[] = {
     {DebugKey::DrawSpawnRangeMargins, "DrawSpawnRangeMargins"},
     {DebugKey::DrawVisibleArea, "DrawVisibleArea"},
     {DebugKey::DrawEnemySpawnRange, "DrawEnemySpawnRange"},
-    {DebugKey::DrawMapObjSpawnRange, "DrawMapObjSpawnRange"}
+    {DebugKey::DrawMapObjSpawnRange, "DrawMapObjSpawnRange"},
+    {DebugKey::DrawHeapBars, "DrawHeapBars"}
 };
 
 static dDebugConfig_c instance;
@@ -71,6 +72,7 @@ dDebugConfig_c::dDebugConfig_c() {
     mMovieId = 1;
 
     mActorLog = false;
+    mDrawHeapBars = false;
 }
 
 void dDebugConfig_c::parseConfigLine(char* key, char* param, int paramSize) {
@@ -208,6 +210,11 @@ void dDebugConfig_c::parseConfigLine(char* key, char* param, int paramSize) {
         
         case DebugKey::ActorLog:
             mActorLog = decodedParam & 1;
+            break;
+
+        case DebugKey::DrawHeapBars:
+            mDrawHeapBars = decodedParam & 1;
+            break;
 
         default:
     }
@@ -367,7 +374,7 @@ kmBranchDefCpp(0x8015D850, NULL, void, void) {
         for (int i = 0; i <= instance.mPlayerCount; i++) {
             daPyMng_c::mPlayerEntry[i] = 1;
             daPyMng_c::mPlayerType[i] = (PLAYER_TYPE_e)i;
-            daPyMng_c::mPlayerMode[i] = instance.mPowerUp;
+            daPyMng_c::mPlayerMode[i] = (PLAYER_POWERUP_e)instance.mPowerUp;
             daPyMng_c::mCreateItem[i] = instance.mStar;
         }
 
@@ -375,26 +382,26 @@ kmBranchDefCpp(0x8015D850, NULL, void, void) {
 
         switch(instance.mGameMode) {
             case LaunchGameMode::CoinBattle:
-                dInfo_c::mGameFlag |= dInfo_c::GAME_FLAG_IS_COIN_COURSE;
+                dInfo_c::mGameFlag |= dInfo_c::GAME_FLAG_IS_COIN_BATTLE;
 
             case LaunchGameMode::FreePlay:
-                dInfo_c::mGameFlag |= dInfo_c::GAME_FLAG_4;
+                dInfo_c::mGameFlag |= dInfo_c::GAME_FLAG_IS_FREE_MODE;
                 break;
 
             case LaunchGameMode::SuperGuideReplay:
                 dScRestartCrsin_c::m_startGameInfo.mIsReplay = true;
-                dScRestartCrsin_c::m_startGameInfo.mScreenType = 1;
+                dScRestartCrsin_c::m_startGameInfo.mGameMode = dInfo_c::GAME_MODE_SUPER_GUIDE;
                 break;
 
             case LaunchGameMode::HintMovieReplay:
                 dScRestartCrsin_c::m_startGameInfo.mIsReplay = true;
-                dScRestartCrsin_c::m_startGameInfo.mScreenType = 4;
+                dScRestartCrsin_c::m_startGameInfo.mGameMode = dInfo_c::GAME_MODE_HINT_MOVIE;
                 dScRestartCrsin_c::m_startGameInfo.mMovieType = instance.mHintMovieType;
                 break;
 
             case LaunchGameMode::TitleReplay:
                 dScRestartCrsin_c::m_startGameInfo.mIsReplay = true;
-                dScRestartCrsin_c::m_startGameInfo.mScreenType = 3;
+                dScRestartCrsin_c::m_startGameInfo.mGameMode = dInfo_c::GAME_MODE_TITLE_REPLAY;
                 break;
 
             default:

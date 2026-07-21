@@ -1,4 +1,5 @@
 #include <game/mLib/m_sphere.hpp>
+#include <game/mLib/m_mtx.hpp>
 #include <game/bases/d_wm_lib.hpp>
 #include <game/mLib/m_mtx.hpp>
 #include <lib/egg/gfxe/eggScreen.h>

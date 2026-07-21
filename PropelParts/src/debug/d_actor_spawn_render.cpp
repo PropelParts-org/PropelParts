@@ -48,8 +48,7 @@ dActorSpawnRender_c::dActorSpawnRender_c() {
 }
 
 // Dummy function
-void dActorSpawnRender_c::drawOpa() {
-}
+void dActorSpawnRender_c::drawOpa() {}
 
 extern dActorData_c l_custom_actor_data_tbl[];
 
@@ -98,7 +97,7 @@ void dActorSpawnRender_c::drawXlu() {
     u32 mode = dDebugConfig_c::m_instance->mSpawnRangeModeFlags;
 
     dScStage_c *stage = dScStage_c::m_instance;
-    u8 areaNo = stage->mCurrArea;
+    u8 areaNo = stage->mCurrAreaNo;
     dCdFile_c *file = dCd_c::m_instance->getFileP(stage->mCurrFile);
 
     int mapActorCount = file->mMapActorCountByArea[areaNo];

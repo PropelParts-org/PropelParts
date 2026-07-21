@@ -26,13 +26,13 @@ const s16 l_nipper_turn_angleY[] = { 0x3999, -0x3999 };
 
 const float daEnPuchiPakkun_c::smc_WALK_SPEED = 0.5f;
 
-const sBcSensorPoint l_nipper_head = { 0, 0x0, 0x10000 };
-const sBcSensorLine l_nipper_foot = { 1, -0x4000, 0x4000, 0 };
-const sBcSensorLine l_nipper_wall = { 1, 0x3000, 0x8000, 0x8000 };
+const sBcSensorPoint l_nipper_head = { SENSOR_IS_POINT, 0x0, 0x10000 };
+const sBcSensorLine l_nipper_foot = { SENSOR_IS_LINE, -0x4000, 0x4000, 0 };
+const sBcSensorLine l_nipper_wall = { SENSOR_IS_LINE, 0x3000, 0x8000, 0x8000 };
 
 const sCcDatNewF l_nipper_cc = {
-    {0.0f, 8.0f},
-    {8.0f, 8.0f},
+    0.0f, 8.0f,
+    8.0f, 8.0f,
     CC_KIND_ENEMY,
     CC_ATTACK_NONE,
     BIT_FLAG(CC_KIND_PLAYER) | BIT_FLAG(CC_KIND_PLAYER_ATTACK) | BIT_FLAG(CC_KIND_YOSHI) |
@@ -44,7 +44,7 @@ const sCcDatNewF l_nipper_cc = {
 
 int daEnPuchiPakkun_c::create() {
     // Setup our model
-    mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[0], nullptr, 0x20);
+    mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[mHeap::GAME_HEAP_DEFAULT], nullptr, 0x20);
     mRes = dResMng_c::m_instance->getRes("pakkun_puchi", "g3d/pakkun_puchi.brres");
     nw4r::g3d::ResMdl mdl = mRes.GetResMdl("pakkun_puchi");
     mNipperModel.create(mdl, &mAllocator, 0x20, 1, nullptr);
@@ -82,9 +82,9 @@ int daEnPuchiPakkun_c::create() {
 
     // Set yoshi eating behavior
     if (mSpitsFire) {
-        mEatBehaviour = EAT_TYPE_FIREBALL;
+        mEatBehavior = EAT_TYPE_FIREBALL;
     } else {
-        mEatBehaviour = EAT_TYPE_EAT_PERMANENT;
+        mEatBehavior = EAT_TYPE_DRINK;
     }
 
     // Tile sensors
@@ -228,28 +228,16 @@ void daEnPuchiPakkun_c::setWalkSpeed() {
     return;
 }
 
-bool daEnPuchiPakkun_c::checkForLedge(float xOffset) {
+bool daEnPuchiPakkun_c::checkLedge(float xOffset) {
     float xOffs[] = {xOffset, -xOffset};
 
-    mVec3_c tileToCheck;
-    tileToCheck.y = 4.0f + mPos.y;
-    tileToCheck.z = mPos.z;
-    tileToCheck.x = mPos.x + xOffs[mDirection];
-
-    u32 unit = mBc.getUnitKind(tileToCheck.x, mPos.y - 2.0f, mLayer);
-
-    if (((unit >> 0x10) & 0xFF) == 8) {
-        return false;
-    } else {
-        float zeroFloat = 0.0f;
-        bool result = mBc.checkGround(&tileToCheck, &zeroFloat, mLayer, 1, -1);
-        if (((!result) || (tileToCheck.y <= zeroFloat)) || (zeroFloat <= mPos.y - 5.0f)) {
-            return false;
-        } else {
-            return true;
-        }
+    mVec3_c groundCheckPos(mPos.x + xOffs[mDirection], mPos.y + 4.0f, mPos.z);
+    float groundY;
+    bool found = mBc.checkGround(&groundCheckPos, &groundY, mLayer, l_Ami_Line[mAmiLayer], -1);
+    float dist = groundCheckPos.y - groundY;
+    if (found && dist <= groundCheckPos.y - mPos.y + 5.0f) {
+        return true;
     }
-
     return false;
 }
 
@@ -346,7 +334,7 @@ void daEnPuchiPakkun_c::executeState_Walk() {
             mFootPush2.x = mFootPush2.x + m_1eb.x;
         }
     } else {
-        if (checkForLedge(4.0f) == false) {
+        if (checkLedge(4.0f) == false) {
             changeState(StateID_Turn);
             return;
         }

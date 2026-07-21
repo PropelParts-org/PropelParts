@@ -77,6 +77,36 @@ class SpriteImage_ColorExcSwitch(SLib.SpriteImage_StaticMultiple):  # 42
         super().dataChanged()
 
 
+class SpriteImage_SnakeBlock(SLib.SpriteImage):  # 166
+    def __init__(self, parent):
+        super().__init__(parent, 1.5)
+        self.spritebox.shown = False
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('BlockTrain', 'block_train.png')
+        SLib.loadIfNotInImageCache('BlockTrainGreen', 'block_train_green.png')
+
+    def dataChanged(self):
+        super().dataChanged()
+        length = self.parent.spritedata[5] & 15
+        self.width = (length + 3) * 16
+        self.type = self.parent.spritedata[3] & 0x10
+
+    def paint(self, painter):
+        super().paint(painter)
+        
+        if self.type == 0:
+            kind = 'Green'
+        else:
+            kind = ''
+
+        endpiece = ImageCache['BlockTrain' + kind]
+        painter.drawPixmap(0, 0, endpiece)
+        painter.drawTiledPixmap(24, 0, int((self.width * 1.5) - 48), 24, ImageCache['BlockTrain' + kind])
+        painter.drawPixmap(int((self.width * 1.5) - 24), 0, endpiece)
+
+
 class SpriteImage_TileEventImproved(common.SpriteImage_TileEvent):  # 191
     def __init__(self, parent):
         super().__init__(parent)
@@ -303,21 +333,7 @@ class SpriteImage_MegaSplunkin(SLib.SpriteImage_Static):  # 496
         SLib.loadIfNotInImageCache('SplunkinMega', 'splunkin_mega.png')
 
 
-class SpriteImage_JackOGoomba(SLib.SpriteImage_Static):  # 497
-    def __init__(self, parent):
-        super().__init__(
-            parent,
-            1.5,
-            ImageCache['JackOGoomba'],
-            (-4, -8)
-        )
-
-    @staticmethod
-    def loadImages():
-        SLib.loadIfNotInImageCache('JackOGoomba', 'jack-o-goomba.png')
-
-
-class SpriteImage_Goombrat(SLib.SpriteImage_Static):  # 498
+class SpriteImage_Goombrat(SLib.SpriteImage_Static):  # 497
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -331,7 +347,7 @@ class SpriteImage_Goombrat(SLib.SpriteImage_Static):  # 498
         SLib.loadIfNotInImageCache('Goombrat', 'goombrat.png')
 
 
-class SpriteImage_Galoomba(SLib.SpriteImage_Static):  # 499
+class SpriteImage_Galoomba(SLib.SpriteImage_Static):  # 498
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -345,7 +361,7 @@ class SpriteImage_Galoomba(SLib.SpriteImage_Static):  # 499
         SLib.loadIfNotInImageCache('Galoomba', 'galoomba.png')
 
 
-class SpriteImage_ParaGaloomba(SLib.SpriteImage_Static):  # 500
+class SpriteImage_ParaGaloomba(SLib.SpriteImage_Static):  # 499
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -359,7 +375,7 @@ class SpriteImage_ParaGaloomba(SLib.SpriteImage_Static):  # 500
         SLib.loadIfNotInImageCache('ParaGaloomba', 'paragaloomba.png')
 
 
-class SpriteImage_Goombud(SLib.SpriteImage_Static):  # 501
+class SpriteImage_Goombud(SLib.SpriteImage_Static):  # 500
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -373,7 +389,7 @@ class SpriteImage_Goombud(SLib.SpriteImage_Static):  # 501
         SLib.loadIfNotInImageCache('Goombud', 'goombud.png')
 
 
-class SpriteImage_ShyguyBubble(SLib.SpriteImage_StaticMultiple):  # 502
+class SpriteImage_ShyguyBubble(SLib.SpriteImage_StaticMultiple):  # 501
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -409,7 +425,7 @@ class SpriteImage_ShyguyBubble(SLib.SpriteImage_StaticMultiple):  # 502
                 self.offset = (-10.75, -13)
 
 
-class SpriteImage_ShyguyClimb(SLib.SpriteImage_StaticMultiple):  # 503
+class SpriteImage_ShyguyClimb(SLib.SpriteImage_StaticMultiple):  # 502
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -434,7 +450,7 @@ class SpriteImage_ShyguyClimb(SLib.SpriteImage_StaticMultiple):  # 503
             self.offset = (-2, -5)
 
 
-class SpriteImage_ShyguyLarge(SLib.SpriteImage_Static):  # 504
+class SpriteImage_ShyguyLarge(SLib.SpriteImage_Static):  # 503
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -448,7 +464,7 @@ class SpriteImage_ShyguyLarge(SLib.SpriteImage_Static):  # 504
         SLib.loadIfNotInImageCache('ShyguyLarge', 'shyguy_large.png')
 
 
-class SpriteImage_ShyguyGiant(SLib.SpriteImage_Static):  # 505
+class SpriteImage_ShyguyGiant(SLib.SpriteImage_Static):  # 504
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -462,7 +478,7 @@ class SpriteImage_ShyguyGiant(SLib.SpriteImage_Static):  # 505
         SLib.loadIfNotInImageCache('ShyguyGiant', 'shyguy_giant.png')
 
 
-class SpriteImage_ShyguyMega(SLib.SpriteImage_Static):  # 506
+class SpriteImage_ShyguyMega(SLib.SpriteImage_Static):  # 505
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -549,9 +565,24 @@ class SpriteImage_SwitchPalace(SLib.SpriteImage_StaticMultiple):  # 529
         super().dataChanged()
 
 
+class SpriteImage_WaterSpiny(SLib.SpriteImage_Static):  # 530
+    def __init__(self, parent, scale=1.5):
+        super().__init__(
+            parent,
+            scale,
+            ImageCache['WaterSpiny'],
+            (-1.75, -1.75)
+        )
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('WaterSpiny', 'water_spiny.png')
+
+
 ImageClasses = {
     22: SpriteImage_MiniGoomba,
     42: SpriteImage_ColorExcSwitch,
+    166: SpriteImage_SnakeBlock,
     191: SpriteImage_TileEventImproved,
     302: SpriteImage_CliffKoopa,
     486: SpriteImage_WaterPlatform,
@@ -563,17 +594,17 @@ ImageClasses = {
     492: SpriteImage_BombBro,
     495: SpriteImage_Splunkin,
     496: SpriteImage_MegaSplunkin,
-    497: SpriteImage_JackOGoomba,
-    498: SpriteImage_Goombrat,
-    499: SpriteImage_Galoomba,
-    500: SpriteImage_ParaGaloomba,
-    501: SpriteImage_Goombud,
-    502: SpriteImage_ShyguyBubble,
-    503: SpriteImage_ShyguyClimb,
-    504: SpriteImage_ShyguyLarge,
-    505: SpriteImage_ShyguyGiant,
-    506: SpriteImage_ShyguyMega,
+    497: SpriteImage_Goombrat,
+    498: SpriteImage_Galoomba,
+    499: SpriteImage_ParaGaloomba,
+    500: SpriteImage_Goombud,
+    501: SpriteImage_ShyguyBubble,
+    502: SpriteImage_ShyguyClimb,
+    503: SpriteImage_ShyguyLarge,
+    504: SpriteImage_ShyguyGiant,
+    505: SpriteImage_ShyguyMega,
     510: SpriteImage_StarCoinFake,
     528: SpriteImage_SwitchBlock,
     529: SpriteImage_SwitchPalace,
+    530: SpriteImage_WaterSpiny,
 }

@@ -61,6 +61,7 @@ void *pregameTPLbuffer = nullptr;
 
 kmBranchDefCpp(0x80B6BDD0, NULL, void, dPreGameLyt_c *this_) {
     MsgRes_c *msgRes = dMessage_c::getMesRes();
+    MsgRes_c *newMsgRes = dMessage_c::getPropelMsgRes();
     dLevelInfo_c::entry_s *level = dLevelInfo_c::m_instance.getEntryFromSlotID(dInfo_c::m_startGameInfo.mWorld1, dInfo_c::m_startGameInfo.mLevel1);
 
     int bgPaneIdx = dInfo_c::m_startGameInfo.mWorld1;
@@ -86,35 +87,42 @@ kmBranchDefCpp(0x80B6BDD0, NULL, void, dPreGameLyt_c *this_) {
 
         // Grab the level number
         ulong number = getLevelNumberIdx(level->mDisplayWorld, level->mDisplayLevel, level->mWorldSlot, level->mLevelSlot, false);
-        LevelNumShadow->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
-        LevelNum->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+        LevelNumShadow->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+        LevelNum->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
     } else {
-        LevelNumShadow->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
-        LevelNum->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
+        LevelNumShadow->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
+        LevelNum->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
         LevelNameShadow->SetString(getLevelName(0, 0), 0);
         LevelName->SetString(getLevelName(0, 0), 0);
     }
 #else // Retail Pre Game
+    OSReport("what the\n");
     this_->mpTextBoxes[dPreGameLyt_c::T_world_00]->setMessage(msgRes, BMG_CATEGORY_PRE_GAME, MSG_PRE_GAME_WORLD, 0);
 
     if (level) {
+        OSReport("???\n");
         const wchar_t *worldNum = getWorldNumber(level->mDisplayWorld);
+        OSReport("h\n");
         ulong number = getLevelNumberIdx(level->mDisplayWorld, level->mDisplayLevel, level->mWorldSlot, level->mLevelSlot, false);
 
         this_->mpTextBoxes[dPreGameLyt_c::T_worldNum_00]->SetString(worldNum, 0);
         if (level->mDisplayLevel > 19) {
             this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->SetVisible(true);
             this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetVisible(false);
-            this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->setMessage(msgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
+            OSReport("1\n");
+            this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
         } else {
             this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->SetVisible(false);
             this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetVisible(true);
-            this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->setMessage(msgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
+            OSReport("2\n");
+            this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
         }
     } else {
         this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->SetVisible(false);
         this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetVisible(true);
+        OSReport("3\n");
         this_->mpTextBoxes[dPreGameLyt_c::T_worldNum_00]->SetString(getWorldNumber(0), 0);
+        OSReport("4\n");
         this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetString(getLevelNumber(0), 0);
     }
 #endif

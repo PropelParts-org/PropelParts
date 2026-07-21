@@ -5,6 +5,10 @@ KOOPATLAS TODO:
   - Maybe rename director or move its functionality into dScKoopatlas_c?
 - Once main branch changes are merged, remove compression override from mapdata tileset loading
 
+COMPATIBILITY SHIT:
+- Syncing with the main branch has brought up an issue where several Koopatlas layouts (Shop, Star Coins Menu)
+  that use LytBase_c::TPaneNameRegister() cause a crash because there isn't anything setup to read from the custom BMG
+
 CLEANUP:
 - Make dKpMusic_c into an actor
 

@@ -5,7 +5,7 @@
 #include <constants/sound_list.h>
 #include <game/snd/snd_audio_mgr.hpp>
 #include <propelparts/bases/koopatlas/d_kp_music.hpp>
-#include <nw4r/db/exception.h>
+#include <nw4r/db/db_Exception.h>
 #include <revolution/DVD.h>
 
 #ifdef KP_MUSIC_REPORT

@@ -1,5 +1,7 @@
 #pragma once
+
 #include <game/mLib/m_vec.hpp>
+#include <lib/egg/core/eggHeap.h>
 
 class EffectManager_c {
 public:
@@ -22,6 +24,8 @@ public:
         KIND_NUM
     };
 
+    static void create(EGG::Heap *heap1, EGG::Heap *heap2);
+    static void setResource(void *breff, void *breft);
     static void SetIceBallMissshitEffect(mVec3_c *);
     static void calcGroupForWm();
     static void calcGroup();
@@ -32,7 +36,7 @@ public:
     static void freeBreff(Kind_e kind);
     static void freeBreft(Kind_e kind);
 
-    static void setResource(Kind_e kind, void *pBreff, void *pBreft);
+    static void setResource(Kind_e kind, void *breff, void *breft);
     static void resetResource(Kind_e kind);
 
     static void courseOut();

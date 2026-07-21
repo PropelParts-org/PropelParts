@@ -8,7 +8,7 @@
 #include <game/bases/d_game_key.hpp>
 #include <game/bases/d_info.hpp>
 #include <game/bases/d_res_mng.hpp>
-#include <game/mLib/m_pad.h>
+#include <game/mLib/m_pad.hpp>
 #include <lib/MSL/math.h>
 #include <propelparts/bases/koopatlas/d_kp_shop.hpp>
 #include <propelparts/constants/koopatlas_constants.h>
@@ -109,7 +109,7 @@ int daKpShop_c::create() {
         mLayout.NPaneRegister(N_PANE_NAME_TBL, mpNullPanes, ARRAY_SIZE(N_PANE_NAME_TBL));
         mLayout.PPaneRegister(P_PANE_NAME_TBL, mpPicturePanes, ARRAY_SIZE(P_PANE_NAME_TBL));
         mLayout.TPaneRegister(T_PANE_NAME_TBL, mpTextBoxes, ARRAY_SIZE(T_PANE_NAME_TBL));
-        mLayout.TPaneNameRegister(T_PANE_FIXED_NAME_TBL, MESSAGE_DATA_TBL, BMG_CATEGORY_KOOPATLAS, ARRAY_SIZE(T_PANE_FIXED_NAME_TBL));
+        //mLayout.TPaneNameRegister(T_PANE_FIXED_NAME_TBL, MESSAGE_DATA_TBL, BMG_CATEGORY_KOOPATLAS, ARRAY_SIZE(T_PANE_FIXED_NAME_TBL));
         mLayout.AllAnimeEndSetup();
 
         mLayout.mDrawOrder = 2;

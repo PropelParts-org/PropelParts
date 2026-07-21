@@ -18,11 +18,11 @@ const dActorData_c c_PALACE_SWITCH_actor_data = {fProfile::EN_PALACE_SWITCH, 8, 
 dCustomProfile_c l_PALACE_SWITCH_profile(&g_profile_EN_PALACE_SWITCH, "EN_PALACE_SWITCH", CourseActor::EN_PALACE_SWITCH, &c_PALACE_SWITCH_actor_data, l_PALACE_SWITCH_res);
 
 #if GAME_REVISION < GAME_REVISION_K
-#define PALACE_SWITCH_ID 787
+#define PALACE_SWITCH_ID 785
 #elif GAME_REVISION < GAME_REVISION_C
-#define PALACE_SWITCH_ID 789
+#define PALACE_SWITCH_ID 787
 #else
-#define PALACE_SWITCH_ID 791
+#define PALACE_SWITCH_ID 789
 #endif
 
 kmBranchDefAsm(0x80a1984c, 0x80a19850) {
@@ -99,7 +99,7 @@ const char *l_switch_anim_name[5] = {
 };
 
 kmBranchDefCpp(0x80a19e70, NULL, void, daEnHnswich_c *this_) {
-    this_->mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[0], nullptr, 0x20);
+    this_->mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[mHeap::GAME_HEAP_DEFAULT], nullptr, 0x20);
 
     if (this_->mProfName == fProfile::EN_PALACE_SWITCH) {
         this_->mRes = dResMng_c::m_instance->getRes("switch_palace", "g3d/switch_palace.brres");

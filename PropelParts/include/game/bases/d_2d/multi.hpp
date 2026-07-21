@@ -9,6 +9,18 @@ namespace d2d {
 /// @brief Stores clipping settings for a layout.
 /// @unofficial
 struct ScissorMask {
+    ScissorMask() {}
+    ScissorMask(const mVec2_c &pos, const mVec2_c &size) : mPos(pos), mSize(size) {
+        mEnabled = true;
+    }
+    void setPos(const mVec2_c &pos) { mPos = pos; }
+    void setSize(const mVec2_c &size) { mSize = size; }
+    void set(const mVec2_c &pos, const mVec2_c &size) {
+        mPos = pos;
+        mSize = size;
+    }
+    void enable() { mEnabled = true; }
+
     ScissorMask &operator=(const ScissorMask &other) {
         mPos = other.mPos;
         mSize = other.mSize;
@@ -16,8 +28,8 @@ struct ScissorMask {
         return *this;
     }
 
-    nw4r::math::VEC2 mPos;
-    nw4r::math::VEC2 mSize;
+    mVec2_c mPos;
+    mVec2_c mSize;
     bool mEnabled;
 };
 
@@ -46,7 +58,7 @@ public:
 
     inline nw4r::lyt::DrawInfo *GetDrawInfo() {return &mDrawInfo;};
 
-private:
+protected:
     m2d::Layout_c mLayout; ///< The layout instance.
     nw4r::lyt::DrawInfo mDrawInfo; ///< The parameters for drawing the layout.
 

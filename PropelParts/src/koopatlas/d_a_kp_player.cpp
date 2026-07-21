@@ -113,7 +113,7 @@ void daKpPlayer_c::createMdl() {
     pyMdl->mSceneType = 1;
     pyMdl->mCharaID = mPlyType;
 
-    pyMdl->mAllocator.createFrmHeap(0xC000, mHeap::g_gameHeaps[0], 0, 0x20, mHeap::OPT_0);
+    pyMdl->mAllocator.createFrmHeap(0xC000, mHeap::g_gameHeaps[0], 0, 0x20, mHeap::OPT_NONE);
     pyMdl->createModel();
 
     /*for (int i = 0; i < 4; i++) {

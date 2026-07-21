@@ -3,8 +3,10 @@
 
 class mVideo {
 public:
-    GXRenderModeObj &mRenderModeObj;
+    static void create();
 
+    float getWidth() const { return mRenderModeObj.fbWidth; }
+    float getHeight() const { return mRenderModeObj.efbHeight; }
     static float getSmth(float offs) { return (m_video->mRenderModeObj.efbHeight - offs) * 0.5f; }
 
     static float l_fbAspect;
@@ -16,6 +18,8 @@ public:
     static float l_rayoutHeightF;
 
     static float l_rayoutAspect;
+
+    GXRenderModeObj &mRenderModeObj;
 
     static mVideo *m_video;
 };

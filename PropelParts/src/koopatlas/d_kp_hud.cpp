@@ -214,10 +214,10 @@ void dKpHud_c::enterNode(int world, int course) {
 #endif
 
 void dKpHud_c::exitNode() {
-    if (mLayout.GetAnimGroup()[ANIM_SHOW_HEADER].mFrameCtrl.mCurrFrame > 0.1f) {
+    if (mLayout.getAnmGroup(ANIM_SHOW_HEADER).mFrameCtrl.mCurrFrame > 0.1f) {
         // Not hidden
         if ((mLayout.isAnime(ANIM_SHOW_HEADER)
-                && !(mLayout.GetAnimGroup()[ANIM_SHOW_HEADER].mFrameCtrl.mFlags & m2d::FrameCtrl_c::REVERSE))
+                && !(mLayout.getAnmGroup(ANIM_SHOW_HEADER).mFrameCtrl.mFlags & m2d::FrameCtrl_c::REVERSE))
                 || (!mLayout.isAnime(ANIM_SHOW_HEADER))) {
             // Currently being shown, OR fully shown already
             playHideAnim(ANIM_SHOW_HEADER);
@@ -229,14 +229,14 @@ void dKpHud_c::offHudDisp() {
     if (!mLayout.isAnime(ANIM_HIDE_ALL)) {
         mLayout.AnimeStartSetup(ANIM_HIDE_ALL, false);
     }
-    mLayout.GetAnimGroup()[ANIM_HIDE_ALL].mFrameCtrl.mFlags = m2d::FrameCtrl_c::NO_LOOP;
+    mLayout.getAnmGroup(ANIM_HIDE_ALL).mFrameCtrl.mFlags = m2d::FrameCtrl_c::NO_LOOP;
 }
 
 void dKpHud_c::onHudDisp() {
     if (!mLayout.isAnime(ANIM_HIDE_ALL)) {
         mLayout.AnimeStartSetup(ANIM_HIDE_ALL, true);
     }
-    mLayout.GetAnimGroup()[ANIM_HIDE_ALL].mFrameCtrl.mFlags = (m2d::FrameCtrl_c::NO_LOOP | m2d::FrameCtrl_c::REVERSE);
+    mLayout.getAnmGroup(ANIM_HIDE_ALL).mFrameCtrl.mFlags = (m2d::FrameCtrl_c::NO_LOOP | m2d::FrameCtrl_c::REVERSE);
 }
 
 void dKpHud_c::offFooterDisp() {
@@ -414,7 +414,7 @@ void dKpHud_c::setHeaderInfo() {
         return;
     }
 
-    MsgRes_c *msgRes = dMessage_c::getMesRes();
+    MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
 
     // Set the level name
     const wchar_t *levelName = getLevelName(infEntry->mDisplayWorld, infEntry->mDisplayLevel);
@@ -423,8 +423,9 @@ void dKpHud_c::setHeaderInfo() {
 
     // Set the level number
     ulong number = getLevelNumberIdx(infEntry->mDisplayWorld, infEntry->mDisplayLevel, infEntry->mWorldSlot, infEntry->mLevelSlot, false);
-    mpTextBoxes[LevelNumber]->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
-    mpTextBoxes[LevelNumberS]->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+    // TODO: Why does this crash the game?
+    //mpTextBoxes[LevelNumber]->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+    //mpTextBoxes[LevelNumberS]->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
 
     // Get the level num string width
     nw4r::ut::WideTextWriter lvlNumTextWriter = setupTextWriter(mpTextBoxes[LevelNumber]);
@@ -471,7 +472,7 @@ void dKpHud_c::playHideAnim(int id) {
     }
 
     // Smoothly reverse the animation if its already active
-    mLayout.GetAnimGroup()[id].mFrameCtrl.mFlags = (m2d::FrameCtrl_c::NO_LOOP | m2d::FrameCtrl_c::REVERSE);
+    mLayout.getAnmGroup(id).mFrameCtrl.mFlags = (m2d::FrameCtrl_c::NO_LOOP | m2d::FrameCtrl_c::REVERSE);
     if (id == ANIM_SHOW_FOOTER) {
         mFooterVisible = false;
     }

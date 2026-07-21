@@ -24,18 +24,19 @@
 #include <game/bases/d_info.hpp>
 #include <game/bases/d_nand_thread.hpp>
 #include <game/bases/d_res_mng.hpp>
+#include <game/bases/d_s_stage.hpp>
 #include <game/bases/d_s_game_setup.hpp>
 #include <game/bases/d_s_restart_crsin.hpp>
 #include <game/bases/d_save_mng.hpp>
 #include <game/bases/d_WarningManager.hpp>
 #include <game/bases/d_wipe_circle.hpp>
 #include <game/framework/f_profile.hpp>
-#include <game/mLib/m_pad.h>
+#include <game/mLib/m_pad.hpp>
 #include <game/snd/snd_scene_manager.hpp>
 #include <lib/egg/gfxe/eggStateGX.h>
 
 kmBranchDefCpp(0x809216EC, 0x809216F0, void) {
-    dScStage_c::m_exitMode = dScStage_c::EXIT_CLEAR;
+    dScStage_c::m_exitMode = dScStage_c::EXIT_0;
 }
 
 // Fixes a crash when equipping stars
@@ -220,8 +221,7 @@ sPhase_c::METHOD_RESULT_e KPInitPhase_InitMapData(void *ptr) {
     dScKoopatlas_c *wm = (dScKoopatlas_c*)ptr;
 
     if (wm->mpMapPath == nullptr) {
-        //wm->mpMapPath = wm->getMapNameForIndex(wm->mCurrentMapID);
-        wm->mpMapPath = wm->getMapNameForIndex(0);
+        wm->mpMapPath = wm->getMapNameForIndex(wm->mCurrentMapID);
 
         // Failed to find a map, default to first map
         if (wm->mpMapPath == nullptr) {
@@ -340,7 +340,7 @@ int dScKoopatlas_c::create() {
     SpammyReport("create() called\n");
 
     // TODO: This should probably be changed to make the scene params control the wipe used
-    dFader_c::setFader(dFader_c::CIRCLE_SLOW);
+    dFader_c::setFader(dFader_c::FADER_CIRCLE_TARGET);
 
     // NewerSMBW's opening cutscene loads VS effects for some reason and fragments RAM too much for some maps
     SpammyReport("Freeing effects\n");
@@ -507,14 +507,14 @@ void dScKoopatlas_c::startGame(dLevelInfo_c::entry_s *entry) {
     startInfo.mEntrance = 0xFF;
     startInfo.mArea = 0;
     startInfo.mIsReplay = false;
-    startInfo.mScreenType = 0;
+    startInfo.mGameMode = dInfo_c::GAME_MODE_NORMAL;
 
     startInfo.mWorld1 = entry->mWorldSlot;
     startInfo.mWorld2 = entry->mWorldSlot;
     startInfo.mLevel1 = entry->mLevelSlot;
     startInfo.mLevel2 = entry->mLevelSlot;
 
-    dFader_c::setFader(dFader_c::MARIO);
+    dFader_c::setFader(dFader_c::FADER_MARIO);
     dInfo_c::m_instance->startGame(startInfo);
 }
 
@@ -1030,8 +1030,8 @@ void dScKoopatlas_c::finalizeState_SaveWindowClose() { }
 // StateID_SaveDo : Save the game
 void dScKoopatlas_c::initializeState_SaveDo() { }
 void dScKoopatlas_c::executeState_SaveDo() {
-    if (!dSaveMng_c::isNandBusy()) {
-        if (dNandThread_c::m_instance->mCurrentError == 0) {
+    if (!dSaveMng_c::m_instance->isNandBusy()) {
+        if (dNandThread_c::m_instance->mError == 0) {
             mpYesNoWindow->setType(dYesNoWindow_c::SAVED);
             mpYesNoWindow->setIsActive(true);
             mStateMgr.changeState(StateID_SaveEndWindow);
@@ -1124,8 +1124,8 @@ void dScKoopatlas_c::finalizeState_QuickSaveWindowClose() { }
 // StateID_QuickSaveDo : Save the game
 void dScKoopatlas_c::initializeState_QuickSaveDo() { }
 void dScKoopatlas_c::executeState_QuickSaveDo() {
-    if (!dSaveMng_c::isNandBusy()) {
-        if (dNandThread_c::m_instance->mCurrentError == 0) {
+    if (!dSaveMng_c::m_instance->isNandBusy()) {
+        if (dNandThread_c::m_instance->mError == 0) {
             mpYesNoWindow->setType(dYesNoWindow_c::QUICK_SAVED);
             mpYesNoWindow->setIsActive(true);
             mStateMgr.changeState(StateID_QuickSaveEndWindow);
@@ -1169,12 +1169,12 @@ void dScKoopatlas_c::finalizeState_QuickSaveEndCloseWait() { }
 /**********************************************************************/
 // StateID_SaveError : Display a save error warning
 void dScKoopatlas_c::initializeState_SaveError() {
-    int error = dNandThread_c::m_instance->mCurrentError;
-    dWarningManager_c::m_instance->mIsSaveError = true;
-    dWarningManager_c::m_instance->mCurrentSaveError = error;
+    int error = dNandThread_c::m_instance->mError;
+    dWarningManager_c::m_instance->m_b8f = true;
+    dWarningManager_c::m_instance->mErrorID = error;
 }
 void dScKoopatlas_c::executeState_SaveError() {
-    if (!dWarningManager_c::m_instance->mIsSaveError) {
+    if (!dWarningManager_c::m_instance->m_b8f) {
         offMenuDisp();
     }
 }

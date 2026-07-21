@@ -20,13 +20,13 @@ dCustomProfile_c l_HEIHO_profile(&g_profile_EN_HEIHO, "EN_HEIHO", CourseActor::E
 
 const float daEnHeiho_c::smc_WALK_SPEED = 0.6f;
 
-const sBcSensorPoint l_heiho_head = { 0, 0x0, 0x14000 };
-const sBcSensorLine l_heiho_foot = { 1, -0x4000, 0x4000, 0 };
-const sBcSensorLine l_heiho_wall = { 1, 0x3000, 0x8000, 0x8000 };
+const sBcSensorPoint l_heiho_head = { SENSOR_IS_POINT, 0x0, 0x14000 };
+const sBcSensorLine l_heiho_foot = { SENSOR_IS_LINE, -0x4000, 0x4000, 0 };
+const sBcSensorLine l_heiho_wall = { SENSOR_IS_LINE, 0x3000, 0x8000, 0x8000 };
 
 const sCcDatNewF l_heiho_cc = {
-    {0.0f, 10.0f},
-    {8.0f, 10.0f},
+    0.0f, 10.0f,
+    8.0f, 10.0f,
     CC_KIND_ENEMY,
     CC_ATTACK_NONE,
     BIT_FLAG(CC_KIND_PLAYER) | BIT_FLAG(CC_KIND_PLAYER_ATTACK) | BIT_FLAG(CC_KIND_YOSHI) |
@@ -38,7 +38,7 @@ const sCcDatNewF l_heiho_cc = {
 
 int daEnHeiho_c::create() {
     // Setup our model
-    mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[0], nullptr, 0x20);
+    mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[mHeap::GAME_HEAP_DEFAULT], nullptr, 0x20);
     
     loadModel();
 
@@ -70,9 +70,6 @@ int daEnHeiho_c::create() {
     // Set size for model culling
     mVisibleAreaSize.set(16.0f, 24.0f);
     mVisibleAreaOffset.set(0.0f, 12.0f);
-
-    // Set yoshi eating behavior
-    mEatBehaviour = EAT_TYPE_EAT_PERMANENT;
 
     float zPositions[2] = {1500.0f, -2500.0f};
     mPos.z = zPositions[mAmiLayer];
@@ -191,11 +188,13 @@ void daEnHeiho_c::executeState_DieOther() {
     posMove();
 }
 
-void daEnHeiho_c::setDamage(dActor_c *actor) {
+bool daEnHeiho_c::setDamage(dActor_c *actor) {
     daPlBase_c *pl = (daPlBase_c *) actor;
-    if (pl->setDamage(this, daPlBase_c::DAMAGE_DEFAULT)) {
+    bool isDamage = pl->setDamage(this, daPlBase_c::DAMAGE_DEFAULT);
+    if (isDamage) {
         setTurnByPlayerHit(actor);
     }
+    return isDamage;
 }
 
 bool daEnHeiho_c::createIceActor() {
@@ -317,28 +316,16 @@ void daEnHeiho_c::playChrAnim(const char* name, m3d::playMode_e playMode, float 
     mAnmChr.setRate(rate);
 }
 
-bool daEnHeiho_c::checkForLedge(float xOffset) {
+bool daEnHeiho_c::checkLedge(float xOffset) {
     float xOffs[] = {xOffset, -xOffset};
 
-    mVec3_c tileToCheck;
-    tileToCheck.y = 4.0f + mPos.y;
-    tileToCheck.z = mPos.z;
-    tileToCheck.x = mPos.x + xOffs[mDirection];
-
-    u32 unit = mBc.getUnitKind(tileToCheck.x, mPos.y - 2.0f, mLayer);
-
-    if (((unit >> 0x10) & 0xFF) == 8) {
-        return false;
-    } else {
-        float zeroFloat = 0.0f;
-        bool result = mBc.checkGround(&tileToCheck, &zeroFloat, mLayer, 1, -1);
-        if (((!result) || (tileToCheck.y <= zeroFloat)) || (zeroFloat <= mPos.y - 5.0f)) {
-            return false;
-        } else {
-            return true;
-        }
+    mVec3_c groundCheckPos(mPos.x + xOffs[mDirection], mPos.y + 4.0f, mPos.z);
+    float groundY;
+    bool found = mBc.checkGround(&groundCheckPos, &groundY, mLayer, l_Ami_Line[mAmiLayer], -1);
+    float dist = groundCheckPos.y - groundY;
+    if (found && dist <= groundCheckPos.y - mPos.y + 5.0f) {
+        return true;
     }
-
     return false;
 }
 
@@ -389,7 +376,7 @@ void daEnHeiho_c::executeState_Walk() {
     } else { // Touching a tile
         mFootPush2.x = 0.0f;
         mSpeed.y = 0.0f;
-        if (checkForLedge(2.5f) == false) { // Check for ledges
+        if (checkLedge(2.5f) == false) { // Check for ledges
             if (mType == HEIHO_TYPE_WALKER_LEDGE) {
                 changeState(StateID_Turn);
                 return;

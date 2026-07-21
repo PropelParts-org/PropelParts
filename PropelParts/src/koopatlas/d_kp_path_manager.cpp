@@ -232,11 +232,11 @@ void dKpPathManager_c::create() {
     unlockPaths();
 
     mInitialPlyAnmDelay = -1;
-    if (dScStage_c::m_exitMode == dScStage_c::EXIT_LOSE) {
+    if (dScStage_c::m_exitMode == dScStage_c::EXIT_1) {
         mDoCourseFailAnm = true;
         daKpPlayer_c::m_instance->mVisible = false;
-        dScStage_c::m_exitMode = dScStage_c::EXIT_CLEAR;
-    } else if ((dScStage_c::m_exitMode == dScStage_c::EXIT_CLEAR) && s_cmpData.mPrevLevelID[0] < 0x80 && !wm->mIsAfter8Castle) {
+        dScStage_c::m_exitMode = dScStage_c::EXIT_0;
+    } else if ((dScStage_c::m_exitMode == dScStage_c::EXIT_0) && s_cmpData.mPrevLevelID[0] < 0x80 && !wm->mIsAfter8Castle) {
         mDoCourseClearAnm = true;
         daKpPlayer_c::m_instance->mVisible = false;
     }

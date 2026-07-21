@@ -31,9 +31,9 @@ public:
 
     void setKakiboAnm(KAKIBO_ANIM_ID_e anmId);
 
-    bool checkGround(float checkDist);
-
-    bool checkForLedge(float xOffset);
+    bool checkGround(float xDist);
+    bool checkTurnSaka();
+    bool checkLedge(float xOffset);
 
     void calcHa() {
         if (mBgmHoldTimer != 0) {

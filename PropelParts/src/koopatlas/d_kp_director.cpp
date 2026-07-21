@@ -14,7 +14,7 @@ dKpDirector_c *dKpDirector_c_classInit() {
 kmWritePointer(0x80987BD8, &dKpDirector_c_classInit);
 
 int dKpDirector_c::create() {
-    mAllocator.createFrmHeapToCurrent(-1, EGG::Heap::sCurrentHeap, nullptr, 0x20, mHeap::OPT_0);
+    mAllocator.createFrmHeapToCurrent(-1, EGG::Heap::sCurrentHeap, nullptr, 0x20, mHeap::OPT_NONE);
 
     mpSimpleCapture = new dSimpleCapture_c;
     mpSimpleCapture->create(&mAllocator, -1, 0x82);

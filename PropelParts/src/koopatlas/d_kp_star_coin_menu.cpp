@@ -123,7 +123,7 @@ int dKpStarCoinMenu_c::create() {
     mLayout.GroupRegister(GROUP_NAME_DT, ANIME_INDEX_TBL, ARRAY_SIZE(GROUP_NAME_DT));
     mLayout.TPaneRegister(T_PANE_NAME_TBL, mpTextBoxes, ARRAY_SIZE(T_PANE_NAME_TBL));
     mLayout.PPaneRegister(P_PANE_NAME_TBL, mpPicturePanes, ARRAY_SIZE(P_PANE_NAME_TBL));
-    mLayout.TPaneNameRegister(T_PANE_FIXED_NAME_TBL, MESSAGE_DATA_TBL, BMG_CATEGORY_KOOPATLAS, ARRAY_SIZE(T_PANE_FIXED_NAME_TBL));
+    //mLayout.TPaneNameRegister(T_PANE_FIXED_NAME_TBL, MESSAGE_DATA_TBL, BMG_CATEGORY_KOOPATLAS, ARRAY_SIZE(T_PANE_FIXED_NAME_TBL));
     mLayout.AllAnimeEndSetup();
 
     mpRootPane->SetVisible(false);
@@ -412,7 +412,7 @@ void dKpStarCoinMenu_c::loadSectionInfo() {
 }
 
 void dKpStarCoinMenu_c::dispSecretMessage(int titleMsg, int bodyMsgStart, int bodyMsgCount, int bodyMsgStart2, int bodyMsgCount2) {
-    MsgRes_c *msgRes = dMessage_c::getMesRes();
+    MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
     mpTextBoxes[LeftTitle]->SetVisible(true);
     mpTextBoxes[RightTitle]->SetVisible(false);
 
@@ -601,7 +601,7 @@ void dKpStarCoinMenu_c::finalizeState_HideSectionWait() { }
 
 void dKpStarCoinMenu_c::initializeState_HideWait() {
     mLayout.AnimeStartSetup(ANIM_SHOW_ALL, true);
-    mLayout.GetAnimGroup()[ANIM_SHOW_ALL].mFrameCtrl.mFlags = (m2d::FrameCtrl_c::NO_LOOP | m2d::FrameCtrl_c::REVERSE);
+    mLayout.getAnmGroup(ANIM_SHOW_ALL).mFrameCtrl.mFlags = (m2d::FrameCtrl_c::NO_LOOP | m2d::FrameCtrl_c::REVERSE);
 }
 void dKpStarCoinMenu_c::executeState_HideWait() {
     if (!mLayout.isAnime(ANIM_SHOW_ALL)) {

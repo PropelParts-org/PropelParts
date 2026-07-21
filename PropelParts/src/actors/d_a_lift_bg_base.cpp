@@ -82,6 +82,15 @@ int daLiftBgBase_c::create() {
 
 	// Set size for culling
     mVisibleAreaSize.set(mWidth*16.0f, mHeight*16.0f);
+    
+    // Expand the rotation controlled platform's visibility rect
+    if (mControlType == CONTROL_ROTATION) {
+        if (mWidth > mHeight) { // Wider than we are tall
+            mVisibleAreaSize.set(mWidth*16.0f, mWidth*16.0f);
+        } else if (mHeight > mWidth) { // Taller than we are wide
+            mVisibleAreaSize.set(mHeight*16.0f, mHeight*16.0f);
+        }
+    }
 
     // Set Z order
     if (mParam & 0x7000) {
@@ -238,7 +247,7 @@ void daLiftBgBase_c::executeMovement() {
 }
 
 void daLiftBgBase_c::getRange() {
-    dCdFile_c *currArea = dCd_c::m_instance->getFileP(dScStage_c::m_instance->mCurrCourse);
+    dCdFile_c *currArea = dCd_c::m_instance->getFileP(dScStage_c::m_instance->mCurrFile);
     sRangeDataF rect;
     currArea->getRangeDataP(mRectIdx, &rect);
 

@@ -22,18 +22,18 @@ dCustomProfile_c l_HEIHO_GIANT_profile(&g_profile_EN_HEIHO_LARGE, "EN_HEIHO_GIAN
 const dActorData_c c_HEIHO_MEGA_actor_data = {fProfile::EN_HEIHO_MEGA, 8, -16, 0, 48, 35, 51, 0, 0, 0, 0, 0};
 dCustomProfile_c l_HEIHO_MEGA_profile(&g_profile_EN_HEIHO_LARGE, "EN_HEIHO_MEGA", CourseActor::EN_HEIHO_MEGA, &c_HEIHO_MEGA_actor_data, l_HEIHO_LARGE_res);
 
-const sBcSensorLine l_heiho_large_foot = { 1, -0x8000, 0x8000, 0 };
-const sBcSensorLine l_heiho_large_wall = { 1, 0x14000, 0xA000, 0xF000 };
+const sBcSensorLine l_heiho_large_foot = { SENSOR_IS_LINE, -0x8000, 0x8000, 0 };
+const sBcSensorLine l_heiho_large_wall = { SENSOR_IS_LINE, 0x14000, 0xA000, 0xF000 };
 
-const sBcSensorLine l_heiho_giant_foot = { 1, -0xC000, 0xC000, 0 };
-const sBcSensorLine l_heiho_giant_wall = { 1, 0x1F000, 0xA000, 0x17000 };
+const sBcSensorLine l_heiho_giant_foot = { SENSOR_IS_LINE, -0xC000, 0xC000, 0 };
+const sBcSensorLine l_heiho_giant_wall = { SENSOR_IS_LINE, 0x1F000, 0xA000, 0x17000 };
 
-const sBcSensorLine l_heiho_mega_foot = { 1, -0x10000, 0x10000, 0 };
-const sBcSensorLine l_heiho_mega_wall = { 1, 0x24000, 0xA000, 0x1F000 };
+const sBcSensorLine l_heiho_mega_foot = { SENSOR_IS_LINE, -0x10000, 0x10000, 0 };
+const sBcSensorLine l_heiho_mega_wall = { SENSOR_IS_LINE, 0x24000, 0xA000, 0x1F000 };
 
 int daEnHeihoLarge_c::create() {
     // Setup our model
-    mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[0], nullptr, 0x20);
+    mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[mHeap::GAME_HEAP_DEFAULT], nullptr, 0x20);
 
     mRes = dResMng_c::m_instance->getRes("heiho", "g3d/heiho.brres");
     nw4r::g3d::ResMdl mdl = mRes.GetResMdl("heiho");
@@ -69,11 +69,11 @@ int daEnHeihoLarge_c::create() {
         mVisibleAreaSize.set(54.0f, 78.0f);
         mVisibleAreaOffset.set(0.0f, 36.0f);
 
-        mEatBehaviour = EAT_TYPE_NONE;
+        mEatBehavior = EAT_TYPE_NONE;
 
         const sCcDatNewF l_heiho_giant_cc = {
-            {0.0f, 30.0f},
-            {22.0f, 30.0f},
+            0.0f, 30.0f,
+            22.0f, 30.0f,
             CC_KIND_ENEMY,
             CC_ATTACK_NONE,
             (BIT_FLAG(CC_KIND_PLAYER) | BIT_FLAG(CC_KIND_PLAYER_ATTACK) | BIT_FLAG(CC_KIND_YOSHI) |
@@ -99,11 +99,11 @@ int daEnHeihoLarge_c::create() {
         mVisibleAreaSize.set(70.0f, 102.0f);
         mVisibleAreaOffset.set(0.0f, 48.0f);
 
-        mEatBehaviour = EAT_TYPE_NONE;
+        mEatBehavior = EAT_TYPE_NONE;
 
         const sCcDatNewF l_heiho_mega_cc = {
-            {0.0f, 40.0f},
-            {28.0f, 40.0f},
+            0.0f, 40.0f,
+            28.0f, 40.0f,
             CC_KIND_ENEMY,
             CC_ATTACK_SHELL,
             BIT_FLAG(CC_KIND_PLAYER) | BIT_FLAG(CC_KIND_PLAYER_ATTACK) | BIT_FLAG(CC_KIND_YOSHI) |
@@ -129,11 +129,9 @@ int daEnHeihoLarge_c::create() {
         mVisibleAreaSize.set(32.0f, 48.0f);
         mVisibleAreaOffset.set(0.0f, 24.0f);
 
-        mEatBehaviour = EAT_TYPE_EAT_PERMANENT;
-
         const sCcDatNewF l_heiho_large_cc = {
-            {0.0f, 20.0f},
-            {16.0f, 20.0f},
+            0.0f, 20.0f,
+            16.0f, 20.0f,
             CC_KIND_ENEMY,
             CC_ATTACK_NONE,
             BIT_FLAG(CC_KIND_PLAYER) | BIT_FLAG(CC_KIND_PLAYER_ATTACK) | BIT_FLAG(CC_KIND_YOSHI) |
@@ -342,9 +340,10 @@ void daEnHeihoLarge_c::executeState_DieFall() {
     updateModel();
 }
 
-void daEnHeihoLarge_c::setDamage(dActor_c *actor) {
+bool daEnHeihoLarge_c::setDamage(dActor_c *actor) {
     daPlBase_c *player = (daPlBase_c *)actor;
-    if (player->setDamage(this, daPlBase_c::DAMAGE_DEFAULT) && mLargeType == HEIHO_LARGE) {
+    bool isDamage = player->setDamage(this, daPlBase_c::DAMAGE_DEFAULT);
+    if (isDamage && mLargeType == HEIHO_LARGE) {
         u8 direction = getTrgToSrcDir_Main(player->getCenterPos().x, getCenterPos().x);
         if (!isState(StateID_Dizzy)) {
             mDirection = direction;
@@ -357,6 +356,7 @@ void daEnHeihoLarge_c::setDamage(dActor_c *actor) {
             setWalkSpeed();
         }
     }
+    return isDamage;
 }
 
 void daEnHeihoLarge_c::boyonBegin() {

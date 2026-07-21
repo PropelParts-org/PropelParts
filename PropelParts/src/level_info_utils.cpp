@@ -18,7 +18,7 @@
 // Returns the name of a world (from BMG_CATEGORY_KP_WORLD_NAMES)
 // This uses the messageID from WorldInfo, not the world number
 const wchar_t *getKoopatlasWorldName(int idx) {
-    EGG::MsgRes *msgRes = dMessage_c::getMesRes();
+    EGG::MsgRes *msgRes = dMessage_c::getPropelMsgRes();
     if (msgRes->getMsgEntry(BMG_CATEGORY_KP_WORLD_NAMES, idx) != nullptr) {
         return dMessage_c::getMsg(BMG_CATEGORY_KP_WORLD_NAMES, idx);
     } else {
@@ -29,7 +29,7 @@ const wchar_t *getKoopatlasWorldName(int idx) {
 // Returns the name of a world
 // Use the internal world number instead of the in-game one
 const wchar_t *getWorldName(int world) {
-    EGG::MsgRes *msgRes = dMessage_c::getMesRes();
+    EGG::MsgRes *msgRes = dMessage_c::getPropelMsgRes();
     if (msgRes->getMsgEntry(BMG_CATEGORY_WORLD_NAMES, world+1) != nullptr) {
         return dMessage_c::getMsg(BMG_CATEGORY_WORLD_NAMES, world+1);
     } else {
@@ -39,7 +39,7 @@ const wchar_t *getWorldName(int world) {
 
 // Returns the name of a level, uses the display IDs
 const wchar_t *getLevelName(int dispWorld, int dispLevel) {
-    EGG::MsgRes *msgRes = dMessage_c::getMesRes();
+    EGG::MsgRes *msgRes = dMessage_c::getPropelMsgRes();
     if (msgRes->getMsgEntry(BMG_CATEGORY_LEVEL_NAMES+dispWorld, dispLevel) != nullptr) {
         return dMessage_c::getMsg(BMG_CATEGORY_LEVEL_NAMES+dispWorld, dispLevel);
     } else {
@@ -48,7 +48,7 @@ const wchar_t *getLevelName(int dispWorld, int dispLevel) {
 }
 
 const wchar_t *getWorldNumber(int world) {
-    EGG::MsgRes *msgRes = dMessage_c::getMesRes();
+    MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
     if (msgRes->getMsgEntry(BMG_CATEGORY_WORLD_NUMBERS, world) != nullptr) {
         return dMessage_c::getMsg(BMG_CATEGORY_WORLD_NUMBERS, world);
     } else {
@@ -58,7 +58,7 @@ const wchar_t *getWorldNumber(int world) {
 
 // Returns a level number or icon
 const wchar_t *getLevelNumber(int levelNumIdx) {
-    EGG::MsgRes *msgRes = dMessage_c::getMesRes();
+    EGG::MsgRes *msgRes = dMessage_c::getPropelMsgRes();
     if (msgRes->getMsgEntry(BMG_CATEGORY_LEVEL_ICONS, levelNumIdx) != nullptr) {
         return dMessage_c::getMsg(BMG_CATEGORY_LEVEL_ICONS, levelNumIdx);
     } else {
@@ -128,7 +128,7 @@ ulong getLevelNumberIdx(u8 dispWorld, u8 dispLevel, u8 worldSlot, u8 levelSlot, 
 
 // Returns a combined "World X-X" identifier, used by Newer layouts
 const wchar_t *getCombinedLevelNumber(int levelNumIdx) {
-    EGG::MsgRes *msgRes = dMessage_c::getMesRes();
+    EGG::MsgRes *msgRes = dMessage_c::getPropelMsgRes();
     if (msgRes->getMsgEntry(BMG_CATEGORY_LEVEL_NAMES, levelNumIdx) != nullptr) {
         return dMessage_c::getMsg(BMG_CATEGORY_LEVEL_NAMES, levelNumIdx);
     } else {

@@ -1,6 +1,7 @@
 # PropelParts
 This is a custom code platform for New Super Mario Bros. Wii that adds new features to the game, intended to serve as a basis for mods of the game.
 Currently still in development, so don't expect everything to be finished. You can check `FEATURELIST.md` to see a list of features implemented, planned, and unfinished.
+You can join our [Discord server](https://discord.gg/9yNcU5Enb5) to stay updated on PropelParts.
 
 ## Usage
 You are expected to be familiar with NSMBW modding and how to use Riivolution and Reggie! Next.
@@ -20,7 +21,7 @@ along with headers from the [NSMBW Decomp](https://github.com/NSMBW-Community/NS
 * Install a recent version of Python 3.
 * Download [Ninja](https://ninja-build.org) and place it in the `/PropelParts/` directory
   * Alternatively, you may add Ninja to PATH
-* Download the CodeWarrior for Embedded PowerPC binaries from [here](https://files.decomp.dev/compilers_20230715.zip) and extract it into the `/PropelParts/cw/` directory. The compiler should be located at `/compilers/Wii/1.3/mwcceppc.exe`.
+* Download the CodeWarrior for Embedded PowerPC binaries from [here](https://files.decomp.dev/compilers_20230715.zip) and extract it. Find the compiler located at<br>`/compilers/Wii/1.3/mwcceppc.exe`, and copy it to the `/PropelParts/cw/` directory.
   * The version of CodeWarrior used by Kamek's examples and NewerSMBW are not supported currently. This will change in the near future. 
 * If you're on a non-Windows system, [Wine](https://www.winehq.org/) is needed to run CodeWarrior.
 #### Building

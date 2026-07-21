@@ -18,7 +18,7 @@ kmWriteNop(0x8079DEF0);
 void dMultiCourseSelect_c::loadTitleFromLI(int tb, int type) {
     const wchar_t *worldName;
     if (type == 1) {
-        bool isCoinBattle = (dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_COURSE);
+        bool isCoinBattle = (dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_BATTLE);
         worldName = getWorldName(((isCoinBattle) ? 0xFF : 0xFE)-1);
     } else {
         worldName = getWorldName(dInfo_c::m_instance->mDisplayCourseWorld-1);
@@ -61,8 +61,8 @@ void GetLevelID(dMultiCourseSelect_c *this_, u8 *world, u8 *level, int button) {
     }
 
     if (page == 0) {
-        *world = getRecommendedWorld((dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_COURSE) == 0, button);
-        *level = getRecommendedLevel((dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_COURSE) == 0, button);
+        *world = getRecommendedWorld((dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_BATTLE) == 0, button);
+        *level = getRecommendedLevel((dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_BATTLE) == 0, button);
     }
 
     else if (page == 10) {

@@ -24,6 +24,7 @@ kmBranchDefCpp(0x8015AC60, NULL, void, Pausewindow_c *this_) {
 
 void dLevelInfoUtils_c::PauseWindowLevelInfo(Pausewindow_c *this_) {
     MsgRes_c *msgRes = dMessage_c::getMesRes();
+    MsgRes_c *newMsgRes = dMessage_c::getPropelMsgRes();
 
     int csPage = dInfo_c::m_instance->mCourseSelectPageNum;
     int csIdx = dInfo_c::m_instance->mCourseSelectIndexInPage;
@@ -35,7 +36,7 @@ void dLevelInfoUtils_c::PauseWindowLevelInfo(Pausewindow_c *this_) {
     this_->mpNullPanes[Pausewindow_c::N_multiText_00]->SetVisible(false);
 
     // Show a coin if we're in a Coin Battle course
-    bool isNotCoinCourse = (((dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_COURSE) == 0) || (csPage != 0)) || (csIdx > 4);
+    bool isNotCoinCourse = (((dInfo_c::mGameFlag & dInfo_c::GAME_FLAG_IS_COIN_BATTLE) == 0) || (csPage != 0)) || (csIdx > 4);
     this_->mpPicturePanes[Pausewindow_c::P_coin_00]->SetVisible(!isNotCoinCourse);
     this_->mpTextBoxes[Pausewindow_c::T_worldNum_00]->SetVisible(isNotCoinCourse);
 
@@ -58,11 +59,11 @@ void dLevelInfoUtils_c::PauseWindowLevelInfo(Pausewindow_c *this_) {
 
         // grab the level number
         ulong number = getLevelNumberIdx(level->mDisplayWorld, level->mDisplayLevel, level->mWorldSlot, level->mLevelSlot, false);
-        LevelNumShadow->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
-        LevelNum->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+        LevelNumShadow->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+        LevelNum->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
     } else {
-        LevelNumShadow->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
-        LevelNum->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
+        LevelNumShadow->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
+        LevelNum->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
         LevelNameShadow->SetString(getLevelName(0, 0), 0);
         LevelName->SetString(getLevelName(0, 0), 0);
     }
@@ -75,11 +76,11 @@ void dLevelInfoUtils_c::PauseWindowLevelInfo(Pausewindow_c *this_) {
         if (level->mDisplayLevel > 19) {
             this_->mpTextBoxes[Pausewindow_c::T_corsePic_00]->SetVisible(true);
             this_->mpTextBoxes[Pausewindow_c::T_corseNum_00]->SetVisible(false);
-            this_->mpTextBoxes[Pausewindow_c::T_corsePic_00]->setMessage(msgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
+            this_->mpTextBoxes[Pausewindow_c::T_corsePic_00]->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
         } else {
             this_->mpTextBoxes[Pausewindow_c::T_corsePic_00]->SetVisible(false);
             this_->mpTextBoxes[Pausewindow_c::T_corseNum_00]->SetVisible(true);
-            this_->mpTextBoxes[Pausewindow_c::T_corseNum_00]->setMessage(msgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
+            this_->mpTextBoxes[Pausewindow_c::T_corseNum_00]->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
         }
     } else {
         this_->mpTextBoxes[Pausewindow_c::T_corsePic_00]->SetVisible(false);
