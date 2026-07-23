@@ -170,7 +170,7 @@ struct dKpPath_s {
         return (n == mpStartPoint) ? mpEndPoint : mpStartPoint;
     }
 
-    u8 mIsOpen; // computed on-the-fly - default from Koopatlas is NOT or ALWAYS
+    u8 mOpenStatus; // Computed on-the-fly - default from Koopatlas is NOT or ALWAYS
     u8 mIsSecret;
     u8 mPad[2];
     float mPathSpeed;
@@ -239,7 +239,7 @@ struct dKpLayer_s {
  * World Definitions
  ******************************************************************************/
 struct dKpWorldDef_s {
-    const char *mpWorldName; // TODO: Repurpose for lighting data
+    const char *mpWorldName;
     GXColor mFileTextColors[2];
     GXColor mFileBgColors[2];
     GXColor mHudTextColors[2];

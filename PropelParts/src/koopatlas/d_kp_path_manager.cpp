@@ -442,6 +442,7 @@ void dKpPathManager_c::create() {
                 mCmpMsgType = CMP_MSG_COINS;
             }
         }
+
         if (s_cmpData.mIsCmpExits) {
             totalFlag |= 2;
             if (exits == exitNum) {
@@ -449,6 +450,7 @@ void dKpPathManager_c::create() {
                 mCmpMsgType = CMP_MSG_EXITS;
             }
         }
+
         if (s_cmpData.mIsCmpWorld && flag == totalFlag) {
             mDispSavePrompt = true;
             mCmpMsgType = CMP_MSG_WORLD;
@@ -470,6 +472,7 @@ void dKpPathManager_c::create() {
                 mCmpMsgType = CMP_MSG_GLOBAL_COINS;
             }
         }
+
         if (s_cmpData.mIsCmpAllExits) {
             glbTotalFlag |= 2;
             if (exits == exitNum) {
@@ -477,9 +480,11 @@ void dKpPathManager_c::create() {
                 mCmpMsgType = CMP_MSG_GLOBAL_EXITS;
             }
         }
+
+        // Set 100% completion message
         if (s_cmpData.mIsCmpAll && glbFlag == glbTotalFlag) {
-            //save->titleScreenWorld = 3;
-            //save->titleScreenLevel = 10;
+            save->mTitleWorldNo = GAME_COMPLETE_TITLE_WORLD - 1;
+            save->mTitleLevelNo = GAME_COMPLETE_TITLE_STAGE - 1;
 
             mDispSavePrompt = true;
             mCmpMsgType = CMP_MSG_EVERYTHING;
@@ -585,7 +590,7 @@ void dKpPathManager_c::execute() {
         for (int i = 0; i < mpPathLayer->mPathNum; i++) {
             dKpPath_s *path = mpPathLayer->mpPaths[i];
 
-            if (path->mIsOpen == dKpPath_s::NEWLY_OPEN) {
+            if (path->mOpenStatus == dKpPath_s::NEWLY_OPEN) {
                 path->setLayerAlpha(mPathUnlockAlpha);
             }
         }
@@ -700,8 +705,8 @@ void dKpPathManager_c::execute() {
                 mDidEndingSceneSave = true;
 
                 dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
-                //save->titleScreenWorld = 3;
-                //save->titleScreenLevel = 9;
+                save->mTitleWorldNo = BOWSER_CLEAR_TITLE_WORLD - 1;
+                save->mTitleLevelNo = BOWSER_CLEAR_TITLE_STAGE - 1;
 
                 dCourseSelectManager_c::m_instance->saveGame(false);
             } else {
@@ -824,12 +829,12 @@ void dKpPathManager_c::unlockPaths() {
     // Unlock all needed paths
     for (int i = 0; i < mpPathLayer->mPathNum; i++) {
         dKpPath_s *path = mpPathLayer->mpPaths[i];
+        sp_openPathData[i] = path->mOpenStatus;
 
-        sp_openPathData[i] = path->mIsOpen;
+        SpammyReport("Path %d: %d\n", i, path->mOpenStatus);
 
-        //SpammyReport("Path %d: %d\n", i, path->isAvailable);
-        // If this path is not "always open", then reset its alpha
-        path->setLayerAlpha((path->mIsOpen == dKpPath_s::ALWAYS_OPEN) ? PATH_OPEN_ALPHA : PATH_LOCK_ALPHA);
+        // If this path is not always unlocked, then reset its alpha
+        path->setLayerAlpha((path->mOpenStatus == dKpPath_s::ALWAYS_OPEN) ? PATH_OPEN_ALPHA : PATH_LOCK_ALPHA);
     }
 
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
@@ -858,21 +863,23 @@ void dKpPathManager_c::unlockPaths() {
             u8 one = *(in++);
             u8 two = *(in++);
             u16 pathID = (one << 8) | two;
-            UnlockCmdReport("[%p] Cmd %d: Affected %d: PathID: %d\n", in, cmdID, i, pathID);
+            //UnlockCmdReport("[%p] Cmd %d: Affected %d: PathID: %d\n", in, cmdID, i, pathID);
 
             dKpPath_s *path = mpPathLayer->mpPaths[pathID];
-            UnlockCmdReport("[%p] Cmd %d: Affected %d: Path: %p\n", in, cmdID, i, path);
-            path->mIsOpen = value ? dKpPath_s::OPEN : dKpPath_s::NOT_OPEN;
-            UnlockCmdReport("[%p] Cmd %d: Affected %d: IsAvailable written\n", in, cmdID, i);
-            sp_openPathData[pathID] = value ? dKpPath_s::OPEN : dKpPath_s::NOT_OPEN;
-            UnlockCmdReport("[%p] Cmd %d: Affected %d: AvailabilityData written\n", in, cmdID, i);
-            // NEWLY_AVAILABLE is set later, when that stuff is figured out
+            //UnlockCmdReport("[%p] Cmd %d: Affected %d: Path: %p\n", in, cmdID, i, path);
 
+            path->mOpenStatus = value ? dKpPath_s::OPEN : dKpPath_s::NOT_OPEN;
+            UnlockCmdReport("[%p] Cmd %d: Affected %d: mOpenStatus written\n", in, cmdID, i);
+
+            sp_openPathData[pathID] = value ? dKpPath_s::OPEN : dKpPath_s::NOT_OPEN;
+            //UnlockCmdReport("[%p] Cmd %d: Affected %d: AvailabilityData written\n", in, cmdID, i);
+
+            // NEWLY_AVAILABLE is set later, when that stuff is figured out
             path->setLayerAlpha(value ? PATH_OPEN_ALPHA : PATH_LOCK_ALPHA);
-            UnlockCmdReport("[%p] Cmd %d: Affected %d: Layer alpha applied\n", in, cmdID, i);
+            //UnlockCmdReport("[%p] Cmd %d: Affected %d: Layer alpha applied\n", in, cmdID, i);
         }
 
-        UnlockCmdReport("[%p] Cmd %d: %d affected path(s) processed\n", in, cmdID, affectedCount);
+        //UnlockCmdReport("[%p] Cmd %d: %d affected path(s) processed\n", in, cmdID, affectedCount);
 
         cmdID++;
     }
@@ -904,7 +911,7 @@ void dKpPathManager_c::unlockPaths() {
                 }
 
                 dKpPath_s *path = mpPathLayer->mpPaths[i];
-                path->mIsOpen = dKpPath_s::NEWLY_OPEN;
+                path->mOpenStatus = dKpPath_s::NEWLY_OPEN;
                 mNewOpenPathNum++;
 
                 // Set this path's alpha to 0, we'll fade it in later
@@ -951,8 +958,8 @@ void dKpPathManager_c::unlockPaths() {
             dKpPath_s *nextPath = yoshiHouse->mpExitR;
 
             while (true) {
-                if (nextPath->mIsOpen == dKpPath_s::OPEN) {
-                    nextPath->mIsOpen = dKpPath_s::NEWLY_OPEN;
+                if (nextPath->mOpenStatus == dKpPath_s::OPEN) {
+                    nextPath->mOpenStatus = dKpPath_s::NEWLY_OPEN;
                     mNewOpenPathNum++;
                     nextPath->setLayerAlpha(PATH_LOCK_ALPHA);
                 }
@@ -1089,7 +1096,7 @@ int dKpPathManager_c::getPressedDir(int buttons) {
 }
 
 void dKpPathManager_c::startMovementTo(dKpPath_s *path) {
-    if (!path->mIsOpen) {
+    if (!path->mOpenStatus) {
         return;
     }
 
@@ -1518,17 +1525,17 @@ void dKpPathManager_c::moveThroughPath(int pressedDir) {
             const dKpWorldDef_s *world = dScKoopatlas_c::m_instance->mMapData.findWorldDef(to->mWorldID);
             if (world) {
                 bool visiblyChange = true;
-                /*if (strncmp(save->newerWorldName, world->name, 32) == 0) {
+                if (strncmp(save->mWorldName, world->mpWorldName, 32) == 0) {
                     PathMngReport("Already here, but setting BGM track\n");
                     visiblyChange = false;
-                }*/
+                }
 
                 PathMngReport("Found!\n");
                 copyWorldDefToSave(world);
 
                 bool wzHack = false;
                 if (dScKoopatlas_c::m_instance->mWarpZoneHacks) {
-                    //save->hudHintH += 1000;
+                    save->mHudHue += 1000;
 
                     if (world->mWorldID > 0) {
                         dLevelInfo_c *linfo = &dLevelInfo_c::m_instance;
@@ -1556,7 +1563,7 @@ void dKpPathManager_c::moveThroughPath(int pressedDir) {
                 }
 
                 if (wzHack) {
-                    //save->hudHintH = 2000;
+                    save->mHudHue = 2000;
                     dKpHud_c::m_instance->offFooterDisp();
                 } else {
                     if (visiblyChange) {
@@ -1567,9 +1574,9 @@ void dKpPathManager_c::moveThroughPath(int pressedDir) {
                 dKpMusic_c::m_instance->startBgmTrack(world->mTrackID);
             } else if (to->mWorldID == 0) {
                 PathMngReport("No world\n");
-                //save->currentMapMusic = 0;
+                save->mMusicID = 0;
                 dKpMusic_c::m_instance->startBgmTrack(0);
-                //save->newerWorldName[0] = 0;
+                save->mWorldName[0] = 0;
                 dKpHud_c::m_instance->offFooterDisp();
             } else {
                 PathMngReport("Not found!\n");
@@ -1811,8 +1818,8 @@ void dKpPathManager_c::visitNodeForCamCheck(dKpNode_s *node) {
             continue;
         }
 
-        PathMngReport("Checking path %p, whose status is %d\n", path, path->mIsOpen);
-        if (path->mIsOpen == dKpPath_s::NEWLY_OPEN) {
+        PathMngReport("Checking path %p, whose status is %d\n", path, path->mOpenStatus);
+        if (path->mOpenStatus == dKpPath_s::NEWLY_OPEN) {
             addNodeToCameraBounds(path->mpStartPoint);
             addNodeToCameraBounds(path->mpEndPoint);
         }

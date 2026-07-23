@@ -38,15 +38,6 @@ bool dKpMapData_c::create(const char *filename) {
     return tsSuccess && bgSuccess;
 }
 
-const dKpWorldDef_s *dKpMapData_c::findWorldDef(int id) const {
-    for (int i = 0; i < mpData->mWorldDefNum; i++) {
-        if (mpData->mpWorldDefs[i].mKeyID == id) {
-            return &mpData->mpWorldDefs[i];
-        }
-    }
-    return nullptr;
-}
-
 void dKpMapData_c::initMapData() {
     OSReport("Initing MapData\n");
 
@@ -176,7 +167,6 @@ void dKpMapData_c::freeTilesets() {
         }
 
         delete[] mpTilesetLoaders;
-        mpTilesetLoaders = nullptr;
     }
 }
 
@@ -187,7 +177,7 @@ void dKpMapData_c::freeTilesets() {
 bool dKpNode_s::chkOpenStatus() {
     for (int i = 0; i < 4; i++) {
         if (mpExits[i]) {
-            if (mpExits[i]->mIsOpen) {
+            if (mpExits[i]->mOpenStatus) {
                 return true;
             }
         }
@@ -200,7 +190,7 @@ dKpPath_s *dKpNode_s::getAcrossPath(dKpPath_s *path, bool requireOpenState) {
         dKpPath_s *check = mpExits[i];
 
         if ((check != nullptr) && (check != path)) {
-            if (requireOpenState && !check->mIsOpen) {
+            if (requireOpenState && !check->mOpenStatus) {
                 continue;
             }
             return check;
@@ -213,7 +203,7 @@ int dKpNode_s::getExitNum(bool requireOpenState) {
     int count = 0;
 
     for (int i = 0; i < 4; i++) {
-        if (mpExits[i] && (requireOpenState ? mpExits[i]->mIsOpen : true)) {
+        if (mpExits[i] && (requireOpenState ? mpExits[i]->mOpenStatus : true)) {
             count++;
         }
     }
@@ -245,5 +235,14 @@ int dKpLayer_s::findNodeID(dKpNode_s *node) {
         }
     }
     return -1;
+}
+
+const dKpWorldDef_s *dKpMapData_c::findWorldDef(int id) const {
+    for (int i = 0; i < mpData->mWorldDefNum; i++) {
+        if (mpData->mpWorldDefs[i].mKeyID == id) {
+            return &mpData->mpWorldDefs[i];
+        }
+    }
+    return nullptr;
 }
 #endif

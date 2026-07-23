@@ -763,13 +763,6 @@ void dScKoopatlas_c::executeState_KeyWait() {
             for (int l = 0; l < STAGE_COUNT; l++)
                 save->onCourseDataFlag(w, l, save->GOAL_MASK);
 #endif
-    } else if (pressed & WPAD_BUTTON_A) {
-        //dKpMusic_c::m_instance->play(2);
-        mpDirector->toggleCaptureDisp(true);
-    } else if (pressed & WPAD_BUTTON_B) {
-        mpDirector->toggleCaptureDisp(false);
-    } else if (pressed & WPAD_BUTTON_MINUS) {
-        //dKpMusic_c::m_instance->play(1);
     }
 }
 void dScKoopatlas_c::finalizeState_KeyWait() { }

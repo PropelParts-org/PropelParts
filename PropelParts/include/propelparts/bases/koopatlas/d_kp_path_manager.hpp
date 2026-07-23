@@ -58,8 +58,8 @@ public:
     bool canUseExit(dKpPath_s *path) {
         OSReport("Checking usability of path %p\n", path);
         if (path != nullptr) {
-            OSReport("Open status: %d\n", path->mIsOpen);
-            return path->mIsOpen;
+            PathMngReport("Open status: %d\n", path->mOpenStatus);
+            return path->mOpenStatus;
         }
         return false;
     }
