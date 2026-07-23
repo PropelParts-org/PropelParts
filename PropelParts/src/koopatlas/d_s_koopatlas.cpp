@@ -34,7 +34,8 @@
 #include <game/snd/snd_scene_manager.hpp>
 #include <lib/egg/gfxe/eggStateGX.h>
 
-kmBranchDefCpp(0x809216EC, 0x809216F0, void) {
+// Reset m_exitMode after a Game Over
+kmBranchDefCpp(0x809216EC, NULL, void) {
     dScStage_c::m_exitMode = dScStage_c::EXIT_0;
 }
 
@@ -98,8 +99,7 @@ const dScKoopatlas_c::ResItem_s dScKoopatlas_c::sc_arcRes[] = {
 
     // Others
     {"WorldMap", "cobCourse"},
-    //{"Object", "StarRing"},
-    //{"Object", "star_coin"}, // TODO: Remove: its unused
+    {"WorldMap", "StarRing"},
 };
 
 dScKoopatlas_c *dScKoopatlas_c::m_instance = nullptr;
@@ -321,10 +321,6 @@ sPhase_c::METHOD_RESULT_e KPInitPhase_ChkChildProcess(void *ptr) {
 
     if (wm->checkChildProcessCreateState()) {
         SpammyReport("KPInitPhase_ChkChildProcess returning false\n");
-/*#ifdef WM_SPAMMY_DEBUGGING
-        fBase_c *p = wm->findNextUninitialisedProcess();
-        SpammyReport("Not done yet: %p [%d]\n", p, p->name);
-#endif*/
         return (sPhase_c::METHOD_RESULT_e)false;
     }
 
@@ -475,7 +471,6 @@ int dScKoopatlas_c::execute() {
         return SUCCEEDED;
     }
 
-    //SpammyReport("Executing mStateMgr: %s\n", mStateMgr.getStateID()->name());
     mStateMgr.executeState();
     return SUCCEEDED;
 }
