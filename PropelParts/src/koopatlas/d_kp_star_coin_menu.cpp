@@ -241,8 +241,7 @@ void dKpStarCoinMenu_c::loadMenuInfo() {
 
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
 #ifdef KOOPATLAS_ENABLED
-    dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(save->mWorldInfoIdx);
-    int wantedSection = world->mLevelInfoID-1;
+    int wantedSection = save->mLevelInfoID - 1;
 #else
     int wantedSection = mCurrWorld;
 #endif

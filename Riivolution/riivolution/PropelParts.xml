@@ -38,7 +38,6 @@
 		
 		<file external="LevelInfo.bin" disc="/LevelInfo.bin" create="true"/>
 		<file external="MapADPCMInfo.bin" disc="/MapADPCMInfo.bin" create="true"/>
-		<file external="WorldInfo.bin" disc="/WorldInfo.bin" create="true"/>
 		
 		<memory offset="0x800046E4" valuefile="Code/loader.bin" />
 		<memory offset="0x800042F4" value="48001158" />

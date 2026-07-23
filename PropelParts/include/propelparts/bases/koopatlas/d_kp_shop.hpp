@@ -138,7 +138,7 @@ public:
     bool mHasLayoutLoaded;
     bool mIsVisible;
 
-    static const ITEM_TYPE_e Inventory[10][12];
+    static const ITEM_TYPE_e sc_shopItems[10][12];
 };
 
 #endif

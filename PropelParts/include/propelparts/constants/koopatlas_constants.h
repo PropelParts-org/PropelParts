@@ -26,4 +26,7 @@
 
 #define WORLD_ID_NO_DRAW 80 ///< Course nodes with this ID will not be rendered. Used for the ending cutscene
 
+#define GAME_COMPLETE_TITLE_WORLD 4 ///< World ID for the 100% Completion titlescreen
+#define GAME_COMPLETE_TITLE_STAGE 11 ///< Level ID for the 100% Completion titlescreen
+
 // TODO: Fill in all (most) of the hardcoded data here

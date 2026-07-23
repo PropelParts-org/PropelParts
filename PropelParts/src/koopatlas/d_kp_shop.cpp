@@ -14,6 +14,59 @@
 #include <propelparts/constants/koopatlas_constants.h>
 #include <propelparts/constants/message_list.h>
 
+const daKpShop_c::ITEM_TYPE_e daKpShop_c::sc_shopItems[10][12] = { 
+    { // Yoshi's Island
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_ICE_FLOWER, TYPE_PROPELLER,
+        TYPE_FIRE_FLOWER, TYPE_ICE_FLOWER, TYPE_FIRE_FLOWER,
+        TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_ONE_UP, TYPE_PROPELLER, TYPE_PROPELLER
+    },
+    { // Desert
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_ICE_FLOWER, TYPE_PROPELLER,
+        TYPE_FIRE_FLOWER, TYPE_STARMAN, TYPE_FIRE_FLOWER,
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_FIRE_FLOWER, TYPE_PROPELLER, TYPE_PROPELLER
+    },
+    { // Mountain
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_MINI_SHROOM, TYPE_PROPELLER,
+        TYPE_MUSHROOM, TYPE_MINI_SHROOM, TYPE_PROPELLER,
+        TYPE_MUSHROOM, TYPE_MINI_SHROOM, TYPE_PROPELLER, TYPE_PROPELLER, TYPE_HAMMER
+    },
+    { // Japan
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_ONE_UP, TYPE_HAMMER,
+        TYPE_ONE_UP, TYPE_ONE_UP, TYPE_ONE_UP,
+        TYPE_PROPELLER, TYPE_ICE_FLOWER, TYPE_ONE_UP, TYPE_FIRE_FLOWER, TYPE_PROPELLER
+    },
+    { // FreezeFlame
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_ICE_FLOWER, TYPE_PENGUIN,
+        TYPE_ICE_FLOWER, TYPE_PENGUIN, TYPE_ICE_FLOWER,
+        TYPE_ICE_FLOWER, TYPE_PENGUIN, TYPE_PENGUIN, TYPE_PENGUIN, TYPE_ICE_FLOWER
+    },
+    { // Ghost
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_STARMAN, TYPE_PROPELLER,
+        TYPE_MINI_SHROOM, TYPE_PROPELLER, TYPE_MINI_SHROOM,
+        TYPE_PROPELLER, TYPE_PROPELLER, TYPE_MUSHROOM, TYPE_PROPELLER, TYPE_PROPELLER
+    },
+    { // Space
+        TYPE_MUSHROOM, TYPE_STARMAN, TYPE_ONE_UP, TYPE_HAMMER,
+        TYPE_STARMAN, TYPE_STARMAN, TYPE_STARMAN,
+        TYPE_HAMMER, TYPE_HAMMER, TYPE_ONE_UP, TYPE_HAMMER, TYPE_HAMMER
+    },
+    { // Koopa
+        TYPE_MUSHROOM, TYPE_ONE_UP, TYPE_PROPELLER, TYPE_HAMMER,
+        TYPE_HAMMER, TYPE_PROPELLER, TYPE_HAMMER,
+        TYPE_PROPELLER, TYPE_HAMMER, TYPE_PROPELLER, TYPE_HAMMER, TYPE_PROPELLER
+    },
+    { // Unknown
+        TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_MUSHROOM,
+        TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_MUSHROOM,
+        TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_MUSHROOM, TYPE_MUSHROOM
+    },
+    { // Goldwood
+        TYPE_MUSHROOM, TYPE_FIRE_FLOWER, TYPE_ONE_UP, TYPE_PENGUIN,
+        TYPE_FIRE_FLOWER, TYPE_PROPELLER, TYPE_FIRE_FLOWER,
+        TYPE_FIRE_FLOWER, TYPE_FIRE_FLOWER, TYPE_STARMAN, TYPE_FIRE_FLOWER, TYPE_FIRE_FLOWER
+    }
+};
+
 STATE_DEFINE(daKpShop_c, Hidden);
 STATE_DEFINE(daKpShop_c, ShowWait);
 STATE_DEFINE(daKpShop_c, ButtonActivateWait);
@@ -181,11 +234,10 @@ void daKpShop_c::dispMenu(int shopNum) {
 
 void daKpShop_c::loadInfo() {
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
-    dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(mShopIdx);
-    
-    mBtnLeftCol.setColor(world->mHudHue, world->mHudSat, world->mHudLight);
-    mBtnMidCol.setColor(world->mHudHue, world->mHudSat, world->mHudLight);
-    mBtnRightCol.setColor(world->mHudHue, world->mHudSat, world->mHudLight);
+
+    mBtnLeftCol.setColor(save->mHudHue, save->mHudSat, save->mHudLight);
+    mBtnMidCol.setColor(save->mHudHue, save->mHudSat, save->mHudLight);
+    mBtnRightCol.setColor(save->mHudHue, save->mHudSat, save->mHudLight);
 
     // Set the shop title
     dLevelInfo_c::entry_s *entry = dLevelInfo_c::m_instance.getEntryFromSlotID(mShopIdx, COURSE_ID_SHOP-1);
@@ -240,8 +292,7 @@ void daKpShop_c::loadModels() {
             effectiveY += 50.0f;
         }
 
-        u8 *itemSet = dWorldInfo_c::m_instance.getShopSet(mShopIdx);
-        mpItems[i].createItem(effectiveX, effectiveY, (ITEM_TYPE_e)itemSet[i]);
+        mpItems[i].createItem(effectiveX, effectiveY, sc_shopItems[mShopIdx][i]);
     }
 }
 
@@ -290,12 +341,11 @@ void daKpShop_c::buyItem(int item) {
         appliedItems[i] = 0;
     }
 
-    u8 *itemSet = dWorldInfo_c::m_instance.getShopSet(mShopIdx);
     int invStartIndex = itemDefs[item].mIndex;
     int invCount = itemDefs[item].mItemNum;
 
     for (int i = 0; i < invCount; i++) {
-        appliedItems[(int)itemSet[invStartIndex+i]]++;
+        appliedItems[(int)sc_shopItems[mShopIdx][invStartIndex+i]]++;
     }
 
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
@@ -551,10 +601,14 @@ const char *daKpShop_c::ShopModel_c::sc_itemResNames[TYPE_NUM][4] = {
     { "I_propeller",      "g3d/I_propeller.brres",    "I_propeller_model",  "wait2" },
     { "I_iceflower",      "g3d/I_iceflower.brres",    "I_iceflower",        "wait2" },
     { "I_penguin",        "g3d/I_penguin.brres",      "I_penguin",          "wait2" },
-    { "I_kinoko",  "g3d/I_kinoko.brres",  "I_kinoko",      "wait2" },
+    { "I_kinoko",         "g3d/I_kinoko.brres",       "I_kinoko",           "wait2" },
     { "I_star",           "g3d/I_star.brres",         "I_star",             "wait2" },
-    { "I_hammer",         "g3d/I_fireflower.brres",   "I_fireflower",       "wait2" },
-    { "I_kinoko",  "g3d/I_kinoko.brres",  "I_kinoko",      "wait2" },
+
+    // Prevent Hammer resource crashes
+    //{ "I_hammer",         "g3d/I_fireflower.brres",   "I_fireflower",       "wait2" },
+    { "I_kinoko",         "g3d/I_kinoko.brres",       "I_kinoko",           "wait2" },
+
+    { "I_kinoko",         "g3d/I_kinoko.brres",       "I_kinoko",           "wait2" },
 };
 
 const char *daKpShop_c::ShopModel_c::sc_lakituResNames[] = {

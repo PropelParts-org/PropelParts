@@ -1,5 +1,6 @@
 #pragma once
 #include <types.h>
+#include <revolution/GX/GXTypes.h>
 #include <constants/game_constants.h>
 #include <constants/system_constants.h>
 
@@ -288,7 +289,32 @@ private:
 
     /// @brief The completion flags for each level. See ::COURSE_COMPLETION_e.
     u32 mStageCompletion[WORLD_COUNT][STAGE_COUNT];
-    bool mOtehonMenuOpen[HINT_MOVIE_COUNT]; ///< The hint movie bought status for each movie.
+
+public:
+    union {
+        bool mOtehonMenuOpen[HINT_MOVIE_COUNT]; ///< The hint movie bought status for each movie.
+
+        struct {
+            char mWorldName[32]; ///< The name of the current world.
+
+            GXColor mFileTextColors[2]; ///< The colors used by the File Select world name.
+            GXColor mFileBgColors[2]; ///< The colors used by the File Select world background.
+            GXColor mHudTextColors[2]; ///< The colors used by the HUD world name.
+
+            s16 mHudHue; ///< The hue of the HUD.
+            s8 mHudSat; ///< The saturation of the HUD.
+            s8 mHudLight; ///< The lightness of the HUD (ranging from -50 to 50)
+
+            u8 mMusicID; ///< The music track ID of the current world.
+
+            u8 mLevelInfoID; ///< The ID of the current world in the LevelInfo data.
+
+            u8 mTitleWorldNo; ///< The titlescreen world ID.
+            u8 mTitleLevelNo; ///< The titlescreen level ID.
+        };
+    };
+
+private:
     u8 mKinopioCourseNo[WORLD_COUNT]; ///< The Toad Rescue level for each world.
 
     u8 mEnemySceneNo[WORLD_COUNT][AMBUSH_ENEMY_COUNT]; ///< The subworld number for each map enemy.
@@ -304,15 +330,13 @@ private:
 
 public:
     union {
-		u8 pad[0x13]; // [Aligns the data to 32]
-		
+        u8 pad[0x13]; // [Aligns the data to 32]
+
         /// @unofficial
         struct {
-			u8 mWorldInfoIdx; ///< The current world index in the WorldInfo (for Koopatlas).
-            u16 mSpentStarCoins; ///< The number of Star Coins that have been used at a shop.
-		};
-		
-	};
+            u16 mSpentStarCoins; ///< The number of Star Coins that have been spent at shops.
+        };
+    };
     u32 mChecksum; ///< The CRC32 checksum of the above data.
 
     /// @brief The default character for each player.

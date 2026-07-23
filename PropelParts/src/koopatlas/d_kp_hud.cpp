@@ -185,8 +185,7 @@ void dKpHud_c::doInitialDisp() {
     mInitalDispComplete = true;
 
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
-    dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(save->mWorldInfoIdx);
-    mDispFooter = /*(save->newerWorldName[0] != 0) &&*/ (world->mHudHue != 2000);
+    mDispFooter = (save->mWorldName[0] != 0) && (save->mHudHue != 2000);
 
     if (!dScKoopatlas_c::m_instance->mPathManager.mIsMoving) {
         enterNode();
@@ -304,17 +303,17 @@ void dKpHud_c::controllerConnectCheck() {
 
 void dKpHud_c::setFooterInfo() {
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
-    dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(save->mWorldInfoIdx);
-    MsgRes_c *msgRes = dMessage_c::getMesRes();
 
-    const wchar_t *worldName = dScKoopatlas_c::m_instance->getKoopatlasWorldName(world->mWorldNameMsgID);
+    wchar_t worldName[32];
+    mbstowcs(worldName, save->mWorldName, 32);
+
     mpTextBoxes[WorldName]->SetString(worldName, 0);
     mpTextBoxes[WorldNameS]->SetString(worldName, 0);
 
-    mpTextBoxes[WorldName]->SetTextColor(0, world->mHudTextColors[0]);
-    mpTextBoxes[WorldName]->SetTextColor(1, world->mHudTextColors[1]);
+    mpTextBoxes[WorldName]->SetTextColor(0, save->mHudTextColors[0]);
+    mpTextBoxes[WorldName]->SetTextColor(1, save->mHudTextColors[1]);
 
-    mFooterCol.setColor(world->mHudHue%1000, world->mHudSat, world->mHudLight);
+    mFooterCol.setColor(save->mHudHue % 1000, save->mHudSat, save->mHudLight);
 
     // Figure out if stars are needed
     // Star 0: World is complete
@@ -325,7 +324,7 @@ void dKpHud_c::setFooterInfo() {
     starVisibility[0] = false;
 
     dLevelInfo_c *linfo = &dLevelInfo_c::m_instance;
-    dLevelInfo_c::entry_s *lastLevel = linfo->getEntryFromDispID(world->mLevelInfoID, world->mLastLevelID);
+    dLevelInfo_c::entry_s *lastLevel = linfo->getEntryFromDispID(save->mLevelInfoID, dKpPathManager_c::sc_lastCourse[save->mLevelInfoID]);
     if (lastLevel) {
         starVisibility[0] = (save->getCourseDataFlag(lastLevel->mWorldSlot,lastLevel->mLevelSlot) & dMj2dGame_c::GOAL_NORMAL);
     }
@@ -333,7 +332,7 @@ void dKpHud_c::setFooterInfo() {
     starVisibility[1] = true;
     starVisibility[2] = true;
 
-    dLevelInfo_c::section_s *sect = linfo->getSection(world->mLevelInfoID);
+    dLevelInfo_c::section_s *sect = linfo->getSection(save->mLevelInfoID);
 
     for (int i = 0; i < sect->mLevelCount; i++) {
         dLevelInfo_c::entry_s *entry = &sect->mLevels[i];
@@ -356,8 +355,8 @@ void dKpHud_c::setFooterInfo() {
     }
 
 #ifdef KP_HIDE_STARS_W15
-    // Newer: Disable stars for the unused Cutland map
-    if (world->mLevelInfoID == 15) {
+    // Newer-specific hardcode: Disable stars for the unused Cutland map
+    if (save->mLevelInfoID == 15) {
         starVisibility[0] = false;
         starVisibility[1] = false;
         starVisibility[2] = false;
@@ -394,9 +393,8 @@ void dKpHud_c::setHeaderInfo() {
     dLevelInfo_c::entry_s *infEntry = levelInfo->getEntryFromSlotID(mWorldNo, mCourseNo);
 #endif
 
-    u32 worldIdx = dSaveMng_c::m_instance->getSaveGame(-1)->mWorldInfoIdx;
-    dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(worldIdx);
-    mHeaderCol.setColor(world->mHudHue%1000, world->mHudSat, world->mHudLight);
+    dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
+    mHeaderCol.setColor(save->mHudHue % 1000, save->mHudSat, save->mHudLight);
 
     if (infEntry == nullptr) {
         /*const wchar_t *dummyName = getLevelName(0, 0);
@@ -417,7 +415,7 @@ void dKpHud_c::setHeaderInfo() {
 
     // Set the level name
     //const wchar_t *levelName = getLevelName(infEntry->mDisplayWorld, infEntry->mDisplayLevel);
-    const wchar_t *levelName = L"hi.";
+    const wchar_t *levelName = L"TEMP";
     //mpTextBoxes[LevelName]->SetString(levelName, 0);
     //mpTextBoxes[LevelNameS]->SetString(levelName, 0);
 

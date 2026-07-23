@@ -92,14 +92,27 @@ extern "C" FileInfo *GetFileInfo(FileInfo *out, dMj2dGame_c *save) {
 void setFileInfo(dDateFile_c *this_, dMj2dGame_c *save) {
     MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
 
+#ifdef KOOPATLAS_ENABLED
+    nw4r::lyt::Picture *Picture_00 = this_->mLayout.findPictureByName("Picture_00");
+    for (int i = 0; i < 2; i++) {
+        Picture_00->SetVtxColor(i*2, save->mFileBgColors[i]);
+        Picture_00->SetVtxColor(i*2+1, save->mFileBgColors[i]);
+    }
+
+    this_->mpTextBoxes[this_->T_worldNumber_01]->SetVtxColor(0, save->mFileTextColors[0]);
+    this_->mpTextBoxes[this_->T_worldNumber_01]->SetVtxColor(2, save->mFileTextColors[1]);
+
+    wchar_t worldName[32];
+    mbstowcs(worldName, save->mWorldName, 32);
+    this_->mpTextBoxes[this_->T_worldNumber_01]->SetString(worldName, 0);
+#else
     ulong id = save->getCurrentWorld()+1;
     if (msgRes->getMsgEntry(BMG_CATEGORY_WORLD_NAMES, id)) {
         this_->mpTextBoxes[this_->T_worldNumber_01]->setMessage(msgRes, BMG_CATEGORY_WORLD_NAMES, id, 0);
     } else {
         this_->mpTextBoxes[this_->T_worldNumber_01]->SetString(L"NO WORLD NAME", 0);
     }
-
-    // TODO: Implement file colors once WorldInfo is canned
+#endif
 
     FileInfo info;
     GetFileInfo(&info, save);

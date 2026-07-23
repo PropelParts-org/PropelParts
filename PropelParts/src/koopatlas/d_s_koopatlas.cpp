@@ -495,8 +495,7 @@ bool dScKoopatlas_c::chkMapIdleState() {
 }
 
 void dScKoopatlas_c::startMusic() {
-    u32 worldIdx = dSaveMng_c::m_instance->getSaveGame(-1)->mWorldInfoIdx;
-    int musicID = dWorldInfo_c::m_instance.getWorld(worldIdx)->mMusicID;
+    int musicID = dSaveMng_c::m_instance->getSaveGame(-1)->mMusicID;
     dKpMusic_c::m_instance->startBgmTrack(musicID);
 }
 
@@ -1215,8 +1214,7 @@ void dScKoopatlas_c::executeState_CompletionMsgWindow() {
         if (type >= dKpPathManager_c::CMP_MSG_COINS && type <= dKpPathManager_c::CMP_MSG_WORLD) {
             wchar_t nameBuffer[36];
 
-            dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(mPathManager.mCmpMsgWorldNo);
-            wcscpy(nameBuffer, getKoopatlasWorldName(world->mWorldNameMsgID));
+            wcscpy(nameBuffer, getKoopatlasWorldName(mPathManager.mCmpMsgWorldNo));
             int offs = wcslen(nameBuffer);
             nameBuffer[offs] = L'!';
 

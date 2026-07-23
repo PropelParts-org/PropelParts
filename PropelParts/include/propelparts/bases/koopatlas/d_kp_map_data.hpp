@@ -240,9 +240,9 @@ struct dKpLayer_s {
  ******************************************************************************/
 struct dKpWorldDef_s {
     const char *mpWorldName; // TODO: Repurpose for lighting data
-    GXColor fsTextColours[2];
-    GXColor fsHintColours[2];
-    GXColor hudTextColours[2];
+    GXColor mFileTextColors[2];
+    GXColor mFileBgColors[2];
+    GXColor mHudTextColors[2];
     u16 mHudHintH;
     s8 mHudHintS;
     s8 mHudHintL;

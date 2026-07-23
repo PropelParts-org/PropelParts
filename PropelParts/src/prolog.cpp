@@ -5,7 +5,6 @@
 #include <propelparts/bases/d_custom_controller.hpp>
 #include <propelparts/bases/d_debug_config.hpp>
 #include <propelparts/bases/d_level_info.hpp>
-#include <propelparts/bases/d_world_info.hpp>
 
 // Prolog hook
 // This is the equivalent of the prolog.S file from NewerSMBW
@@ -19,6 +18,5 @@ kmBranchDefCpp(0x8015bd74, NULL, bool, bool ret) {
 #ifdef LEVEL_INFO_ENABLED
     ret &= dLevelInfo_c::loadLevelInfo();
 #endif
-    ret &= dWorldInfo_c::loadWorldInfo();
     return ret;
 }

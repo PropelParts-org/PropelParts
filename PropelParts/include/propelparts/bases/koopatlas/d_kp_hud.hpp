@@ -9,7 +9,6 @@
 #include <game/mLib/m_effect.hpp>
 
 #include <propelparts/bases/koopatlas/d_kp_common.hpp>
-#include <propelparts/bases/d_world_info.hpp>
 #include <propelparts/bases/koopatlas/d_tex_map_colouriser.hpp>
 #include <propelparts/bases/d_level_info.hpp>
 

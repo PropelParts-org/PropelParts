@@ -166,6 +166,7 @@ public:
     static CompletionData_s s_cmpData;
     static u8 *sp_openPathData;
     static u8 *sp_openNodeData;
+    static const int sc_lastCourse[];
 };
 
 #endif

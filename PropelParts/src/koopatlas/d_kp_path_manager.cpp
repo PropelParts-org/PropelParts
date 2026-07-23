@@ -23,6 +23,24 @@ dKpPathManager_c::CompletionData_s dKpPathManager_c::s_cmpData;
 u8 *dKpPathManager_c::sp_openPathData;
 u8 *dKpPathManager_c::sp_openNodeData;
 
+const int dKpPathManager_c::sc_lastCourse[] = {
+    -1, // Invalid world
+    27,
+    27,
+    27,
+    27,
+    27,
+    27,
+    27,
+    25,
+    10,
+    24,
+    24,
+    21,
+    24,
+    3
+};
+
 dKpPathManager_c::~dKpPathManager_c() {
     bool isEnter8Castle = (s_cmpData.mPrevLevelID[0] == 7) && (s_cmpData.mPrevLevelID[1] == 24) && s_cmpData.mChkSavePrompt;
     if (!mIsCourseIn && !isEnter8Castle) {
@@ -1519,8 +1537,7 @@ void dKpPathManager_c::moveThroughPath(int pressedDir) {
                         if (world->mWorldID == 0) {
                             lastLevel = linfo->getEntryFromDispID(1, 27);
                         } else if (world->mWorldID != 7) {
-                            // TODO: Use lastlevel from WorldInfo
-                            //lastLevel = linfo->getEntryFromDispID(world->mWorldID-1, lastLevelIDs[world->mWorldID-1]);
+                            lastLevel = linfo->getEntryFromDispID(world->mWorldID-1, sc_lastCourse[world->mWorldID-1]);
                         } else {
                             lastLevel = linfo->getEntryFromDispID(7, 3);
                         }
@@ -1641,28 +1658,30 @@ void dKpPathManager_c::moveThroughPath(int pressedDir) {
 }
 
 void dKpPathManager_c::copyWorldDefToSave(const dKpWorldDef_s *world) {
-    OSReport("copyWorldDefToSave(): TODO!!!\n");
-    /*SaveBlock *save = GetSaveFile()->GetBlock(-1);
+    dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
 
-    strncpy(save->newerWorldName, world->name, 32);
-    save->newerWorldName[31] = 0;
-    save->newerWorldID = world->worldID;
-    save->currentMapMusic = world->trackID;
+    strncpy(save->mWorldName, world->mpWorldName, 32);
+    save->mWorldName[31] = 0;
+    save->mLevelInfoID = world->mWorldID;
+    save->mMusicID = world->mTrackID;
 
     for (int i = 0; i < 2; i++) {
-        save->fsTextColours[i] = world->fsTextColours[i];
-        save->fsHintColours[i] = world->fsHintColours[i];
-        save->hudTextColours[i] = world->hudTextColours[i];
+        save->mFileTextColors[i] = world->mFileTextColors[i];
+        save->mFileBgColors[i] = world->mFileBgColors[i];
+        save->mHudTextColors[i] = world->mHudTextColors[i];
     }
 
-    save->hudHintH = world->hudHintH;
-    save->hudHintS = world->hudHintS;
-    save->hudHintL = world->hudHintL;
+    save->mHudHue = world->mHudHintH;
+    save->mHudSat = world->mHudHintS;
+    save->mHudLight = world->mHudHintL;
 
-    if (save->titleScreenWorld == 3 && save->titleScreenLevel == 10)
+    // If we have the 100% Titlescreen, never update it
+    if ((save->mTitleWorldNo == GAME_COMPLETE_TITLE_WORLD-1) && (save->mTitleLevelNo == GAME_COMPLETE_TITLE_STAGE-1)) {
         return;
-    save->titleScreenWorld = world->titleScreenWorld;
-    save->titleScreenLevel = world->titleScreenLevel;*/
+    }
+
+    save->mTitleWorldNo = world->mTitleWorldNo;
+    save->mTitleLevelNo = world->mTitleLevelNo;
 }
 
 void dKpPathManager_c::activatePoint() {

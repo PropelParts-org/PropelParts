@@ -19,7 +19,6 @@
 #include <game/snd/snd_audio_mgr.hpp>
 
 #include <propelparts/bases/d_level_info.hpp>
-#include <propelparts/bases/d_world_info.hpp>
 #include <propelparts/bases/koopatlas/d_kp_common.hpp>
 #include <propelparts/bases/koopatlas/d_kp_director.hpp>
 #include <propelparts/bases/koopatlas/d_kp_hud.hpp>

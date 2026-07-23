@@ -24,14 +24,15 @@
 
 // These require LevelInfo to be enabled
 //#define NEWER_PREGAME
-//#define NEWER_FILE_SELECT
+#define NEWER_FILE_SELECT
 //#define NEWER_PAUSE_MENU
+
 // Only affects retail World Maps
 //#define NEWER_STAR_COINS_MENU
 //#define NEWER_MAP_HUD
 
 // See 'koopatlas_config.h'
-//#define KOOPATLAS_ENABLED
+#define KOOPATLAS_ENABLED
 
 #define MARIO_MDL_CLASS dMarioMdl_c
 #define LUIGI_MDL_CLASS dMarioMdl_c
