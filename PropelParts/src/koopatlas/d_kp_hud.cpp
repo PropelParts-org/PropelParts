@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#if defined(KOOPATLAS_DEV_ENABLED) || defined(NEWER_MAP_HUD)
+#if defined(KOOPATLAS_ENABLED) || defined(NEWER_MAP_HUD)
 #include <constants/message_list.h>
 #include <game/bases/d_a_player_manager.hpp>
 #include <game/bases/d_game_com.hpp>
@@ -11,7 +11,6 @@
 #include <propelparts/bases/koopatlas/d_s_koopatlas.hpp>
 #include <propelparts/bases/koopatlas/d_kp_hud.hpp>
 #include <propelparts/constants/message_list.h>
-#include <propelparts/level_info_utils.hpp>
 
 dKpHud_c *dKpHud_c::m_instance = nullptr;
 
@@ -194,7 +193,7 @@ void dKpHud_c::doInitialDisp() {
     }
 }
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 void dKpHud_c::enterNode(dKpNode_s *node) {
     if (node == nullptr) {
         node = dScKoopatlas_c::m_instance->mPathManager.mpCurrentNode;
@@ -308,7 +307,7 @@ void dKpHud_c::setFooterInfo() {
     dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(save->mWorldInfoIdx);
     MsgRes_c *msgRes = dMessage_c::getMesRes();
 
-    const wchar_t *worldName = getKoopatlasWorldName(world->mWorldNameMsgID);
+    const wchar_t *worldName = dScKoopatlas_c::m_instance->getKoopatlasWorldName(world->mWorldNameMsgID);
     mpTextBoxes[WorldName]->SetString(worldName, 0);
     mpTextBoxes[WorldNameS]->SetString(worldName, 0);
 
@@ -389,7 +388,7 @@ void dKpHud_c::setFooterInfo() {
 
 void dKpHud_c::setHeaderInfo() {
     dLevelInfo_c *levelInfo = &dLevelInfo_c::m_instance;
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
     dLevelInfo_c::entry_s *infEntry = levelInfo->getEntryFromSlotID(mpHeaderNode->mLevelNum[0]-1, mpHeaderNode->mLevelNum[1]-1);
 #else
     dLevelInfo_c::entry_s *infEntry = levelInfo->getEntryFromSlotID(mWorldNo, mCourseNo);
@@ -400,12 +399,12 @@ void dKpHud_c::setHeaderInfo() {
     mHeaderCol.setColor(world->mHudHue%1000, world->mHudSat, world->mHudLight);
 
     if (infEntry == nullptr) {
-        const wchar_t *dummyName = getLevelName(0, 0);
+        /*const wchar_t *dummyName = getLevelName(0, 0);
         mpTextBoxes[LevelName]->SetString(dummyName, 0);
         mpTextBoxes[LevelNameS]->SetString(dummyName, 0);
 
         mpTextBoxes[LevelNumber]->SetString(L"?-?", 0);
-        mpTextBoxes[LevelNumberS]->SetString(L"?-?", 0);
+        mpTextBoxes[LevelNumberS]->SetString(L"?-?", 0);*/
 
         // Hide exit flags and Star Coins
         for (int i = 0; i < 5; i++) {
@@ -417,12 +416,13 @@ void dKpHud_c::setHeaderInfo() {
     MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
 
     // Set the level name
-    const wchar_t *levelName = getLevelName(infEntry->mDisplayWorld, infEntry->mDisplayLevel);
-    mpTextBoxes[LevelName]->SetString(levelName, 0);
-    mpTextBoxes[LevelNameS]->SetString(levelName, 0);
+    //const wchar_t *levelName = getLevelName(infEntry->mDisplayWorld, infEntry->mDisplayLevel);
+    const wchar_t *levelName = L"hi.";
+    //mpTextBoxes[LevelName]->SetString(levelName, 0);
+    //mpTextBoxes[LevelNameS]->SetString(levelName, 0);
 
     // Set the level number
-    ulong number = getLevelNumberIdx(infEntry->mDisplayWorld, infEntry->mDisplayLevel, infEntry->mWorldSlot, infEntry->mLevelSlot, false);
+    //ulong number = getLevelNumberIdx(infEntry->mDisplayWorld, infEntry->mDisplayLevel, infEntry->mWorldSlot, infEntry->mLevelSlot, false);
     // TODO: Why does this crash the game?
     //mpTextBoxes[LevelNumber]->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
     //mpTextBoxes[LevelNumberS]->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);

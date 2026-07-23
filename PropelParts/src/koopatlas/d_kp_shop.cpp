@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <constants/sound_list.h>
 #include <game/bases/d_a_player_manager.hpp>
 #include <game/bases/d_game_com.hpp>
@@ -13,7 +13,6 @@
 #include <propelparts/bases/koopatlas/d_kp_shop.hpp>
 #include <propelparts/constants/koopatlas_constants.h>
 #include <propelparts/constants/message_list.h>
-#include <propelparts/level_info_utils.hpp>
 
 STATE_DEFINE(daKpShop_c, Hidden);
 STATE_DEFINE(daKpShop_c, ShowWait);
@@ -191,9 +190,9 @@ void daKpShop_c::loadInfo() {
     // Set the shop title
     dLevelInfo_c::entry_s *entry = dLevelInfo_c::m_instance.getEntryFromSlotID(mShopIdx, COURSE_ID_SHOP-1);
     if (entry != nullptr) {
-        const wchar_t *levelName = getLevelName(entry->mDisplayWorld, entry->mDisplayLevel);
-        mpTextBoxes[Title]->SetString(levelName, 0);
-        mpTextBoxes[TitleShadow]->SetString(levelName, 0);
+        //const wchar_t *levelName = getLevelName(entry->mDisplayWorld, entry->mDisplayLevel);
+        //mpTextBoxes[Title]->SetString(levelName, 0);
+        //mpTextBoxes[TitleShadow]->SetString(levelName, 0);
     }
 
     UnspentCoinSet();

@@ -1,6 +1,6 @@
 #include <propelparts/game_config.h>
 
-#if defined(KOOPATLAS_DEV_ENABLED) || defined(NEWER_MAP_HUD)
+#if defined(KOOPATLAS_ENABLED) || defined(NEWER_MAP_HUD)
 #include <propelparts/bases/koopatlas/d_kp_common.hpp>
 #include <propelparts/bases/koopatlas/d_tex_map_colouriser.hpp>
 #include <game/mLib/m_heap.hpp>

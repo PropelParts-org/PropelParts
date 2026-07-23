@@ -3,7 +3,7 @@
 
 // See '/constants/koopatlas_constants.h' for additional customization
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 
 // DEBUGGING MODULES
     #define KP_MAP_REPORT           // Prints general map info (layouts, texmaps, general data) to the log
@@ -26,8 +26,6 @@
     //#define KP_MAP_DOODAD_REPORT    // Prints doodad info to the log
 
 // TOGGLABLE FEATURES
-    // Enables a debug menu which can be displayed by pressing (UNDETERMINED) at any time
-    //#define KP_ENABLE_DEBUG_MENU
 
     // Skips drawing the topmost layer in Map 0 after the first show of the map
     // Used in Newer for the initial fade-in clouds in W1

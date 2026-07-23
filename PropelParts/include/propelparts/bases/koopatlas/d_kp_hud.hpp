@@ -1,7 +1,7 @@
 #pragma once
 #include <propelparts/game_config.h>
 
-#if defined(KOOPATLAS_DEV_ENABLED) || defined(NEWER_MAP_HUD)
+#if defined(KOOPATLAS_ENABLED) || defined(NEWER_MAP_HUD)
 #include <propelparts/koopatlas_config.h>
 
 #include <game/bases/d_base.hpp>
@@ -11,8 +11,9 @@
 #include <propelparts/bases/koopatlas/d_kp_common.hpp>
 #include <propelparts/bases/d_world_info.hpp>
 #include <propelparts/bases/koopatlas/d_tex_map_colouriser.hpp>
+#include <propelparts/bases/d_level_info.hpp>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <propelparts/bases/koopatlas/d_kp_map_data.hpp>
 #endif
 
@@ -69,7 +70,7 @@ public:
 
     void doInitialDisp();
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
     void enterNode(dKpNode_s *node = nullptr);
 #else
     void enterNode(int world, int course);
@@ -106,7 +107,7 @@ private:
     mEf::levelEffect_c mStarEffects[3];
     mEf::levelEffect_c mStarEffects2[3];
     dTexMapColouriser_c mHeaderCol, mFooterCol;
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
     dKpNode_s *mpHeaderNode;
 #else
     int mWorldNo;

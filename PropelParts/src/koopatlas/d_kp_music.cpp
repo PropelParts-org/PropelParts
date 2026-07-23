@@ -1,6 +1,6 @@
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 
 #include <constants/sound_list.h>
 #include <game/snd/snd_audio_mgr.hpp>

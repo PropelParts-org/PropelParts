@@ -1,7 +1,7 @@
 #pragma once
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <propelparts/koopatlas_config.h>
 
 #include <game/bases/d_base.hpp>

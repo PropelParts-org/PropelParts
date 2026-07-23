@@ -81,6 +81,8 @@ public:
     virtual int draw();
     virtual int doDelete();
 
+    inline LytBase_c *GetLayout() {return &mLayout;};
+
 private:
     void setWorldCourseWrite(); ///< Sets the world number and course number / icon.
     void TitleDispChkWrite(); ///< Sets the visibility of the panes based on the game mode.

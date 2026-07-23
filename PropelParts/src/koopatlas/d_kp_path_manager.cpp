@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <propelparts/bases/koopatlas/d_kp_path_manager.hpp>
 
 #include <constants/sound_list.h>

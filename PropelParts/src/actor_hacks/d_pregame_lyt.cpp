@@ -1,23 +1,16 @@
 #include <propelparts/game_config.h>
 
-#ifdef LEVEL_INFO_UTILS_ENABLED
+#ifdef NEWER_PREGAME
 #include <kamek.h>
 
-#include <constants/message_list.h>
 #include <game/bases/d_pregame_lyt.hpp>
 #include <game/bases/d_info.hpp>
-#include <propelparts/constants/message_list.h>
 #include <game/mLib/m_heap.hpp>
 #include <lib/revolution/TPL.h>
 #include <propelparts/constants/message_list.h>
 #include <lib/egg/core/eggMsgRes.h>
 #include <game/bases/d_s_world_map_static.hpp>
 #include <game/bases/d_wm_lib.hpp>
-#include <propelparts/level_info_utils.hpp>
-
-#ifdef NEWER_PREGAME
-#include <game/mLib/m_heap.hpp>
-#include <lib/revolution/TPL.h>
 
 // Change layout name
 const char *newerPregameName = "preGame_newer/preGame.arc";
@@ -56,21 +49,65 @@ kmWritePointer(0x80B88874, "P_bat_00");
 kmWritePointer(0x80B88878, "P_bat_00");
 kmWritePointer(0x80B888D4, "P_bat_00");
 
+ulong pregameGetLevelNumberID(u8 world, u8 level) {
+    dInfo_c::m_instance->mDisplayCourseWorld = world + 1;
+    dInfo_c::m_instance->mDisplayCourseNum = level + 1;
+    switch (level) {
+        case 20: // Ghost house
+            return 2;
+        case 21:  // Tower
+        case 22:
+            return 3;
+        case 23: // Castle
+        case 24:
+            if (world == 7) {
+                return 5;
+            }
+            return 4;
+        case 25: // Toad houses
+        case 26:
+        case 27:
+        case 28:
+        case 29:
+        case 30:
+        case 31:
+            if (dScWMap_c::IsCourseType(world, level, dScWMap_c::COURSE_TYPE_KINOKO_HOUSE_1UP)) {
+                return 6; // 1-up house
+            } else if (dScWMap_c::IsCourseType(world, level, dScWMap_c::COURSE_TYPE_KINOKO_HOUSE_STAR)) {
+                return 7; // Star house
+            } else {
+                return 8; // Red house
+            }
+        case 32: // Ambush
+        case 33:
+        case 34:
+            return 9;
+        case 35: // Cannon
+            return 0xA;
+        case 36: // Treasure ship (unused)
+            return 0xB;
+        case 37: // Airship
+            if (dWmLib::isKoopaShipAnchor())
+                return 0xC;
+            return 0xB;
+        case 38: // Start point
+            if (dWmLib::isStartPointKinokoHouseStar()) {
+                return 7; // Star house
+            } else if (dWmLib::isStartPointKinokoHouseRed) {
+                return 8; // Red house
+            } else {
+                return 6; // 1-up house
+            }
+        case 40: // Peach's castle
+            return 0xD;
+        default: // Normal levels
+            return 1;
+    }
+}
+
 void *pregameTPLbuffer = nullptr;
-#endif
 
 kmBranchDefCpp(0x80B6BDD0, NULL, void, dPreGameLyt_c *this_) {
-    MsgRes_c *msgRes = dMessage_c::getMesRes();
-    MsgRes_c *newMsgRes = dMessage_c::getPropelMsgRes();
-    dLevelInfo_c::entry_s *level = dLevelInfo_c::m_instance.getEntryFromSlotID(dInfo_c::m_startGameInfo.mWorld1, dInfo_c::m_startGameInfo.mLevel1);
-
-    int bgPaneIdx = dInfo_c::m_startGameInfo.mWorld1;
-    if (bgPaneIdx > 8)
-        bgPaneIdx = 9;
-
-    this_->mpPicturePanes[dPreGameLyt_c::P_W1_00+bgPaneIdx]->SetVisible(true);
-
-#ifdef NEWER_PREGAME
     LytTextBox_c
         *LevelNumShadow, *LevelNum,
         *LevelNameShadow, *LevelName;
@@ -80,54 +117,34 @@ kmBranchDefCpp(0x80B6BDD0, NULL, void, dPreGameLyt_c *this_) {
     LevelNameShadow = (LytTextBox_c *)this_->mLayout.findTextBoxByName("LevelNameShadow");
     LevelName = (LytTextBox_c *)this_->mLayout.findTextBoxByName("LevelName");
 
-    if (level) {
-        const wchar_t *name = getLevelName(level->mDisplayWorld, level->mDisplayLevel);
-        LevelNameShadow->SetString(name, 0);
-        LevelName->SetString(name, 0);
-
-        // Grab the level number
-        ulong number = getLevelNumberIdx(level->mDisplayWorld, level->mDisplayLevel, level->mWorldSlot, level->mLevelSlot, false);
-        LevelNumShadow->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
-        LevelNum->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+    MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
+    // Grab names based on world + level number
+    ulong category = BMG_CATEGORY_LEVEL_NAMES + dInfo_c::m_startGameInfo.mWorld1+1;
+    ulong id = dInfo_c::m_startGameInfo.mLevel1+1;
+    
+    if (msgRes->getMsgEntry(category, id)) {
+        LevelNameShadow->setMessage(msgRes, category, id, 0);
+        LevelName->setMessage(msgRes, category, id, 0);
     } else {
-        LevelNumShadow->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
-        LevelNum->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_NAMES, 1, 0);
-        LevelNameShadow->SetString(getLevelName(0, 0), 0);
-        LevelName->SetString(getLevelName(0, 0), 0);
+        LevelNameShadow->SetString(L"NO LEVEL NAME", 0);
+        LevelName->SetString(L"NO LEVEL NAME", 0);
     }
-#else // Retail Pre Game
-    OSReport("what the\n");
-    this_->mpTextBoxes[dPreGameLyt_c::T_world_00]->setMessage(msgRes, BMG_CATEGORY_PRE_GAME, MSG_PRE_GAME_WORLD, 0);
 
-    if (level) {
-        OSReport("???\n");
-        const wchar_t *worldNum = getWorldNumber(level->mDisplayWorld);
-        OSReport("h\n");
-        ulong number = getLevelNumberIdx(level->mDisplayWorld, level->mDisplayLevel, level->mWorldSlot, level->mLevelSlot, false);
+    ulong number = pregameGetLevelNumberID(dInfo_c::m_startGameInfo.mWorld1, dInfo_c::m_startGameInfo.mLevel1);
 
-        this_->mpTextBoxes[dPreGameLyt_c::T_worldNum_00]->SetString(worldNum, 0);
-        if (level->mDisplayLevel > 19) {
-            this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->SetVisible(true);
-            this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetVisible(false);
-            OSReport("1\n");
-            this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
-        } else {
-            this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->SetVisible(false);
-            this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetVisible(true);
-            OSReport("2\n");
-            this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->setMessage(newMsgRes, BMG_CATEGORY_LEVEL_ICONS, number, 0);
-        }
+    if (msgRes->getMsgEntry(BMG_CATEGORY_LEVEL_NAMES, number)) {
+        LevelNumShadow->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
+        LevelNum->setMessage(msgRes, BMG_CATEGORY_LEVEL_NAMES, number, 0);
     } else {
-        this_->mpTextBoxes[dPreGameLyt_c::T_pictureFont_00]->SetVisible(false);
-        this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetVisible(true);
-        OSReport("3\n");
-        this_->mpTextBoxes[dPreGameLyt_c::T_worldNum_00]->SetString(getWorldNumber(0), 0);
-        OSReport("4\n");
-        this_->mpTextBoxes[dPreGameLyt_c::T_corseNum_00]->SetString(getLevelNumber(0), 0);
+        char worldNumString[13];
+        sprintf(worldNumString, "World %d-%d\n", dInfo_c::m_instance->mDisplayCourseWorld, dInfo_c::m_instance->mDisplayCourseNum);
+        size_t newsize = strlen(worldNumString) + 1;
+        wchar_t *wcWorldNumString = new wchar_t[newsize];
+        mbstowcs(wcWorldNumString, worldNumString, newsize);
+        LevelNumShadow->SetString(wcWorldNumString, 0);
+        LevelNum->SetString(wcWorldNumString, 0);
     }
-#endif
 
-#ifdef NEWER_PREGAME
     nw4r::lyt::Picture *LevelSample;
     LevelSample = this_->mLayout.findPictureByName("LevelSample");
 
@@ -160,10 +177,8 @@ kmBranchDefCpp(0x80B6BDD0, NULL, void, dPreGameLyt_c *this_) {
 
     // Unload file
     DVDClose(&dvdHandle);
-#endif
 }
 
-#ifdef NEWER_PREGAME
 // Remove the tpl from memory
 kmBranchDefCpp(0x80b6c580, NULL, bool, dPreGameLyt_c *this_) {
     if (pregameTPLbuffer != nullptr) {
@@ -172,6 +187,5 @@ kmBranchDefCpp(0x80b6c580, NULL, bool, dPreGameLyt_c *this_) {
     }
     return this_->mLayout.doDelete();
 }
-#endif
 
 #endif

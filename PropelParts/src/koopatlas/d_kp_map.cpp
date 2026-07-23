@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <game/bases/d_res_mng.hpp>
 #include <game/cLib/c_counter.hpp>
 #include <lib/MSL/math.h>

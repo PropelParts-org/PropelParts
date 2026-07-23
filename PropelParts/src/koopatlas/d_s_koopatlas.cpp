@@ -1,6 +1,6 @@
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <kamek.h>
 
 #include <propelparts/bases/koopatlas/d_s_koopatlas.hpp>
@@ -8,7 +8,6 @@
 #include <propelparts/bases/koopatlas/d_kp_camera.hpp>
 #include <propelparts/bases/koopatlas/d_a_kp_player.hpp>
 #include <propelparts/constants/message_list.h>
-#include <propelparts/level_info_utils.hpp>
 
 #include <constants/sound_list.h>
 #include <game/bases/d_3d.hpp>
@@ -681,6 +680,18 @@ const char *dScKoopatlas_c::getMapNameForIndex(int index) {
 
 int dScKoopatlas_c::getIndexForMapName(const char *name) {
     return ((int)iterateMapList(&_cb_searchName, (u32)name, 0)) - 1;
+}
+
+const wchar_t *dScKoopatlas_c::getKoopatlasWorldName(int idx) {
+    // TODO: This crashes. Why?
+    /*MsgRes_c *msgRes = dMessage_c::getPropelMsgRes();
+    if (msgRes->getMsgEntry(BMG_CATEGORY_KP_WORLD_NAMES, idx) != nullptr) {
+        return dMessage_c::getMsg(BMG_CATEGORY_KP_WORLD_NAMES, idx);
+    } else {
+        return L"NO WORLD NAME";
+    }*/
+
+    return L"NO WORLD NAME";
 }
 
 /**********************************************************************/

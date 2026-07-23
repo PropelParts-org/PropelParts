@@ -1,7 +1,7 @@
 #pragma once
 #include <propelparts/game_config.h>
 
-#if defined(KOOPATLAS_DEV_ENABLED) || defined(NEWER_STAR_COINS_MENU)
+#if defined(KOOPATLAS_ENABLED) || defined(NEWER_STAR_COINS_MENU)
 #include <propelparts/koopatlas_config.h>
 
 #include <game/bases/d_base.hpp>
@@ -11,6 +11,7 @@
 #include <game/snd/snd_audio_mgr.hpp>
 #include <propelparts/bases/d_world_info.hpp>
 #include <propelparts/bases/koopatlas/d_kp_common.hpp>
+#include <propelparts/bases/d_level_info.hpp>
 
 class dKpStarCoinMenu_c : public dBase_c {
 public:
@@ -96,6 +97,7 @@ public:
     bool mRightArrowActive;
     bool mWillExit;
 
+    static dKpStarCoinMenu_c *m_instance;
     static const int sc_secretCode[];
     static const int sc_secretKeys;
 };

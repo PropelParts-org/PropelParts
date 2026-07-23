@@ -1,7 +1,7 @@
 #pragma once
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <propelparts/koopatlas_config.h>
 
 #include <game/bases/d_continue.hpp>
@@ -84,6 +84,8 @@ public:
     u32 iterateMapList(u32(*callback)(u32,const char *,int,int), u32 userData, int *ptrIndex = 0);
     const char *getMapNameForIndex(int index);
     int getIndexForMapName(const char *name);
+
+    const wchar_t *getKoopatlasWorldName(int idx);
 
     STATE_FUNC_DECLARE(dScKoopatlas_c, SceneChangeWait);
     STATE_FUNC_DECLARE(dScKoopatlas_c, ContinueWait);

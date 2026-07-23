@@ -38,7 +38,7 @@ Planned Features/TODO:
 - Map View (togglable)
 - World Select (rsm's, not retail)
 - Retail styled HUD (maybe, togglable)
-- CLR anims for Course Nodes
+- CLR anims for Course Nodes (allow for retail AND kp to use same model)
 - Start Nodes (implement same way as the improved level nodes)
 - Freeze map when displaying a warning screen
 - Make player shrink when opening a menu

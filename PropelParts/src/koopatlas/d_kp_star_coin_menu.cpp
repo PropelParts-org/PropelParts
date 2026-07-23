@@ -1,14 +1,15 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#if defined(KOOPATLAS_DEV_ENABLED) || defined(NEWER_STAR_COINS_MENU)
+#if defined(KOOPATLAS_ENABLED) || defined(NEWER_STAR_COINS_MENU)
 #include <constants/sound_list.h>
 #include <game/bases/d_game_com.hpp>
 #include <game/bases/d_game_key.hpp>
 #include <game/bases/d_save_mng.hpp>
 #include <propelparts/bases/koopatlas/d_kp_star_coin_menu.hpp>
 #include <propelparts/constants/message_list.h>
-#include <propelparts/level_info_utils.hpp>
+
+dKpStarCoinMenu_c *dKpStarCoinMenu_c::m_instance = nullptr;
 
 const int dKpStarCoinMenu_c::sc_secretCode[] = {
     WPAD_BUTTON_RIGHT,
@@ -33,7 +34,9 @@ static bool enableDebugMode;
 static u8 isReplayEnabled;
 
 dKpStarCoinMenu_c *dKpStarCoinMenu_c_classInit() {
-    return new dKpStarCoinMenu_c;
+    dKpStarCoinMenu_c *c = new dKpStarCoinMenu_c;
+    dKpStarCoinMenu_c::m_instance = c;
+    return c;
 }
 
 // Replace COLLECTION_COIN actor
@@ -237,7 +240,7 @@ void dKpStarCoinMenu_c::loadMenuInfo() {
     mOpenWorldNum = 0;
 
     dMj2dGame_c *save = dSaveMng_c::m_instance->getSaveGame(-1);
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
     dWorldInfo_c::world_s *world = dWorldInfo_c::m_instance.getWorld(save->mWorldInfoIdx);
     int wantedSection = world->mLevelInfoID-1;
 #else
@@ -363,8 +366,8 @@ void dKpStarCoinMenu_c::loadSectionInfo() {
     }
 
     // Set the names
-    const wchar_t *leftName = getWorldName(mCurrWorld);
-    mpTextBoxes[LeftTitle]->SetString(leftName, 0);
+    //const wchar_t *leftName = getWorldName(mCurrWorld);
+    //mpTextBoxes[LeftTitle]->SetString(leftName, 0);
     //if (names[1] != nullptr) {
     //	WriteAsciiToTextBox(RightTitle, linfo->getLevelName(names[1]));
     //}
@@ -401,8 +404,8 @@ void dKpStarCoinMenu_c::loadSectionInfo() {
             }
 
             mpLevelNames[col][row]->SetVisible(true);
-            const wchar_t *levelName = getLevelName(level->mDisplayWorld, level->mDisplayLevel);
-            mpLevelNames[col][row]->SetString(levelName, 0);
+            //const wchar_t *levelName = getLevelName(level->mDisplayWorld, level->mDisplayLevel);
+            //mpLevelNames[col][row]->SetString(levelName, 0);
         }
     }
 

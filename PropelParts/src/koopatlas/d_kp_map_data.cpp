@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <propelparts/bases/koopatlas/d_kp_map_data.hpp>
 
 #include <game/mLib/m_heap.hpp>

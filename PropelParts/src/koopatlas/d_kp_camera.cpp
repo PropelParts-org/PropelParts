@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <propelparts/game_config.h>
 
-#ifdef KOOPATLAS_DEV_ENABLED
+#ifdef KOOPATLAS_ENABLED
 #include <game/bases/d_screen.hpp>
 #include <game/bases/d_game_com.hpp>
 #include <game/mLib/m_3d.hpp>

@@ -1,7 +1,7 @@
 #pragma once
 #include <propelparts/game_config.h>
 
-#if defined(KOOPATLAS_DEV_ENABLED) || defined(NEWER_MAP_HUD)
+#if defined(KOOPATLAS_ENABLED) || defined(NEWER_MAP_HUD)
 #include <lib/nw4r/lyt/lyt_texMap.h>
 
 // Colourises an IA8 texture
