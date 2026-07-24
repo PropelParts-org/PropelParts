@@ -90,5 +90,3 @@ MsgRes_c *dMessage_c::getPropelMsgRes() {
 const wchar_t *dMessage_c::getPropelMsg(ulong cat, ulong msg) {
     return l_dMessage_obj.mpPropelMsgRes->getMsg(cat, msg);
 }
-
-// TODO: Allow LytBase_c:TPaneNameRegister() [800C9010] to use whatever BMG it wants
