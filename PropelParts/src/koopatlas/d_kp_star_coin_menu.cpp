@@ -109,7 +109,6 @@ int dKpStarCoinMenu_c::create() {
         "CollectedTitle",
         "UnspentTitle",
         "BtnWorldSelText",
-        "BtnBackText",
         "EarnedCoinsTitle"
     };
 
@@ -118,7 +117,6 @@ int dKpStarCoinMenu_c::create() {
         0x11,
         0x12,
         0x13,
-        0x14,
         0x15
     };
 
@@ -126,7 +124,12 @@ int dKpStarCoinMenu_c::create() {
     mLayout.GroupRegister(GROUP_NAME_DT, ANIME_INDEX_TBL, ARRAY_SIZE(GROUP_NAME_DT));
     mLayout.TPaneRegister(T_PANE_NAME_TBL, mpTextBoxes, ARRAY_SIZE(T_PANE_NAME_TBL));
     mLayout.PPaneRegister(P_PANE_NAME_TBL, mpPicturePanes, ARRAY_SIZE(P_PANE_NAME_TBL));
-    //mLayout.TPaneNameRegister(T_PANE_FIXED_NAME_TBL, MESSAGE_DATA_TBL, BMG_CATEGORY_KOOPATLAS, ARRAY_SIZE(T_PANE_FIXED_NAME_TBL));
+    mLayout.TPaneNameRegister2(T_PANE_FIXED_NAME_TBL, MESSAGE_DATA_TBL, BMG_CATEGORY_KOOPATLAS, ARRAY_SIZE(T_PANE_FIXED_NAME_TBL));
+
+    MsgRes_c *msgRes = dMessage_c::getMesRes();
+    LytTextBox_c *BtnBackText = mLayout.findTextBox("BtnBackText");
+    BtnBackText->setMessage(msgRes, BMG_CATEGORY_WORLD_MAP, 0x1D, 0);
+
     mLayout.AllAnimeEndSetup();
 
     mpRootPane->SetVisible(false);
