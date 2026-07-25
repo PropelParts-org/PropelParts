@@ -63,8 +63,8 @@ int daKpPlayer_c::execute() {
         dScKoopatlas_c::m_instance->mPathManager.execute();
     }
 
-    calcMdl();
     mpPyMdlMng->play();
+    calcMdl();
     //mTexPats[((dPlayerMdl_c*)mpPyMdlMng->mpMdl)->mModelIdx].play();
 
     if (dScKoopatlas_c::m_instance->chkMapIdleState()) {
