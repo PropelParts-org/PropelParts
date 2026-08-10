@@ -130,7 +130,8 @@ struct sMapActorData {
 
 /// @unofficial
 struct sBlock8Data {
-    u8 mPad[4];
+    u16 mMapActorID;
+    u8 mPad[2];
 };
 
 struct sRangePosSize {

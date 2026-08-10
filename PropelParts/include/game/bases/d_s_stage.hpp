@@ -46,12 +46,20 @@ public:
     static dScStage_c *getInstance() { return m_instance; }
     static NOINLINE Exit_e getExitMode() { return m_exitMode; }
 
+    static void addUnitTexArcList(char *);
+    static void addObjectArcList(const char *);
+
     static float getLoopPosX(float x);
     static u32 m_exeFrame;
     static int m_loopType;
     static PLAYER_TYPE_e mCollectionCoin[STAR_COIN_COUNT];
 
     static const char mCdArcName[];
+    static const char *m_object_res_list[200];
+    static const char *m_unit_res_list[16];
+
+    static int m_object_res_num;
+    static int m_unit_res_num;
 
     static bool m_isCourseOut; ///< Whether the game is transitioning from a stage scene to a non-stage scene.
     static bool m_KoopaJrEscape;
