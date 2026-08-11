@@ -1,3 +1,5 @@
+getJumpAnmName__12dPyMdlBase_cFiPci=0x800d6930
+
 __dt__23daEnBlockHatenaPlayer_cFv=0x809C3b90
 create__23daEnBlockHatenaPlayer_cFv=0x809C2ED0
 doDelete__23daEnBlockHatenaPlayer_cFv=0x809C33B0

@@ -5,25 +5,25 @@
 
 #include <constants/game_constants.h>
 
-class dPlayerMdl_c : public dPyMdlBase_c {
+class dPlayerMdlCustom_c : public dPyMdlBase_c {
 public:
     class nodeCallback_c : public m3d::mdl_c::callback_c {
     public:
-        nodeCallback_c(dPlayerMdl_c *owner) : mpOwner(owner) {}
+        nodeCallback_c(dPlayerMdlCustom_c *owner) : mpOwner(owner) {}
         ~nodeCallback_c() override {}
         void timingA(ulong nodeId, nw4r::g3d::ChrAnmResult *anmRes, nw4r::g3d::ResMdl resMdl) override;
         void timingB(ulong nodeId, nw4r::g3d::WorldMtxManip *manip, nw4r::g3d::ResMdl resMdl) override;
 
-        dPlayerMdl_c *mpOwner;
+        dPlayerMdlCustom_c *mpOwner;
     };
     class nodeCallbackPLH_c : public m3d::mdl_c::callback_c {
     public:
-        nodeCallbackPLH_c(dPlayerMdl_c *owner) : mpOwner(owner) {}
+        nodeCallbackPLH_c(dPlayerMdlCustom_c *owner) : mpOwner(owner) {}
         ~nodeCallbackPLH_c() override {}
         void timingA(ulong nodeId, nw4r::g3d::ChrAnmResult *anmRes, nw4r::g3d::ResMdl resMdl) override;
         void timingB(ulong nodeId, nw4r::g3d::WorldMtxManip *manip, nw4r::g3d::ResMdl resMdl) override;
 
-        dPlayerMdl_c *mpOwner;
+        dPlayerMdlCustom_c *mpOwner;
     };
 
     class mdl_inf_c {
@@ -45,6 +45,7 @@ public:
         MODEL_NAME_SMALL,
         MODEL_NAME_PROPELLER,
         MODEL_NAME_PENGUIN,
+        MODEL_NAME_HAMMER,
         MODEL_NAME_COUNT
     };
 
@@ -57,8 +58,8 @@ public:
         float m_28[MODEL_NAME_COUNT];
     };
 
-    dPlayerMdl_c(u8);
-    ~dPlayerMdl_c() override;
+    dPlayerMdlCustom_c(u8);
+    ~dPlayerMdlCustom_c() override;
     int getFaceJointIdx() const override { return m_77c; }
     void createModel() override;
     void initialize() override;
@@ -113,12 +114,13 @@ public:
     nw4r::g3d::ResFile m_214;
     mEf::levelEffect_c mLevelEf1;
     mEf::levelEffect_c mLevelEf2;
-    mdl_inf_c mInfo[PLAYER_MODE_COUNT];
+    mdl_inf_c mInfo[MODEL_NAME_COUNT];
     m3d::anmTexPat_c mTexAnm1;
     m3d::anmMatClr_c mMatClrAnm1;
     m3d::anmTexPat_c mTexAnm2;
     m3d::anmTexPat_c mTexAnmPropeller;
     m3d::anmTexPat_c mTexAnmPenguin;
+    m3d::anmTexPat_c mTexAnmHammer;
     m3d::anmMatClr_c mMatClrAnm2;
     PlayerMode_e mPyPlayerMode;
     PlayerMode_e mOtherPlayerMode;
@@ -130,7 +132,7 @@ public:
     mVec3_c mMotionShareScale;
     nodeCallback_c mCallback;
     nodeCallbackPLH_c mCallbackPLH;
-    other_inf_s mLegLengths[2][PLAYER_MODE_COUNT];
+    other_inf_s mLegLengths[2][MODEL_NAME_COUNT];
 
     static const int scPropelRollBaseSpeed;
     static const TexAnmData_s scTexAnmData[TEX_ANM_COUNT];

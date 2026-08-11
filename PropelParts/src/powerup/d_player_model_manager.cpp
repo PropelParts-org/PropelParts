@@ -28,3 +28,6 @@ kmCallDefAsm(0x800d7064) {
 	add r7, r8, r0
 	blr
 }
+
+// stupid fucking test hack
+kmWrite32(0x800d56a0, 0x3880ffff);

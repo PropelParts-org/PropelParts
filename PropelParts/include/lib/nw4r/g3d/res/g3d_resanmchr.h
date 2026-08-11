@@ -45,6 +45,8 @@ struct ChrAnmResult {
     math::MTX34 rt;  // at 0x1C
 
     void GetScale(math::VEC3* pScale) const;
+    void SetRotateDeg(const math::VEC3* pRotate);
+    void SetTranslate(const math::VEC3* pTrans);
     bool GetRotateDeg(math::VEC3* pRotate) const;
     void GetTranslate(math::VEC3* pTrans) const;
     void GetRotTrans(math::MTX34* pRotTrans) const;
@@ -266,6 +268,10 @@ public:
     }
 
     s32 GetNodeAnmIndex(const ResName name) const {
+        return ofs_to_obj<ResDic>(ref().toChrDataDic).GetIndex(name);
+    }
+
+    s32 GetNodeAnmIndex(const char *name) const {
         return ofs_to_obj<ResDic>(ref().toChrDataDic).GetIndex(name);
     }
 

@@ -13,7 +13,7 @@ const mVec3_c sc_wmplayer_shadow_scales[] = {
 };
 
 kmBranchDefCpp(0x809032c0, NULL, void, daWmPlayer_c *this_) {
-    u32 powerup = this_->mPyMdlMng.mpMdl->mPowerupID;
+    u32 powerup = this_->mPyMdlMng.mpMdl->mPlayerMode;
     this_->CalcShadow(0.5f,
         sc_wmplayer_shadow_scales[powerup].x, sc_wmplayer_shadow_scales[powerup].y, sc_wmplayer_shadow_scales[powerup].z
     );
