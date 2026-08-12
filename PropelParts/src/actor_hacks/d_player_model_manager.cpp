@@ -8,6 +8,7 @@
 #include <game/bases/d_yoshi_model.hpp>
 
 #include <propelparts/bases/d_mario_model_custom.hpp>
+#include <propelparts/bases/d_kinopio_model_custom.hpp>
 
 kmBranchDefCpp(0x800d6e00, NULL, void, dPyMdlMng_c *mng, u8 index) {
     switch (index) {

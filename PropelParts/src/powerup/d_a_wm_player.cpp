@@ -1,7 +1,7 @@
 #include <kamek.h>
 #include <game/bases/d_a_wm_player.hpp>
 
-const mVec3_c sc_wmplayer_shadow_scales[] = {
+mVec3_c s_wmplayer_shadow_scales[] = {
     mVec3_c(0.6f, 1.0f, 0.6f), // Small
     mVec3_c(0.8f, 1.0f, 0.8f), // Super
     mVec3_c(0.8f, 1.0f, 0.8f), // Fire
@@ -15,7 +15,7 @@ const mVec3_c sc_wmplayer_shadow_scales[] = {
 kmBranchDefCpp(0x809032c0, NULL, void, daWmPlayer_c *this_) {
     u32 powerup = this_->mPyMdlMng.mpMdl->mPlayerMode;
     this_->CalcShadow(0.5f,
-        sc_wmplayer_shadow_scales[powerup].x, sc_wmplayer_shadow_scales[powerup].y, sc_wmplayer_shadow_scales[powerup].z
+        s_wmplayer_shadow_scales[powerup].x, s_wmplayer_shadow_scales[powerup].y, s_wmplayer_shadow_scales[powerup].z
     );
     this_->mPyMdlMng.calc(this_->mPos, this_->mAngle, this_->mScale);
     this_->mPyMdlMng.play();

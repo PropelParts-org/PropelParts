@@ -7,12 +7,12 @@ const dPlayerMdlCustom_c::ModelInfo_s scArcDt[2] = {
         "Mario", "L_rcha",
         "MB_model", "SMB_model", "PLMB_model", "PMB_model", "HMB_model",
         "MH_model", "SMH_model", "PLMH_model", "PMH_model", "HMH_model",
-        13.0f, 10.0f, 13.0f, 13.0f, 5.0f
+        13.0f, 10.0f, 13.0f, 13.0f, 13.0f
     },
     {
         "Luigi", "L_rcha",
-        "LB_model", "SLB_model", "PLLB_model", "PLB_model", "LB_model",
-        "LH_model", "SLH_model", "PLLH_model", "PLH_model", "LH_model",
+        "LB_model", "SLB_model", "PLLB_model", "PLB_model", "HLB_model",
+        "LH_model", "SLH_model", "PLLH_model", "PLH_model", "HLH_model",
         14.0f, 11.0f, 14.0f, 14.0f, 14.0f
     }
 };
@@ -43,14 +43,14 @@ void dMarioMdlCustom_c::createPlayerModel() {
     nw4r::g3d::ResMdl res_mdl_head = m_20c.GetResMdl(mpArcNames->mModelNameHead[MODEL_NAME_NORMAL]);
     mTexAnm2.create(res_mdl_head, wait_tex_pat, &mAllocator, nullptr, 2);
 
-    nw4r::g3d::ResMdl res_mdl_ham = m_20c.GetResMdl(mpArcNames->mModelNameHead[MODEL_NAME_HAMMER]);
-    mTexAnmHammer.create(res_mdl_ham, wait_tex_pat, &mAllocator, nullptr, 2);
-
     nw4r::g3d::ResMdl res_mdl_peng = m_20c.GetResMdl(mpArcNames->mModelNameHead[MODEL_NAME_PENGUIN]);
     mTexAnmPenguin.create(res_mdl_peng, wait_tex_pat, &mAllocator, nullptr, 2);
 
     nw4r::g3d::ResMdl res_mdl_prop = m_20c.GetResMdl(mpArcNames->mModelNameHead[MODEL_NAME_PROPELLER]);
     mTexAnmPropeller.create(res_mdl_prop, wait_tex_pat, &mAllocator, nullptr, 2);
+
+    nw4r::g3d::ResMdl res_mdl_ham = m_20c.GetResMdl(mpArcNames->mModelNameHead[MODEL_NAME_HAMMER]);
+    mTexAnmHammer.create(res_mdl_ham, wait_tex_pat, &mAllocator, nullptr, 2);
 
     nw4r::g3d::ResMdl res_mdl_body = m_20c.GetResMdl(mpArcNames->mModelNameBody[MODEL_NAME_NORMAL]);
     nw4r::g3d::ResAnmTexPat switch_tex_pat = m_20c.GetResAnmTexPat("PB_switch");
@@ -236,11 +236,11 @@ void dMarioMdlCustom_c::fn_800cab00(int isHatLess) {
 }
 
 float dMarioMdlCustom_c::getAimMotionShareScale() {
-    static const float scMarioHipScale[5] = { 1.0f, 0.546f, 1.0f, 0.72f, 1.0f };
-    static const float scMarioHangCliffScale[5] = { 0.0f, 0.0f, 0.0f, 0.55f, 0.0f };
-    static const float scLuigiHipScale[5] = { 1.15f, 0.614f, 1.15f, 0.896f, 1.15f };
-    static const float scLuigiOrgHipScale[5] = { 1.0f, 0.534f, 1.0f, 0.779f, 1.0f };
-    static const float scLuigiHangCliffScale[5] = { -0.25f, -0.05f, -0.25f, 0.4f, -0.25f };
+    static const float scMarioHipScale[MODEL_NAME_COUNT] = { 1.0f, 0.546f, 1.0f, 0.72f, 1.0f };
+    static const float scMarioHangCliffScale[MODEL_NAME_COUNT] = { 0.0f, 0.0f, 0.0f, 0.55f, 0.0f };
+    static const float scLuigiHipScale[MODEL_NAME_COUNT] = { 1.15f, 0.614f, 1.15f, 0.896f, 1.15f };
+    static const float scLuigiOrgHipScale[MODEL_NAME_COUNT] = { 1.0f, 0.534f, 1.0f, 0.779f, 1.0f };
+    static const float scLuigiHangCliffScale[MODEL_NAME_COUNT] = { -0.25f, -0.05f, -0.25f, 0.4f, -0.25f };
 
     dPyMdlBase_c::PlayerMode_e mode = mPyPlayerMode;
 

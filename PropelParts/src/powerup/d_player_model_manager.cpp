@@ -3,6 +3,8 @@
 
 // Powerup scale fixes, see d_a_player.cpp and d_a_player_base.cpp for the rest
 
+// We could do these in C++ now that the class is decompiled, but it uses a bunch of HIO classes I don't want to mess withs
+
 float PowerupScales[NEW_POWERUP_COUNT+2] = {
     1.0f, 1.0f, // Padding values
     1.0f, // Small
@@ -28,6 +30,3 @@ kmCallDefAsm(0x800d7064) {
 	add r7, r8, r0
 	blr
 }
-
-// stupid fucking test hack
-kmWrite32(0x800d56a0, 0x3880ffff);
