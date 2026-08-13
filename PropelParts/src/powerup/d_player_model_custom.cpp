@@ -390,7 +390,12 @@ void dPlayerMdlCustom_c::_setFootAnm(nw4r::g3d::ResAnmChr &anmChr, m3d::playMode
     getBodyMdl()->setAnm(mBlendAnm, p5);
     mStoopTimer = p5;
     if (mFlags & FLAG_0000_0001) {
-        mStoopOffsetTarget = dPyMdlMng_c::m_hio.getOffsetTarget(m_151, mPyPlayerMode);
+        u8 player_type = mPyPlayerMode;
+        // Hacky fix for player crouch offsets being weird with custom powerups
+        if (mPyPlayerMode > (PlayerMode_e)3) {
+            player_type = PLAYER_MODE_NORMAL;
+        }
+        mStoopOffsetTarget = dPyMdlMng_c::m_hio.getOffsetTarget(m_151, player_type);
     } else {
         mStoopOffsetTarget = 0.0f;
     }

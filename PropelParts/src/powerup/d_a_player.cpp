@@ -5,6 +5,9 @@
 #include <game/bases/d_a_fireball_player.hpp>
 #include <game/bases/d_a_iceball.hpp>
 
+#include <propelparts/game_config.h>
+#include <propelparts/bases/d_mario_model_custom.hpp>
+
 // Throw a hammer if the player has a hammer suit
 kmBranchDefCpp(0x8013bcd0, NULL, void, dAcPy_c *this_, int i) {
     mMtx_c mtx;
@@ -415,4 +418,97 @@ kmBranchDefCpp(0x80141280, NULL, void, dAcPy_c *this_) {
             }
             break;
     }
+}
+
+// Fix for dMarioMdlCustom_c not working with the goal hat bs
+kmBranchDefCpp(0x80140440, NULL, bool, dAcPy_c *this_, dAcPy_c::ClearType_e clearType) {
+    switch (this_->mKimePoseMode) {
+        case dAcPy_c::KIME_POSE_NONE:
+            this_->mPyMdlMng.setAnm(PLAYER_ANIM_WAIT);
+            if (this_->mPowerup == POWERUP_PROPELLER_SHROOM) {
+                this_->mKimePoseMode = dAcPy_c::KIME_POSE_PROPELLER;
+                this_->mPyMdlMng.setAnm(PLAYER_ANIM_PL_GOAL_PUTON_CAP);
+            } else if (this_->mPowerup == POWERUP_PENGUIN_SUIT) {
+                this_->mKimePoseMode = dAcPy_c::KIME_POSE_PENGUIN;
+                this_->mPyMdlMng.setAnm(PLAYER_ANIM_P_GOAL_PUTON_CAP);
+            } else {
+                if (
+                    this_->mPyMdlMng.mpMdl->m_151 == this_->mPyMdlMng.mpMdl->get151CheckVal() ||
+                    this_->mPyMdlMng.mpMdl->m_151 == 3 ||
+                    this_->mPyMdlMng.mpMdl->m_151 == 4
+                ) {
+                    this_->mKimePoseMode = dAcPy_c::KIME_POSE_NO_HAT;
+                } else {
+                    this_->mKimePoseMode = dAcPy_c::KIME_POSE_WITH_HAT;
+                }
+                this_->mPyMdlMng.setAnm(PLAYER_ANIM_GOAL_PUTON_CAP);
+            }
+            this_->startKimePoseVoice(clearType);
+            // fallthrough
+        case dAcPy_c::KIME_POSE_WITH_HAT: {
+            MARIO_MDL_CLASS *mmdl;
+            LUIGI_MDL_CLASS *lmdl;
+            switch (this_->mPlayerType) {
+                default:
+                case PLAYER_MARIO:
+                    mmdl = (MARIO_MDL_CLASS *) this_->mPyMdlMng.mpMdl;
+                    if (mmdl->mPyPlayerMode < dPyMdlBase_c::PLAYER_MODE_PROPELLER) {
+                        if (this_->mPyMdlMng.mpMdl->mAnms[0].checkFrame(41.0f)) {
+                            mmdl->fn_800cab00(1);
+                            break;
+                        }
+                        if (this_->mPyMdlMng.mpMdl->mAnms[0].checkFrame(107.0f)) {
+                            mmdl->fn_800cab00(0);
+                            break;
+                        }
+                    }
+                    if (this_->mPyMdlMng.isAnmStop()) {
+                        this_->offStatus(dAcPy_c::STATUS_6C);
+                        return true;
+                    }
+                    break;
+                
+                case PLAYER_LUIGI:
+                    lmdl = (LUIGI_MDL_CLASS *) this_->mPyMdlMng.mpMdl;
+                    if (lmdl->mPyPlayerMode < dPyMdlBase_c::PLAYER_MODE_PROPELLER) {
+                        if (this_->mPyMdlMng.mpMdl->mAnms[0].checkFrame(41.0f)) {
+                            lmdl->fn_800cab00(1);
+                            break;
+                        }
+                        if (this_->mPyMdlMng.mpMdl->mAnms[0].checkFrame(107.0f)) {
+                            lmdl->fn_800cab00(0);
+                            break;
+                        }
+                    }
+                    if (this_->mPyMdlMng.isAnmStop()) {
+                        this_->offStatus(dAcPy_c::STATUS_6C);
+                        return true;
+                    }
+                    break;
+            }
+            break;
+        }
+        case dAcPy_c::KIME_POSE_PROPELLER:
+            if (this_->mPyMdlMng.mpMdl->mAnms[0].checkFrame(5.0f)) {
+                this_->onStatus(dAcPy_c::STATUS_70);
+                break;
+            }
+            if (this_->mPyMdlMng.mpMdl->mAnms[0].checkFrame(12.0f)) {
+                this_->offStatus(dAcPy_c::STATUS_70);
+                break;
+            }
+            if (this_->mPyMdlMng.isAnmStop()) {
+                this_->offStatus(dAcPy_c::STATUS_6C);
+                return true;
+            }
+            break;
+        case dAcPy_c::KIME_POSE_PENGUIN:
+        case dAcPy_c::KIME_POSE_NO_HAT:
+            if (this_->mPyMdlMng.isAnmStop()) {
+                this_->offStatus(dAcPy_c::STATUS_6C);
+                return true;
+            }
+            break;
+    }
+    return false;
 }
