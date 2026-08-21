@@ -23,31 +23,31 @@ public:
 
     /// @todo The other functions
 
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Idle__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_FallDown__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left45__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right45__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Side__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Height__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_CornerHeightLine__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_CornerSideLine__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left30Left__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left30Right__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right30Left__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right30Right__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left60Up__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left60Down__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right60Down__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right60Up__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2Leftup__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2Rightup__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2LeftDown__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2RightDown__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4Rightup__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4LeftUp__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4LeftDown__10dLineMng_c);
-    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4RightDown__10dLineMng_c);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Idle);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_FallDown);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Side);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Height);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_CornerHeightLine);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_CornerSideLine);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left30Left);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left30Right);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right30Left);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right30Right);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left60Up);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Left60Down);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right60Down);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Right60Up);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2Leftup);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2Rightup);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2LeftDown);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle2x2RightDown);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4Rightup);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4LeftUp);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4LeftDown);
+    STATE_FUNC_DECLARE(dLineMng_c, StateID_Circle4x4RightDown);
     
     static void is_unit_circle2x2(ulong);
     static void GetLineUnitNo(float x, float y);
