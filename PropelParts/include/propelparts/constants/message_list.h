@@ -2,6 +2,12 @@
 
 #include <constants/message_list.h>
 
+/// @file
+
+/// @addtogroup constants
+/// @{
+
+/// @brief The identifiers for each new BMG group.
 enum NEW_BMG_GROUPS_e {
     BMG_CATEGORY_PICTUREFONT_ICONS = 0x00,
     BMG_CATEGORY_NEWER_FILE_SELECT = 0x01,
@@ -18,3 +24,5 @@ enum NEW_BMG_GROUPS_e {
 // World names use format:
 // Category: BMG_CATEGORY_WORLD_NAMES
 // ID: world number
+
+/// @}

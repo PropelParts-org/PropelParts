@@ -579,6 +579,19 @@ class SpriteImage_WaterSpiny(SLib.SpriteImage_Static):  # 530
         SLib.loadIfNotInImageCache('WaterSpiny', 'water_spiny.png')
 
 
+class SpriteImage_Chainsaw(SLib.SpriteImage_Static):  # 531
+    def __init__(self, parent, scale=1.5):
+        super().__init__(
+            parent,
+            scale,
+            ImageCache['ChainSaw'],
+            (0, -29)
+        )
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('ChainSaw', 'chainsaw.png')
+
 ImageClasses = {
     22: SpriteImage_MiniGoomba,
     42: SpriteImage_ColorExcSwitch,
@@ -607,4 +620,5 @@ ImageClasses = {
     528: SpriteImage_SwitchBlock,
     529: SpriteImage_SwitchPalace,
     530: SpriteImage_WaterSpiny,
+    531: SpriteImage_Chainsaw,
 }

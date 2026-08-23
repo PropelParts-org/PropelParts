@@ -760,4 +760,23 @@
   </sprite> <!-- #529: Switch Palace Switch -->
 
   <sprite id="530" name="Floating Spiny" notes="A balled-up Spiny that floats on the surface of water and other types of liquids." />
+
+  <sprite id="531" name="Chainsaw" notes="A chainsaw that will ride along Line objects.">
+    <dependency notes="Use the Group Controller [236] for spawn synchronization with other Group controlled sprites.">
+      <suggested sprite="236"/>
+    </dependency>
+    <value nybble="5-6" title="Group ID" comment="This pairs the Chainsaw to a matching Group Controller for spawn synchronization with other Group controlled sprites." idtype="Group"/>
+    <dualbox nybble="12.4" title1="Start Right/Up" title2="Start Left/Down" comment="This determines which direction the Chainsaw will move based on the Line that it is connected to."/>
+    <list nybble="11" title="Speed" comment="Line Controlled sprites use the same speed setting across all of them.">
+      <entry value="4">Very Slow (0.25)</entry>
+      <entry value="5">Slow (0.5)</entry>
+      <entry value="6">Slow+ (0.75)</entry>
+      <entry value="0">Medium (1.0)</entry>
+      <entry value="1">Medium+ (1.5)</entry>
+      <entry value="2">Fast (2.0)</entry>
+      <entry value="7">Faster (2.5)</entry>
+      <entry value="3">Very Fast (3.2)</entry>
+    </list>
+    <checkbox nybble="9.4" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-Order of the Chainsaw placing it further behind other sprites."/>
+  </sprite>
 </sprites>

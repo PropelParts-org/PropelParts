@@ -543,6 +543,7 @@ namespace CourseActor {
         EN_BLOCK_SWITCH,
         EN_PALACE_SWITCH,
         EN_WATERPAIPO,
+        EN_NOKOGIRI,
 
         // End of custom entries, do NOT remove
         TOTAL_COURSE_ACTOR_COUNT

@@ -14,6 +14,7 @@ public:
     void CalcAdjustPosY(float posX, float baseSpeed);
     void SetBaseSpeed(float);
     short acm_angle() const;
+    void start_line_move();
     void setTermCkPos(const mVec2_c &, int index); /// @unofficial
 
     void init_line_move();
