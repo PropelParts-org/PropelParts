@@ -16,6 +16,8 @@ public:
     u8 mPad1[0x10];
     int m_10;
     int m_14;
+    u8 mPad2[0x20];
+    bool mIsFastMusic;
 
     static SndSceneMgr *sInstance;
 };
