@@ -51,6 +51,7 @@ These features are complete and should be fully functional.
 * WATER_PAIPO restoration
 * SMW Chainsaw actor
 * Music slot expansion
+* Load worldmap scripts from external file 
 
 ### Unfinished Features
 These features are implemented, but not complete or not fully functional.
@@ -74,4 +75,3 @@ These features are planned to be implemented in the future.
 * Player Script Event actor
 * Angry Sun/Moon actor
 * Replay recorder
-* Load worldmap scripts from external file 
