@@ -815,6 +815,7 @@ namespace fProfile {
         EN_BLOCK_SWITCH,
         EN_PALACE_SWITCH,
         EN_NOKOGIRI,
+        COBRA_SCRIPT_LOADER,
 
         // End of custom entries, do NOT remove
         TOTAL_ACTOR_COUNT

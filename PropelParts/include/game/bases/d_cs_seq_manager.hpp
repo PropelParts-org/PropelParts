@@ -2,6 +2,12 @@
 
 #include <game/bases/d_wm_enemy.hpp>
 
+/// @unofficial
+struct CutData_s {
+    u32 id;
+    u32 argument;
+};
+
 class dCsSeqMng_c {
 public:
     /// @unofficial
@@ -83,11 +89,16 @@ public:
     void FUN_801017c0(int, dWmEnemy_c *, int, int); ///< @unofficial
     bool FUN_80915600(); ///< @unofficial
 
-    u8 mPad1[0x164];
+    u8 mPad1[0x158];
+    int mScriptIp;
+    u8 mPad2[0x8];
     bool m_164;
-    u8 mPad2[0x47];
+    u8 mPad3[0x43];
+    int mActiveScriptId;
     dWmDemoActor_c *m_1ac;
     dWmDemoActor_c *m_1b0;
 
     static dCsSeqMng_c *ms_instance;
+
+    static CutData_s *smc_demo_table[SMC_DEMO_COUNT];
 };
