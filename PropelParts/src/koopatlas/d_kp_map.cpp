@@ -535,11 +535,7 @@ void dKpMap_c::MapRender_c::renderDoodadLayer(dKpLayer_s *layer) {
                     float delta = anim->mEndVal - anim->mStartVal;
                     float frame;
 
-                    if (anim->mIsReverse) {
-                        frame = anim->mStartVal + ceil(delta * value);
-                    } else {
-                        frame = anim->mStartVal + (delta * value);
-                    }
+                    frame = anim->mStartVal + (delta * value);
 
                     float scaleYMod;
 
