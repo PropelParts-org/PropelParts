@@ -11,6 +11,21 @@ extern const char** l_custom_actor_file_tbl[CourseActor::TOTAL_COURSE_ACTOR_COUN
 
 // Recreation of "SpriteTex" from NewerSMBW that uses separate archives for memory efficiency
 
+/* HOW IT WORKS:
+ * Archives are named like "kuribo_tXX.arc"
+ * - "tXX" is dynamically generated from a nybble value, like SpriteTex BRRES files
+ * setSpriteTexArcList() has a switch case to define which sprites support this
+ * - The cases control which nybbles are read, and the original filename
+ * - This will load the archive into memory so it is available
+ * The "default" style will use the original filename, not a "t00" variant (ex. "kuribo.arc", not "kuribo_t00.arc")
+ * The assembly patch to enable functionality on individual sprites is about as simple as with original SpriteTex:
+ * - It generally should always patch over the dRes_c::getRes() call
+ * - The assembly hack will get the style variant ID from the spritedata and put it into r3
+ * - Then call GetDynamicRes() which will handle the rest from there
+*/
+
+// Check if this name is already in the arc list
+// This is so we don't fill up the list with duplicate entries
 bool checkObjectArcList(const char *name) {
     for (int i = 0; i < dScStage_c::m_object_res_num; i++) {
         if (!strcmp(name, dScStage_c::m_object_res_list[i])) {
@@ -27,20 +42,22 @@ void setSpriteTexArcList(dCdFile_c *course, u16 mapActorID) {
             continue;
         }
 
+        // TODO: This should be moved into the padding bytes for universal support,
+        // but current tooling doesn't support that...
         u32 param = course->mpMapActors[i].mParam;
         bool setResName = false;
         char nameBuf[32];
-        int resNo;
+
+        // Most actors use Nybble 6 for styles, so offer that by default
+        int resNo = (param >> 24) & 0xF; // Nybble 6
 
         // Get SpriteTex filename
         switch (mapActorID) {
             case CourseActor::EN_KURIBO:
-                resNo = (param >> 24) & 0xF; // Nybble 6
                 sprintf(nameBuf, "kuribo_t%02d", resNo);
                 setResName = true;
                 break;
             case CourseActor::AC_BIGSHELL:
-                resNo = (param >> 24) & 0xF;
                 sprintf(nameBuf, "big_shell_t%02d", resNo);
                 setResName = true;
                 break;
@@ -48,14 +65,10 @@ void setSpriteTexArcList(dCdFile_c *course, u16 mapActorID) {
 
         // Add file to list if its not already there, and its not a t00 archive
         if (!checkObjectArcList(nameBuf) && setResName && (resNo > 0)) {
-            OSReport("adding %s!\n", nameBuf);
             dScStage_c::addObjectArcList(nameBuf);
         }
     }
 }
-
-// Get SpriteTex archive name and put it into r4
-
 
 // dScCrsin_c::executeState_initStageProc2()
 kmBranchDefCpp(0x8091FBD0, NULL, void, dScCrsin_c *this_) {
@@ -130,107 +143,36 @@ kmBranchDefCpp(0x8091FBD0, NULL, void, dScCrsin_c *this_) {
 }
 
 // Archive name hooks
-//static char l_arc_name_buf[32];
-static const char *l_arc_name_format = "kuribo_t%02d";
+static char l_arc_name_buf[32];
 
-void getArchiveName(dActor_c *, char *baseName, const char *brresName, int nybbleValue) {
-    char l_arc_name_buf[32];
-    OSReport("r4: %s\n", baseName);
-    OSReport("r6: %d\n", nybbleValue);
+nw4r::g3d::ResFile GetDynamicRes(int resNo, const char *arcName, const char *brresName) {
+    if (resNo != 0) {
+        sprintf(l_arc_name_buf, "%s_t%02d", arcName, resNo);
+    } else {
+        strcpy(l_arc_name_buf, arcName);
+    }
 
-    sprintf(l_arc_name_buf, "big_shell_t%02d", nybbleValue);
-    OSReport("%s\n", l_arc_name_buf);
-    strcpy(baseName, l_arc_name_buf);
+    return dResMng_c::m_instance->getRes(l_arc_name_buf, brresName);
 }
 
-extern "C" void getArchiveName__FP8dActor_cPcPCci(void);
-extern "C" void getSpriteTexName(void);
+extern "C" void GetDynamicRes__FiPCcPCc(void);
 
-static const char *kuribo_name = "kuribo";
+// Big Shell
+kmCallDefAsm(0x807BE530) {
+    // Nybble 6 & 0xF
+    lwz r3, 0x4(r30)
+    srwi r3, r3, 24
+    andi. r3, r3, 0xF
 
-// big shell
-kmCallDefAsm(0x807be52c) {
-    addi r3, r3, 0x4
-
-    lwz r6, 0x4(r30)
-    srwi r6, r6, 24
-    andi. r6, r6, 0xF
-
-    cmpwi r6, 0
-    //ble _done
-
-    stwu sp, -0x20(sp)
-    mflr r0
-    stw r0, 0x24(sp)
-    stw r3, 0x1C(sp)
-    stw r5, 0x18(sp)
-    //stw r6, 0x14(sp)
-    stw r7, 0x10(sp)
-    stw r8, 0xC(sp)
-    stw r9, 0x8(sp)
-
-    b getArchiveName
-
-    lwz r0, 0x24(sp)
-    lwz r3, 0x1C(sp)
-    lwz r5, 0x18(sp)
-    //lwz r6, 0x14(sp)
-    lwz r7, 0x10(sp)
-    lwz r8, 0xC(sp)
-    lwz r9, 0x8(sp)
-    mtlr r0
-    addi sp, sp, 0x20
-
-    // TODO: This should be moved to its own function eventually~
-    /*stwu sp, -0x20(sp)
-    mflr r0
-    stw r0, 0x24(sp)
-    stw r3, 0x1C(sp)
-    stw r4, 0x18(sp)
-    stw r6, 0x14(sp)
-    stw r7, 0x10(sp)
-    stw r8, 0xC(sp)
-    stw r9, 0x8(sp)
-
-    lis r3, l_arc_name_buf@h
-    ori r3, r3, l_arc_name_buf@l
-
-    lis r4, l_arc_name_format@h
-    ori r4, r4, l_arc_name_format@l
-
-    // Put nybble value into r5
-    or r5, r6, r6
-
-    crclr 4*cr1+eq
-    bl sprintf
-
-    lis r5, l_arc_name_buf@h
-    ori r5, r5, l_arc_name_buf@l
-
-    lwz r0, 0x24(sp)
-    lwz r3, 0x1C(sp)
-    lwz r4, 0x18(sp)
-    lwz r6, 0x14(sp)
-    lwz r7, 0x10(sp)
-    lwz r8, 0xC(sp)
-    lwz r9, 0x8(sp)
-    mtlr r0
-    addi sp, sp, 0x20*/
-
-_done:
-    blr
+    b GetDynamicRes__FiPCcPCc
 }
 
-// kmCallDefAsm(0x80031384) {
-//     lwz r6, 0x4(r3)
-//     srwi r6, r6, 24
-//     andi. r6, r6, 0xF
+// Goomba
+kmCallDefAsm(0x8003139C) {
+    // Nybble 6 & 0xF
+    lwz r3, 0x4(r30)
+    srwi r3, r3, 24
+    andi. r3, r3, 0xF
 
-//     cmpwi r6, 0
-//     ble _done
-
-//     b getSpriteTexName
-
-// _done:
-//     blr
-// }
+    b GetDynamicRes__FiPCcPCc
+}
