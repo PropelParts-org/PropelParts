@@ -167,6 +167,16 @@
     <checkbox nybble="5.4" title="Does Not Despawn" comment="When enabled, the hit block will not despawn when off-screen. Used in retail 06-05 A2."/>
   </sprite> <!-- #175: Flying ? Block -->
 
+  <sprite id="176" name="Roulette Block" notes="A large roulette style block that will award either a Star, a 1-Up, a Mushroom, or a specific power-up item. It should be noted that it makes a moderate amount of noise when it's on screen." files="block_roulette.arc">
+    <list nybble="12.2-12.4" title="Power-up" comment="This determines which power-up the block can provide.">
+      <entry value="0">Fire Flower</entry>
+      <entry value="1">Propeller Shroom</entry>
+      <entry value="2">Ice Flower</entry>
+      <entry value="3">Penguin Suit</entry>
+      <entry value="4">Hammer Suit</entry>
+    </list>
+  </sprite> <!-- #176: Roulette Block -->
+
   <sprite id="191" name="Tile God Event" notes="The Tile God can Create / Change / Destroy tiles within a specified area when an Event is activated.">
     <dependency notes="The Tile God sprite can be placed no more than one block outside of the Zone it is being activated in for it to function."/>
     <value nybble="3-4" title="Triggering Event ID" comment="When this Event ID is activated, the tiles affected by the Tile God&apos;s area will be created or destroyed, depending on the Mode." idtype="Triggering Event"/>

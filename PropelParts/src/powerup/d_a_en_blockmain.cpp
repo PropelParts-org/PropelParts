@@ -60,6 +60,29 @@ const u32 l_new_item_values[] = {
     0x6,    // Unused
 };
 
+// Used whenever _14 in the item struct is not 0
+// Only roulette block uses this?
+const u32 l_new_alt_item_values[] = {
+    0xF,    // Empty
+    0x2,    // Coin (do not replace)
+    0x8,    // Mushroom-if-Small (do not replace)
+    0x9,    // ???
+    0x15,   // Propeller
+    0x11,   // Penguin
+    0x19,   // Mini Mushroom
+    0x1,    // Star
+    0x1B,   // Continous Star (do not replace)
+    0xC,    // Yoshi Egg
+    0x4,    // 10-coin (do not replace)
+    0x7,    // 1-UP Mushroom
+    0xA,    // Vine
+    0xD,    // Spring
+    0x8,    // Mushroom-if-Small (do not replace)
+    0xE,    // Ice Flower
+    0x5,    // 10-coin reward (do not replace)
+    0x6,    // Hammer Suit (replaced, originally Fire Flower)
+};
+
 // Both of the following patch the daEnBlockMain_c function for spawning items
 // If a block actor doesn't use this (I only think EN_BIG_RENGA_BLOCK and the tile blocks) then they won't spawn a hammer suit
 
@@ -99,6 +122,76 @@ kmBranchDefAsm(0x80022854, 0x80022858) {
 }
 
 kmBranchDefAsm(0x80022b58, 0x80022b5c) {
+    lhz r12, 0x8(r27) // Load the profile name
+    cmpwi r12, 532 // EN_BLOCK_HATENA_ANGLE
+    beq checkAltBit_Angle
+    cmpwi r12, 533 // EN_BLOCK_RENGA_ANGLE
+    beq checkAltBit_Angle
+
+    lwz r12, 0x4(r27) // Load mParam into r12
+    rlwinm r12, r12, 25, 31, 31 // Get bit 7
+    cmpwi r12, 0
+    beq useOriginalTable
+    b useAltTable
+
+    checkAltBit_Angle:
+    lwz r12, 0x4(r27) // Load mParam into r12
+    rlwinm r12, r12, 12, 31, 31 // Get bit 20
+    cmpwi r12, 0
+    beq useOriginalTable
+
+    // Load our new item table
+    useAltTable:
+    lis r5, l_new_item_values@h
+    ori r5, r5, l_new_item_values@l
+    b ret
+
+    // Load the original table
+    useOriginalTable:
+    lis r5, l_item_values@h
+    ori r5, r5, l_item_values@l
+
+    ret:
+    blr
+}
+
+// Do the same with the Alt table
+kmBranchDefAsm(0x8002286C, 0x80022870) {
+    // We have to use a different bit for the rotation controlled blocks
+    lhz r0, 0x8(r27) // Load the profile name
+    cmpwi r0, 532 // EN_BLOCK_HATENA_ANGLE
+    beq checkAltBit_Angle
+    cmpwi r0, 533 // EN_BLOCK_RENGA_ANGLE
+    beq checkAltBit_Angle
+
+    lwz r0, 0x4(r27) // Load mParam into r0
+    rlwinm r0, r0, 25, 31, 31 // Get bit 7
+    cmpwi r0, 0
+    beq useOriginalTable
+    b useAltTable
+
+    checkAltBit_Angle:
+    lwz r0, 0x4(r27) // Load mParam into r0
+    rlwinm r0, r0, 12, 31, 31 // Get bit 20
+    cmpwi r0, 0
+    beq useOriginalTable
+
+    // Load our new item table
+    useAltTable:
+    lis r3, l_new_alt_item_values@h
+    ori r3, r3, l_new_alt_item_values@l
+    b ret
+
+    // Load the original table
+    useOriginalTable:
+    lis r3, l_alt_item_values@h
+    ori r3, r3, l_alt_item_values@l
+
+    ret:
+    blr
+}
+
+kmBranchDefAsm(0x80022B70, 0x80022B74) {
     lhz r12, 0x8(r27) // Load the profile name
     cmpwi r12, 532 // EN_BLOCK_HATENA_ANGLE
     beq checkAltBit_Angle

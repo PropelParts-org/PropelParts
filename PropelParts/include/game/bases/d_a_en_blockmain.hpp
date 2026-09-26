@@ -111,3 +111,4 @@ public:
 };
 
 extern const u32 l_item_values[18]; /// @unofficial
+extern const u32 l_alt_item_values[18]; /// @unofficial
