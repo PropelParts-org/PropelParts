@@ -85,6 +85,24 @@
     <value nybble="1-2" title="Triggering Event ID" comment="This switch will not be visible if a Triggering Event is defined unless that event is activated." advanced="True" advancedcomment="Using a Triggering ID with Multi-Use functionality is somewhat glitchy and not recommended." requirednybble="10.4" idtype="Triggering Event"/> <!-- Appears if Multi-Use is set, but only if Advanced fields are enabled -->
   </sprite> <!-- #45: Brick Block !-Switch -->
 
+  <sprite id="156" name="Red Coin Ring" notes="A glowing red ring that is intended to be used to spawn sets of 8 red coins, and to control the item that the player will receive after collection them." files="red_ring.arc">
+    <dependency notes="The suggested use is to have 8 [144] Red Coins placed with the same Red Coin ID and Event ID as a matching Red Coin Ring. It is not recommended to use more than 1 Red Coin Ring within a single Zone, nor is it recommended to use either object for a purpose outside of the default, within a normal style level.">
+      <suggested sprite="144"/> <!-- Obviously it's suggested to utilize Red Coins -->
+    </dependency>
+    <value nybble="3.2-4.4" title="Target Event ID" comment="When the Red Coin Ring is touched, the Target Event will be activated." idtype="Target Event"/>
+    <dualbox nybble="5.4" title1="Timed Event" title2="Permanent Event" comment="This determines if the Target Event is activated temporarily or permanently." comment2="Timed events will pause the music and replace it with ticking. It is recommended for normal Red Coin Ring use that the event be timed."/>
+    <value nybble="12" title="Red Coin ID" comment="When set, the corresponding Red Coin set will have an Item Reward. Value 0 is also a valid ID." idtype="Red Coin"/>
+    <list nybble="11.3-11.4" title="Item Reward" comment="This determines which power-up will appear after collecting 8 coins from the Red Coin ID set above. If a player already has a power-up, it will drop a 1-Up.">
+      <entry value="0">Fire Flower</entry>
+      <entry value="1">Propeller Shroom</entry>
+      <entry value="2">Penguin Suit</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Hammer Suit</entry>
+    </list>
+    <checkbox nybble="12.4" title="Shift Horizontally" comment="When this checkbox is ticked, the ring is moved half a block to the right. This is likely a leftover from NSMBDS, where sprites must be placed on the tile grid." comment2="Note that this setting overlaps with the Red Coin ID."/>
+    <checkbox nybble="10.4" title="Unknown Flag 10 (1)" advancedcomment="ASM shows Nybble 10 might affect something. No visible or functional change. Likely Z-Order related, or at least intended to be."/>
+  </sprite> <!-- #156: Red Coin Ring -->
+
   <sprite id="166" name="Snake Block">
     <dependency notes="The sprite snaps to the Path Node location. From Node 0 to Node 1, it must be a straight horizontal line, and it must be at least as long as the Snake Block itself. Straight lines and exact 45° angles are recommended, as after each Node, the Snake Block will navigate in a 1-by-1 zigzag until it reaches the height of the next Node before going straight."/>
     <value nybble="3-4" title="Triggering Event ID" comment="When this Event ID is activated, the Snake Block will begin to move. If set to 0, the Snake Block will begin moving when the player steps on it." idtype="Triggering Event"/>

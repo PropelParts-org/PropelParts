@@ -1,5 +1,6 @@
 #include <kamek.h>
 #include <game/bases/d_a_player.hpp>
+#include <game/bases/d_a_en_item.hpp>
 
 // Fix "Mushroom if small" behavior
 kmWrite32(0x80A2BE98, 0x28000003);
@@ -41,8 +42,8 @@ extern "C" void PowerupCheck_Custom__FiiP7dAcPy_c(void);
 // No need to adjust this, all the logic is handled in the function above
 kmCallDefAsm(0x80A285FC) {
     stwu sp, -0x10(sp)
-	mflr r0
-	stw r0, 0x14(sp)
+    mflr r0
+    stw r0, 0x14(sp)
 
     mr r5, r30
     bl PowerupCheck_Custom__FiiP7dAcPy_c
@@ -67,13 +68,13 @@ kmCallDefAsm(0x80A285FC) {
     NoCustomPowerup:
     CustomPowerupSet_return:
     // End of function
-	lwz r0, 0x14(sp)
-	mtlr r0
-	addi sp, sp, 0x10
-	
-	// Leftover instruction from what we replaced to add the bl
-	cmpwi r29, 0
-	blr
+    lwz r0, 0x14(sp)
+    mtlr r0
+    addi sp, sp, 0x10
+    
+    // Leftover instruction from what we replaced to add the bl
+    cmpwi r29, 0
+    blr
 }
 
 // Allow EN_ITEM to be a custom powerup
@@ -96,55 +97,116 @@ kmCallDefAsm(0x80A285FC) {
     0x5 = Hammer Suit
 */
 
-extern "C" void daEnItem_c__GetWhetherPlayerCanGetPowerupOrNot(void);
-
-// Sadly, since we're patching a switch statement table, there's no easy way to make this patch in C++
-// To make your own function:
-// 1. Copy the below function, along with the kamek hook (change the function name, of course)
-// 2. Change the line containing li r0, 5 to contain your powerup's DCA value
-// (This is basically the powerup actor's item id value, it tells the powerup actor what powerup it is)
-// 3. Change the address your function gets inserted to, use ghidra/ida/dolphin to find it
-static asm void setHammerToEnItemDCA() {
-    bl daEnItem_c__GetWhetherPlayerCanGetPowerupOrNot
-	cmpwi r3, 1
-	bne DontSetPowerup
-	
-	li r0, 5
-	sth r0, 0xDCA(r31)
-	
-    DontSetPowerup:
-	lwz r0, 0x14(sp)
-	lwz r31, 0xC(sp)
-	mtlr r0
-	addi sp, sp, 0x10
-	blr
+// daEnItem_c::setInternalType()
+kmBranchDefCpp(0x80A2C030, NULL, void, daEnItem_c *this_) {
+    this_->mInternalType = daEnItem_c::TYPE_MUSHROOM;
+    switch (this_->mItemType) {
+        case 1:
+            this_->mInternalType = daEnItem_c::TYPE_STAR;
+            break;
+        case 6: // New
+            this_->mInternalType = daEnItem_c::TYPE_HAMMER_SUIT;
+            break;
+        case 7:
+            this_->mInternalType = daEnItem_c::TYPE_1UP;
+            break;
+        case 9:
+            this_->mInternalType = daEnItem_c::TYPE_FIRE_FLOWER;
+            break;
+        case 14:
+            this_->mInternalType = daEnItem_c::TYPE_ICE_FLOWER;
+            break;
+        case 17:
+            this_->mInternalType = daEnItem_c::TYPE_PENGUIN;
+            break;
+        case 21:
+            this_->mInternalType = daEnItem_c::TYPE_PROPELLER;
+            break;
+        case 25:
+            this_->mInternalType = daEnItem_c::TYPE_MINI_MUSHROOM;
+            break;
+    }
 }
 
-kmWritePointer(0x80AF117C, &setHammerToEnItemDCA);
+// daEnItem_c::setInternalTypeSpecific()
+kmBranchDefCpp(0x80A2BEE0, NULL, void, daEnItem_c *this_, int isDropMove) {
+    this_->setInternalTypeSpecific(isDropMove);
+}
 
-// Same as above, I could turn this into a wrapper for a C++ function but I'm too lazy to deal with register safety
-kmBranchDefAsm(0x80A2C0B4, NULL) {
-    cmplwi r4, 0x19 // Mini
-	bne notMiniMush
-	li r0, 0xD
-	sth r0, 0xDCA(r3)
-    notMiniMush:
-	cmplwi r4, 6 // Hammer
-	bnelr
-	li r0, 5
-	sth r0, 0xDCA(r3)
-	blr
+// Similar to setInternalType(), however it covers more cases and will force
+// some powerups to always spawn regardless of player state (for the Red Ring)
+void daEnItem_c::setInternalTypeSpecific(int isDropMove) {
+    mInternalType = TYPE_MUSHROOM;
+    switch (mItemType) {
+        case 0:
+            if (chkItemValid() == 1) {
+                mInternalType = TYPE_FIRE_FLOWER;
+            }
+            break;
+        case 1:
+            mInternalType = TYPE_STAR;
+            break;
+        case 2:
+        case 4:
+            mInternalType = TYPE_COIN;
+            break;
+        case 6: // New
+            if ((isDropMove == 0) && (mIsDropMove == 0)) {
+                if (chkItemValid() == 1) {
+                    mInternalType = TYPE_HAMMER_SUIT;
+                }
+            } else {
+                mInternalType = TYPE_HAMMER_SUIT;
+            }
+            break;
+        case 7:
+            mInternalType = TYPE_1UP;
+            break;
+        case 9:
+            mInternalType = TYPE_FIRE_FLOWER;
+            break;
+        case 14:
+            if ((isDropMove == 0) && (mIsDropMove == 0)) {
+                if (chkItemValid() == 1) {
+                    mInternalType = TYPE_ICE_FLOWER;
+                }
+            } else {
+                mInternalType = TYPE_ICE_FLOWER;
+            }
+            break;
+        case 17:
+            if ((isDropMove == 0) && (mIsDropMove == 0)) {
+                if (chkItemValid() == 1) {
+                    mInternalType = TYPE_PENGUIN;
+                }
+            } else {
+                mInternalType = TYPE_PENGUIN;
+            }
+            break;
+        case 21:
+            if ((isDropMove == 0) && (mIsDropMove == 0)) {
+                if (chkItemValid() == 1) {
+                    mInternalType = TYPE_PROPELLER;
+                }
+            } else {
+                mInternalType = TYPE_PROPELLER;
+            }
+            break;
+        case 25:
+            mInternalType = TYPE_MINI_MUSHROOM;
+            break;
+    }
 }
 
 // Load the "wait" animation for custom powerups
 kmCallDefAsm(0x80A27CE4) {
     cmplwi r4, 5 // Hammer Suit
-	beqlr
-	cmplwi r4, 6 // 1-up
-	beqlr
-	// Neither of those succeeded
-	crclr 4*cr0+eq
-	blr
+    beqlr
+    cmplwi r4, 6 // 1-up
+    beqlr
+    // Neither of those succeeded
+    crclr 4*cr0+eq
+    blr
 }
 
 // Custom movement types for custom items
