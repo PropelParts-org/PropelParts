@@ -159,6 +159,7 @@ kmBranchDefCpp(0x801028D0, NULL, void) {
         (coinsW9     ? dMj2dGame_c::GAME_COMPLETED : 0)
     );
 
-    OSReport("SaveFile stars updated: Status: Game beaten: %d, Normal exits: %d, Normal coins: %d, Special exits: %d, Special coins: %d\n", beatGame, exitsNormal, coinsNormal, exitsW9, coinsW9);
+    OSReport("SaveFile stars updated:\n");
+    OSReport("W8 Clear: %d\nExits: %d\nCoins: %d\nW9 Exits: %d\nW9 Coins: %d\n", beatGame, exitsNormal, coinsNormal, exitsW9, coinsW9);
 }
 #endif

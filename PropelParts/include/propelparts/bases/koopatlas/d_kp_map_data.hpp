@@ -163,12 +163,12 @@ struct dKpPath_s {
         ACTION_NUM
     };
 
-    dKpNode_s *mpStartPoint, *mpEndPoint;
-    dKpLayer_s *mpTileLayer, *mpDoodadLayer;
-
     dKpNode_s *getOtherNodeTo(dKpNode_s *n) {
         return (n == mpStartPoint) ? mpEndPoint : mpStartPoint;
     }
+
+    dKpNode_s *mpStartPoint, *mpEndPoint;
+    dKpLayer_s *mpTileLayer, *mpDoodadLayer;
 
     u8 mOpenStatus; // Computed on-the-fly - default from Koopatlas is NOT or ALWAYS
     u8 mIsSecret;
@@ -188,6 +188,8 @@ struct dKpLayer_s {
         TYPE_DOODAD,
         TYPE_PATH
     };
+
+    int findNodeID(dKpNode_s *node);
 
     LayerType_e mLayerType;
     u8 mAlpha;
@@ -231,8 +233,6 @@ struct dKpLayer_s {
             dKpPath_s **mpPaths;
         };
     };
-
-    int findNodeID(dKpNode_s *node);
 };
 
 /******************************************************************************

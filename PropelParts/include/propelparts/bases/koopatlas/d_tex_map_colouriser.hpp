@@ -12,7 +12,7 @@ public:
 
     void destroy();
     void initTexMap(nw4r::lyt::TexMap *tm);
-    void copyTexMap(nw4r::lyt::TexMap *tm); ///< Only call this after using `initTexMap()`
+    void copyTexMap(nw4r::lyt::TexMap *tm); ///< Only call this after `initTexMap()`
     void setColor(int h, int s, int l);
 
 private:

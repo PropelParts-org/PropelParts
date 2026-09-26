@@ -7,7 +7,7 @@
 
 #define CAMERA_ZOOM 2.8f ///< Default camera zoom level. Higher values are further zoomed out
 
-#define CAMERA_WARP_ZONE_ZOOM 3.4f ///< Zoom level used in the Warp Zone map
+#define CAMERA_WARP_ZONE_ZOOM 3.4f ///< Zoom level used on the Warp Zone map
 
 #define PATH_ALPHA_INC 3 ///< Amount added to the path alpha each frame, during path unlocks
 

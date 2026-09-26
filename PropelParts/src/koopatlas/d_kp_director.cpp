@@ -73,5 +73,4 @@ void dKpDirector_c::toggleCaptureDisp(bool value) {
         dInfo_c::m_instance->mIsWorldSelect = false;
     }
 }
-
 #endif

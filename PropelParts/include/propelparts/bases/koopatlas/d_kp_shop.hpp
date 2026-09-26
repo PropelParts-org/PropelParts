@@ -140,6 +140,4 @@ public:
 
     static const ITEM_TYPE_e sc_shopItems[10][12];
 };
-
 #endif
-

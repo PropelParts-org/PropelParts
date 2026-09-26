@@ -269,14 +269,14 @@ void dKpPathManager_c::create() {
         SpammyReport("Path layer: %p\n", mpPathLayer);
         SpammyReport("Node count: %d\n", mpPathLayer->mNodeNum);
 
-        bool found = false;
+        bool destNodeFound = false;
 
         for (int i = 0; i < mpPathLayer->mNodeNum; i++) {
             dKpNode_s *node = mpPathLayer->mpNodes[i];
             SpammyReport("Checking node: %p\n", node);
 
             if (node->mNodeType == dKpNode_s::CHANGE && node->mCurrID == changeID) {
-                found = true;
+                destNodeFound = true;
                 mpCurrentNode = node;
 
                 SpammyReport("Found CHANGE node: %d %p\n", changeID, node);
@@ -297,15 +297,15 @@ void dKpPathManager_c::create() {
                     while (true) {
                         dKpNode_s *destNode = (path->mpStartPoint == srcNode) ? path->mpEndPoint : path->mpStartPoint;
                         //SpammyReport("Path: %p nodes %p to %p\n", path, srcNode, destNode);
-                        int ct = destNode->getOpenExitNum();
-                        //SpammyReport("Dest Node available exits: %d; type: %d\n", ct, destNode->type);
-                        if (destNode == node || ct > 2 || destNode->mNodeType == dKpNode_s::LEVEL || destNode->mNodeType == dKpNode_s::CHANGE) {
+                        int exitNum = destNode->getOpenExitNum();
+                        //SpammyReport("Dest Node available exits: %d; type: %d\n", exitNum, destNode->type);
+                        if (destNode == node || exitNum > 2 || destNode->mNodeType == dKpNode_s::LEVEL || destNode->mNodeType == dKpNode_s::CHANGE) {
                             exitTo = candidateExit;
                             //SpammyReport("Accepting this node\n");
                             break;
                         }
 
-                        if (ct == 1) {
+                        if (exitNum == 1) {
                             break;
                         }
 
@@ -327,7 +327,7 @@ void dKpPathManager_c::create() {
             }
         }
 
-        if (!found) {
+        if (!destNodeFound) {
             mpCurrentNode = mpPathLayer->mpNodes[0];
             mustComplainToMapCreator = true;
         }
@@ -723,7 +723,7 @@ void dKpPathManager_c::execute() {
     if (mDispSavePrompt && !mDidAutoWalkCheck) {
         mDidAutoWalkCheck = true;
 
-        // TODO: Control this via WorldInfo
+        // TODO: Find a way to dehardcode this
         static const int endLevels[11][3] = {
             {1, 38, 1}, // W1 right
             {2, 38, 2}, // W2 up
@@ -791,8 +791,7 @@ void dKpPathManager_c::execute() {
             if (canUseExit(mpCurrentNode->mpExits[pressedDir])) {
                 startMovementTo(mpCurrentNode->mpExits[pressedDir]);
             } else {
-                // TODO: maybe remove this? got to see how it looks
-                static u16 directions[] = {-0x4000,0x4000,-0x7FFF,0};
+                static u16 directions[] = {-0x4000, 0x4000, -0x7FFF, 0};
                 daKpPlayer_c::m_instance->setTargetRotY(directions[pressedDir]);
             }
         } else if (pressed & WPAD_BUTTON_2) {
@@ -814,6 +813,7 @@ bool dKpPathManager_c::isPathMgrActive() {
     if (mIsMoving) {
         return true;
     }
+
     return false;
 }
 
@@ -1892,5 +1892,4 @@ void dKpPathManager_c::clearPathData() {
         sp_openNodeData = nullptr;
     }
 }
-
 #endif

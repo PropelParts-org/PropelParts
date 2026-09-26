@@ -72,6 +72,7 @@ public:
     void unlockAllPaths(char type);
 
     void copyWorldDefToSave(const dKpWorldDef_s *world);
+
 private:
     void unlockPaths();
     void finalisePathUnlocks();
@@ -168,6 +169,4 @@ public:
     static u8 *sp_openNodeData;
     static const int sc_lastCourse[];
 };
-
 #endif
-

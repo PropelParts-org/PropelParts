@@ -145,7 +145,7 @@ void dKpMusic_c::execute() {
 
                 Voice_SetADPCMLoop(voice, i, sourceData+0x28);
 
-                // loop through all axVoices
+                // Loop through all axVoices
                 for (int j = 0; j < 4; j++) {
                     int axVoiceID = (i*4) + j;
                     u8 **axVoicePointer = (u8**)(voice + 0xC + (axVoiceID*4));

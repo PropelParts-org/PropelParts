@@ -9,43 +9,29 @@ COMPATIBILITY SHIT:
 - Syncing with the main branch has brought up an issue where several Koopatlas layouts (Shop, Star Coins Menu)
   that use LytBase_c::TPaneNameRegister() cause a crash because there isn't anything setup to read from the custom BMG
 
-CLEANUP:
-- Make dKpMusic_c into an actor
-
-Nitpicky Shit:
-- Player is not centered on the course node, needs to be moved up 4 units like with the model itself
-
-Miscellaneous TODO:
-- Implement internal-font portion of MoreFonts, then use that for Newer's pause menu layout
+Miscellaneous:
 - Add support for overiding the BMG font via userdata
 - Revamp Star Coins Menu arrows to have idle animations and look more like the retail arrow layouts
 - Add succession scrolling to the Star Coins Menu
 - Focus circle wipes on the player position
-- Maybe allow tile/doodad layers to use separate unlock alphas, for people who want locked paths to be translucent
+- Allow tile/doodad layers to use separate unlock alphas, for people who want locked paths to be translucent
   - Since having translucent doodads might not look right/looks weird to people
-- Maybe make base Koopatlas actor for everything to inherit from (stop execution when needed, other general stuff)
 
 Bugs:
 - [Newer bug] Exiting from a "cave entrance" will scale the player incorrectly, they're slightly too small
-- Effects issues
-  - HUD star effects are broken (offset if fixed)
+- Effect issues:
   - StockItem effects are all either offset, or don't work
   - Map effects are untested
 
 Planned Features/TODO:
-- Add support for "back entrances" where a course will auto-begin when walking onto the node
 - Subplayer support (maybe)
 - Map View (togglable)
-- World Select (rsm's, not retail)
 - Retail styled HUD (maybe, togglable)
 - CLR anims for Course Nodes (allow for retail AND kp to use same model)
 - Start Nodes (implement same way as the improved level nodes)
 - Freeze map when displaying a warning screen
 - Make player shrink when opening a menu
-- Togglable option for level nodes to not render (specifically to de-hardcode that one node in the W1 map)
 - Dehardcoded effect/model positions (maybe)
-- Make map background based on the W2 quicksand
 - Allow Koopatlas layouts to be used in the retail World Maps
   - HUD still needs to be finished
-- Add interactable signposts (maybe)
 - Togglable option to use the beta Star Coins menu instead of the final one

@@ -63,7 +63,6 @@ dKpCamera_c::dKpCamera_c() {
 }
 
 int dKpCamera_c::create() {
-    CameraDebug("Camera creating\n");
     mScreen.mProjType = EGG::Frustum::PROJ_ORTHO;
     mScreen.mFlags |= 1;
 
@@ -87,7 +86,6 @@ int dKpCamera_c::create() {
 }
 
 int dKpCamera_c::execute() {
-    CameraDebug("Camera executing\n");
     if (dScKoopatlas_c::m_instance->mWarpZoneHacks) {
         CameraDebug("WarpZone active\n");
         mCurrentX = 2040.0f;
@@ -115,7 +113,6 @@ int dKpCamera_c::execute() {
             mZoomLevel = mPanToZoom;
         }
     } else if (mDoFollowPlayer) {
-        CameraDebug("We should be following the player now\n");
         daKpPlayer_c *player = daKpPlayer_c::m_instance;
         mCurrentX = player->mPos.x;
         mCurrentY = player->mPos.y;
@@ -148,7 +145,7 @@ int dKpCamera_c::draw() {
 }
 
 void dKpCamera_c::calcScreenGeometry() {
-    CameraDebug("Calculating Screen\n");
+    CameraDebug("Calculating Screen Geo\n");
     mZoomDivisor = 1.0 / mZoomLevel;
     CameraDebug("ZoomDivisor:%f, Zoom:%f\n", mZoomDivisor, mZoomLevel);
 
@@ -164,7 +161,7 @@ void dKpCamera_c::calcScreenGeometry() {
 }
 
 void dKpCamera_c::calcCameras() {
-    CameraDebug("Generating Matrices\n");
+    CameraDebug("Camera calc\n");
     float orthoTop = mScreenHeight * 0.5;
     float orthoLeft = -mScreenWidth * 0.5;
     float orthoBottom = -orthoTop;
@@ -183,9 +180,9 @@ void dKpCamera_c::calcCameras() {
     nw4r::math::VEC3 screenScale = dScreen::GetScreenScale(orthoTop, orthoBottom, orthoLeft, orthoRight);
     mScreen.mPosition.y = dScreen::GetScreenPosY();
 
-    CameraDebug("ScrSize: (%f, %f)\n", screenSize.x, screenSize.y);
+    CameraDebug("ScrSize:  (%f, %f)\n", screenSize.x, screenSize.y);
     CameraDebug("ScrScale: (%f, %f, %f)\n", screenScale.x, screenScale.y, screenScale.z);
-    CameraDebug("ScreenPosY %f\n", mScreen.mPosition.y);
+    CameraDebug("ScrPosY:   %f\n", mScreen.mPosition.y);
 
     mScreen.mSize.x = screenSize.x;
     mScreen.mFlags |= 1;

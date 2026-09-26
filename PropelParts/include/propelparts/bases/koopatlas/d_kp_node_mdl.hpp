@@ -8,9 +8,9 @@
 #include <game/mLib/m_3d/mdl.hpp>
 #include <game/mLib/m_mtx.hpp>
 
-// Forward declaration
 struct dKpNode_s;
 
+// Base class
 class dKpNodeMdl_c {
 public:
     virtual void createMdl();
@@ -27,8 +27,5 @@ class dKpCourseMdl_c : public dKpNodeMdl_c {
 public:
     void createMdl();
     void draw();
-
-    // Nothing new yet
 };
-
 #endif

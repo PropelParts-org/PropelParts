@@ -98,6 +98,4 @@ public:
     static const int sc_effectGroups[EFFECT_PROC_COUNT];
     static const int sc_effectPrios[EFFECT_PROC_COUNT];
 };
-
 #endif
-

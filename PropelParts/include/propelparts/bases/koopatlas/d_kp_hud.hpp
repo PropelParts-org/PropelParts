@@ -6,7 +6,6 @@
 
 #include <game/bases/d_base.hpp>
 #include <game/bases/d_lytbase.hpp>
-#include <game/mLib/m_effect.hpp>
 
 #include <propelparts/bases/koopatlas/d_kp_common.hpp>
 #include <propelparts/bases/koopatlas/d_tex_map_colouriser.hpp>
@@ -100,11 +99,7 @@ private:
     void clearFlagSet(dLevelInfo_c::entry_s *entry, float *currPos);
     void collectionCoinSet(dLevelInfo_c::entry_s *entry, float *currPos);
 
-    void drawStarEffects();
-
     LytBase_c mLayout;
-    mEf::levelEffect_c mStarEffects[3];
-    mEf::levelEffect_c mStarEffects2[3];
     dTexMapColouriser_c mHeaderCol, mFooterCol;
 #ifdef KOOPATLAS_ENABLED
     dKpNode_s *mpHeaderNode;

@@ -158,9 +158,6 @@ int dKpHud_c::execute() {
 
     restDisp();
     controllerConnectCheck();
-    if (mDrawStarEffect && mFooterVisible) {
-        drawStarEffects();
-    }
 
     int scCount = dGameCom::getUnspentStarCoinCount();
     dGameCom::LayoutDispNumberDigit(scCount, mpTextBoxes[StarCoinCounter], false);
@@ -542,17 +539,6 @@ void dKpHud_c::collectionCoinSet(dLevelInfo_c::entry_s *entry, float *currPos) {
             nw4r::lyt::Size size = mpPicturePanes[StarCoinOff0+i]->GetSize();
             *currPos += size.width + 4.0f;
         }
-    }
-}
-
-void dKpHud_c::drawStarEffects() {
-    for (int i = 0; i < 3; i++) {
-        nw4r::math::MTX34 glbMtx = mpPicturePanes[Star0+i]->GetGlobalMtx();
-        mVec3_c effPos(glbMtx[0][3], glbMtx[1][3], 0.0f);
-        dGameCom::getEffPosToLyt(effPos, false);
-
-        mStarEffects[i].createEffect("Wm_2d_titlestar01", 0, &effPos, nullptr, nullptr);
-        mStarEffects2[i].createEffect("Wm_2d_titlestar02", 0, &effPos, nullptr, nullptr);
     }
 }
 #endif

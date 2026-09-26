@@ -96,7 +96,6 @@ int daKpPlayer_c::execute() {
 }
 
 int daKpPlayer_c::draw() {
-    // TODO: Why doesn't the ending scene just set the player to be invisible...?
     if (!mVisible || dScKoopatlas_c::m_instance->mIsEndingScene) {
         return SUCCEEDED;
     }

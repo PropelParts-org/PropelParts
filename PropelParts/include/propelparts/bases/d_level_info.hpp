@@ -36,10 +36,6 @@ public:
         entry_s mLevels[1];
     };
 
-private:
-    header_s *mpData;
-
-public:
     void init(void *buffer);
 
     entry_s *getEntryFromSlotID(int world, int level);
@@ -64,6 +60,10 @@ public:
 
     static bool loadLevelInfo();
 
+private:
+    header_s *mpData;
+
+public:
     static dLevelInfo_c m_instance;
 };
 #endif

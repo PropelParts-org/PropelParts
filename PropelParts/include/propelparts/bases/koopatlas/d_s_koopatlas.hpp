@@ -28,7 +28,6 @@
 #include <propelparts/bases/koopatlas/d_kp_star_coin_menu.hpp>
 #include <propelparts/bases/koopatlas/d_kp_shop.hpp>
 
-// Forward declarations
 class daKpPlayer_c;
 class dKpMap_c;
 class dKpHud_c;

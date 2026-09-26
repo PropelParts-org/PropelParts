@@ -22,56 +22,49 @@ void dKpCourseMdl_c::createMdl() {
     u32 conds = save->getCourseDataFlag(world-1, level-1);
 
     bool isOpen = mpParent->chkOpenStatus();
-    bool exitComplete = false;
-    bool secretComplete = false;
+    bool exitComplete = (conds & dMj2dGame_c::GOAL_NORMAL) != 0;
+    bool secretComplete = (conds & dMj2dGame_c::GOAL_SECRET) != 0;
 
-    if (conds & dMj2dGame_c::GOAL_NORMAL) {
-        exitComplete = true;
-    }
-    if (conds & dMj2dGame_c::GOAL_SECRET) {
-        secretComplete = true;
-    }
-
-    const char *colour;
+    const char *resName;
 
     //OSReport("Setting up course %02d-%02d, isOpen: %d, cleared: N:%d S:%d", world, level, isOpen, exitComplete, secretComplete);
 
     // Default: Locked levels AND completed one-time levels
-    colour = "g3d/black.brres";
+    resName = "g3d/black.brres";
 
     // Open one-time levels
     if ((level >= 30) && (level <= 37)) {
         if (isOpen && !exitComplete) {
-            colour = "g3d/red.brres";
+            resName = "g3d/red.brres";
         }
     }
 
-    // Shop houses
+    // Shops
     else if (level == 99) {
-        colour = "g3d/shop.brres";
+        resName = "g3d/shop.brres";
     }
 
     else if (isOpen) {
         if (mpParent->mHasSecretExit) {
             if (exitComplete && secretComplete) {
-                colour = "g3d/blue.brres";
+                resName = "g3d/blue.brres";
             } else if (exitComplete || secretComplete) {
-                colour = "g3d/purple.brres";
+                resName = "g3d/purple.brres";
             } else {
-                colour = "g3d/red.brres";
+                resName = "g3d/red.brres";
             }
         } else {
             if (exitComplete) {
-                colour = "g3d/blue.brres";
+                resName = "g3d/blue.brres";
             } else {
-                colour = "g3d/red.brres";
+                resName = "g3d/red.brres";
             }
         }
     }
 
     mAllocator.createFrmHeap(-1, mHeap::g_gameHeaps[0], 0, 0x20);
 
-    nw4r::g3d::ResFile res(dResMng_c::m_instance->getRes("cobCourse", colour));
+    nw4r::g3d::ResFile res(dResMng_c::m_instance->getRes("cobCourse", resName));
     mModel.create(res.GetResMdl("cobCourse"), &mAllocator, 0x224, 1, 0);
     PSMTXIdentity(mMatrix);
     dGameCom::SetSoftLight_MapObj(mModel, 0);
@@ -91,5 +84,4 @@ void dKpCourseMdl_c::draw() {
     // Draw it
     mModel.entry();
 }
-
 #endif

@@ -368,6 +368,7 @@ void dKpStarCoinMenu_c::loadSectionInfo() {
     }
 
     // Set the names
+    // TODO
     //const wchar_t *leftName = getWorldName(mCurrWorld);
     //mpTextBoxes[LeftTitle]->SetString(leftName, 0);
     //if (names[1] != nullptr) {
