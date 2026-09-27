@@ -28,6 +28,36 @@
     <checkbox nybble="8.4" title="Place Behind Other Sprites" comment="When enabled, this changes the relative Z-Order of the Goomba placing it further behind other sprites."/>
   </sprite> <!-- #22: Mini Goomba -->
 
+  <sprite id="38" name="Event Controller - &quot;IF&quot; (Uses Locations)" noyoshi="True" notes="This event controller will modify a Target Event ID if matching player or enemy conditions within a predefined location.&lt;br&gt;&lt;br&gt;&lt;b&gt;Note:&lt;/b&gt; Some sprites are not counted as enemies, for example the Spike Ball. 'Loose Coins', on the other hand, are treated as enemies. Use a sprite like [396] to test what the game considers enemies.">
+    <value nybble="3-4" title="Target Event ID" comment="This event will be modified when the Location ID conditions are satisfied." idtype="Target Event"/>
+    <dualbox nybble="12.4" title1="Activates Target Event" title2="Deactivates Target Event" comment="This determines how the Target Event is set when the conditions for this controller are satisfied." comment2="For locations with an Enemy Location ID, the reverse status will only be applied when...? For locations with only a Player Location ID, the reverse status will only be applied when...? Specifically, is the reverse condition immediately applied upon level load when it's found to not be met, or will it only apply the reverse condition after the positive condition is met? Or even more confusingly, will the reverse condition be activated when HALF of the condition is temporarily met for the first time?"/>
+    <checkbox nybble="5-6" title="Ignore Player Location" mask="255" comment="When enabled, the Event Controller will ignore [Player Status] and [Player Power-up Status] completely when determining if it will modify the Target Event."/>
+    <value nybble="5-6" title="Player Location ID" comment="The Target Event will be modified if [Player Status] and [Player Power-up Status] are satisfied while within this Location ID." requirednybble="5-6" requiredval="0-254" idtype="Location" />
+    <list nybble="10" title="Player Status" comment="When [Player Location ID] is set, the Target Event will only be triggered if a player's physical location matches this condition. Measurements will always correspond to the center of the player's feet and the lowest pixel." comment2="Within: The Target Event is only modified if a player is inside the Player Location.&lt;br&gt;&lt;br&gt;Ground: The Target Event is only modified if a player is touching the ground while inside the Player Location.&lt;br&gt;&lt;br&gt;Air: The Target Event is only modified if a player is jumping or otherwise not touching the ground but is still inside the Player Location.&lt;br&gt;&lt;br&gt;Climbing: The Target Event is only modified if a player is in a climbing state, such as on a vine or chainlink fence." requirednybble="5-6" requiredval="0-254">
+      <entry value="0">Within</entry>
+      <entry value="1">Ground</entry>
+      <entry value="2">Air</entry>
+      <entry value="3">Climbing a fence</entry>
+    </list>
+    <list nybble="9" title="Player Power-up Status" comment="When [Player Location ID] is set, the Target Event will only be triggered if the Player's power-up matches the one specified here." comment2="The Ice Flower, Propeller Suit, and Penguin Suit cannot be checked for." requirednybble="5-6" requiredval="0-254">
+      <entry value="0">Any Status</entry>
+      <entry value="1">No Power-up</entry>
+      <entry value="2">Mushroom</entry>
+      <entry value="3">Fire Flower</entry>
+      <entry value="4">Mini Mushroom</entry>
+      <entry value="6">Hammer Suit</entry>
+      <entry value="7">Star</entry>
+    </list>
+    <checkbox nybble="7-8" title="Ignore Enemy Location" mask="255" comment="When enabled, the Event Controller will ignore the requirement to have at least one enemy within a Location ID when determining if it will modify the Target Event."/>
+    <value nybble="7-8" title="Enemy Location ID" comment="The Target Event is only modified if there is at least one enemy sprite inside this Location ID." requirednybble="7-8" requiredval="0-254" idtype="Location" />
+    <list nybble="11.3-11.4" title="Usage Mode" comment="This will determine how often the Target Event ID will be modified." comment2="Single Use: When the player and enemy conditions are both satisfied, the Target Event will be modified, and the controller will not affect the Target Event again even if the conditions later become satisfied again.&lt;br&gt;&lt;br&gt;Multi-Use: Each time the player and enemy conditions are both satisfied, the Target Event will be modified.&lt;br&gt;&lt;br&gt;Only While Satisfied: The Target Event will only be modified while the player and enemy conditions are both satisfied. When either or both are not actively being satisfied, the Target Event is set to the opposite state instead. Additionally, this flags the event as 'activated' every frame.">
+      <entry value="0">Single Use</entry>
+      <entry value="1">Multi-Use</entry>
+      <entry value="2">Only While Satisfied</entry>
+    </list>
+    <!-- Simplify this information for use above: "If this option is set to &quot;Deactivates Target&quot;, the activation modes will be reversed - for example, Activation Mode 2 will deactivate the event while you're touching the location, and reactivate it when you leave.&lt;br&gt;&lt;br&gt;Note on locations for Enemies that have &quot;Deactivates Target&quot; set: The opposite effect of the controller becomes active when Mario gets close enough to the sprite to load it into memory. The opposite effect of the controller is always active though. The event is deactivated while the enemy touches the location, and will reactivate when it leaves. As stated before, this special behavior is only valid for enemy-'deactivated' Locations." -->
+  </sprite> <!-- #38: Event Controller - "IF" (Uses Locations) -->
+
   <sprite id="42" name="!-Switch" notes="This switch is similar to the ? Switch, but it has the additional effect of changing all outlined Red Blocks (Pa0 Object 57) into solid Red Blocks. This also applies to any outlined Red Blocks spawned by a Tile God. This additional functionality only occurs when using the Timed Event mode, but a Target Event is not required to make use of this functionality.">
     <dependency notes="Activates 'Red Block Outline A/B' tiles."/>
     <list nybble="12.0-12.3" title="Switch Type" comment="This determines the color of switch and what block outlines will be actived.">
