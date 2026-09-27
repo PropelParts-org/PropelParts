@@ -1,3 +1,8 @@
+__ct__26daMiniGameWireMeshMgrObj_cFv=0x8086A160
+
+__20daMiniGameWireMesh_cFv=0x80869530
+EffectItemGet__20daMiniGameWireMesh_cFv=0x80869530
+getItemType__20daMiniGameWireMesh_cFv=0x80869920
 getJumpAnmName__12dPyMdlBase_cFiPci=0x800d6930
 
 __dt__23daEnBlockHatenaPlayer_cFv=0x809C3b90

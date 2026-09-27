@@ -836,6 +836,86 @@
     </list>
   </sprite> <!-- #403: Line Controlled Brick Block -->
 
+  <sprite id="428" name="Toad House Minigame - Flip Panel" notes="One of the item panels used in the Flip Panel minigame." files="MG_RotatePanel.arc">
+    <dependency notes="All 6 Variants must be properly set, as the game will select one of them at random. It's recommended to use 3-4 different items in even quantities, and exactly 2 Bowsers and 2 Bowser Jr's in each set. Additionally, you must use exactly 18 panels, and every panel must have a unique ID from 0-17.">
+      <required sprite="430"/>
+      <suggested sprite="436"/>
+    </dependency>
+    <list nybble="5" title="Minigame Variant #1" comment="This determines the item shown during the first Flip Panel minigame variant.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Mini Shroom</entry>
+      <entry value="2">Fire Flower</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Penguin Suit</entry>
+      <entry value="5">Propeller Shroom</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Bowser</entry>
+      <entry value="8">Bowser Jr</entry>
+      <entry value="9">Hammer Suit</entry>
+    </list>
+    <list nybble="6" title="Minigame Variant #2" comment="This determines the item shown during the second Flip Panel minigame variant.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Mini Shroom</entry>
+      <entry value="2">Fire Flower</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Penguin Suit</entry>
+      <entry value="5">Propeller Shroom</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Bowser</entry>
+      <entry value="8">Bowser Jr</entry>
+      <entry value="9">Hammer Suit</entry>
+    </list>
+    <list nybble="7" title="Minigame Variant #3" comment="This determines the item shown during the third Flip Panel minigame variant.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Mini Shroom</entry>
+      <entry value="2">Fire Flower</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Penguin Suit</entry>
+      <entry value="5">Propeller Shroom</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Bowser</entry>
+      <entry value="8">Bowser Jr</entry>
+      <entry value="9">Hammer Suit</entry>
+    </list>
+    <list nybble="8" title="Minigame Variant #4" comment="This determines the item shown during the fourth Flip Panel minigame variant.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Mini Shroom</entry>
+      <entry value="2">Fire Flower</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Penguin Suit</entry>
+      <entry value="5">Propeller Shroom</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Bowser</entry>
+      <entry value="8">Bowser Jr</entry>
+      <entry value="9">Hammer Suit</entry>
+    </list>
+    <list nybble="9" title="Minigame Variant #5" comment="This determines the item shown during the fifth Flip Panel minigame variant.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Mini Shroom</entry>
+      <entry value="2">Fire Flower</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Penguin Suit</entry>
+      <entry value="5">Propeller Shroom</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Bowser</entry>
+      <entry value="8">Bowser Jr</entry>
+      <entry value="9">Hammer Suit</entry>
+    </list>
+    <list nybble="10" title="Minigame Variant #6" comment="This determines the item shown during the sixth Flip Panel minigame variant.">
+      <entry value="0">Mushroom</entry>
+      <entry value="1">Mini Shroom</entry>
+      <entry value="2">Fire Flower</entry>
+      <entry value="3">Ice Flower</entry>
+      <entry value="4">Penguin Suit</entry>
+      <entry value="5">Propeller Shroom</entry>
+      <entry value="6">Star</entry>
+      <entry value="7">Bowser</entry>
+      <entry value="8">Bowser Jr</entry>
+      <entry value="9">Hammer Suit</entry>
+    </list>
+    <value nybble="11-12" title="Panel ID" comment="This determines the ID of the panel for the purposes of the minigame controller." comment2="See Dependency Notes for information on setting this up, or reference a retail 0X-27 level." idtype="Panel"/>
+  </sprite> <!-- #428: Toad House Minigame - Flip Panel -->
+
   <sprite id="433" name="Floating ? Block" notes="A slightly-larger-than-normal ? Block that floats on the surface of the Zone's non-Location Water, Raft Water, Poisoned Water, or Lava.">
     <dependency notes="Place this block at the horizontal position you want it to load, and it will spawn floating at the surface line of the body of liquid. It only works with the non-Location liquid sprites listed below.">
       <suggested sprite="138"/>

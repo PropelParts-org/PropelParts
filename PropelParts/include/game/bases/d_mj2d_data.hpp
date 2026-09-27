@@ -300,7 +300,7 @@ private:
     union {
         u8 pad[0x13]; // [Aligns the data to 32]
         struct {
-            /// @brief The default character for each player.
+            /// @brief The inventory amount for each item.
             /// @unofficial
             u8 mNewStockItemCount[NEW_ITEM_COUNT];
         };
@@ -308,7 +308,7 @@ private:
     };
     u32 mChecksum; ///< The CRC32 checksum of the above data.
 
-    /// @brief The inventory amount for each item.
+    /// @brief The default character for each player.
     /// @unofficial
     static const u32 sDefaultCharacters[4];
 
